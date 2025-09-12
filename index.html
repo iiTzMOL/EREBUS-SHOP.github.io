@@ -67,7 +67,6 @@
             text-decoration: none; /* Asegura que no tenga subrayado si se hace link */
         }
 
-
         /* Navegación */
         .main-nav ul {
             list-style: none;
@@ -281,49 +280,30 @@
         @media (max-width: 768px) {
             .main-header .container {
                 flex-direction: column;
-                text-align: center;
+                align-items: center; /* Centrar los elementos en móviles */
             }
 
             .brand-logo {
-                flex-direction: column;
-                gap: 5px;
-            }
-            .brand-logo .site-name {
-                font-size: 1.5rem;
+                flex-direction: row;
+                align-self: center;
+                margin-bottom: 1rem;
             }
 
             .main-nav ul {
-                margin-top: 1rem;
                 flex-wrap: wrap;
                 justify-content: center;
-            }
-
-            .main-nav ul li a {
-                padding: 0.5rem 0.8rem;
+                margin-top: 0;
+                margin-bottom: 1rem;
             }
 
             .search-bar {
-                margin-top: 1rem;
                 width: 100%;
                 justify-content: center;
             }
-
-            .search-bar input {
-                width: 60%;
-            }
-
-            .carousel-caption h2 {
-                font-size: 1.8rem;
-            }
-
-            .carousel-caption p {
-                font-size: 1rem;
-            }
         }
-
         @media (max-width: 480px) {
             .brand-logo .site-name {
-                font-size: 1.2rem;
+                font-size: 1.5rem;
             }
 
             .brand-logo img {
@@ -364,7 +344,7 @@
         <div class="container">
             <div class="brand-logo">
                 <img src="images/LOGOE.png" alt="Logo de tu tienda">
-                <a href="#" class="site-name">EREBUS</a>
+                <a href="#" class="site-name">EREBUS SHOP</a>
             </div>
             <nav class="main-nav">
                 <ul>
@@ -531,4 +511,3 @@
     </script>
 </body>
 </html>
-
