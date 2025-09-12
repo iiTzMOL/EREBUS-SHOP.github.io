@@ -36,17 +36,25 @@
       position: sticky;
       top: 0;
       z-index: 1000;
+      transition: all 0.3s ease;
     }
 
     header .logo {
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: opacity 0.3s ease, max-height 0.3s ease;
     }
 
     header .logo img {
       height: 50px;
       margin-right: 10px;
+    }
+
+    header.hidden .logo {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
     }
 
     nav ul {
@@ -181,7 +189,7 @@
   </style>
 </head>
 <body>
-  <header>
+  <header id="mainHeader">
     <div class="logo">
       <img src="images/LOGOE.png" alt="Logo">
       <h1>EREBUS</h1>
@@ -247,7 +255,7 @@
     }
     setInterval(showNextSlide, 3000);
 
-    // Productos con placeholders
+    // Productos
     const products = [
       { id: 1, name: "PLAYERA OVERSIZE NEGRA 220G", description: "Comodidad superior y una sensación de alta calidad.", price: "$220.00", image: "images/PLAYERANEGRA1.png", category: "ropa", keywords: "PLAYERA OVERSIZE NEGRA 220G" },
       { id: 2, name: "Pantalón Chino", description: "Cómodo y versátil para cualquier ocasión.", price: "€55.00", image: "https://via.placeholder.com/300x200", category: "ropa", keywords: "pantalón chino casual" },
@@ -303,6 +311,16 @@
 
     // Render inicial
     renderProducts();
+
+    // Ocultar logo y título al hacer scroll
+    const header = document.getElementById('mainHeader');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('hidden');
+      } else {
+        header.classList.remove('hidden');
+      }
+    });
   </script>
 </body>
 </html>
