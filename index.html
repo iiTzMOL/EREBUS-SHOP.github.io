@@ -1,3 +1,8 @@
+¡Ah, entiendo\! Mis disculpas por el malentendido. Querías el logo y el nombre de la tienda uno junto al otro.
+
+He modificado el código para que el logo (`LOGOE.png`) aparezca a la izquierda y, justo a su lado, el texto "Tu Tienda Elegante". También ajusté un poco el CSS para que se vean bien alineados.
+
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -50,15 +55,23 @@
             flex-wrap: wrap;
         }
 
-        .logo {
-            margin: 0;
-            font-size: 1.8rem;
-            font-weight: bold;
+        .brand-logo { /* Nuevo contenedor para el logo y el nombre */
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Espacio entre el logo y el nombre */
         }
-        
-        .logo img {
+
+        .brand-logo img {
             height: 40px; /* Tamaño del logo */
         }
+
+        .brand-logo .site-name { /* Estilo para el nombre de la tienda */
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--color-text-light);
+            text-decoration: none; /* Asegura que no tenga subrayado si se hace link */
+        }
+
 
         /* Navegación */
         .main-nav ul {
@@ -276,6 +289,14 @@
                 text-align: center;
             }
 
+            .brand-logo {
+                flex-direction: column;
+                gap: 5px;
+            }
+            .brand-logo .site-name {
+                font-size: 1.5rem;
+            }
+
             .main-nav ul {
                 margin-top: 1rem;
                 flex-wrap: wrap;
@@ -306,8 +327,12 @@
         }
 
         @media (max-width: 480px) {
-            .logo {
-                font-size: 1.5rem;
+            .brand-logo .site-name {
+                font-size: 1.2rem;
+            }
+
+            .brand-logo img {
+                height: 30px;
             }
 
             .hero-carousel {
@@ -342,9 +367,10 @@
 <body>
     <header class="main-header">
         <div class="container">
-            <h1 class="logo">
+            <div class="brand-logo">
                 <img src="images/LOGOE.png" alt="Logo de tu tienda">
-            </h1>
+                <a href="#" class="site-name">Tu Tienda Elegante</a>
+            </div>
             <nav class="main-nav">
                 <ul>
                     <li><a href="#" data-category="all">Inicio</a></li>
