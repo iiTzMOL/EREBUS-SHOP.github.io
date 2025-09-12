@@ -50,21 +50,21 @@
             flex-wrap: wrap;
         }
 
-        .brand-logo { /* Nuevo contenedor para el logo y el nombre */
+        .brand-logo {
             display: flex;
             align-items: center;
-            gap: 10px; /* Espacio entre el logo y el nombre */
+            gap: 10px;
         }
 
         .brand-logo img {
             height: 40px; /* Tamaño del logo */
         }
 
-        .brand-logo .site-name { /* Estilo para el nombre de la tienda */
+        .brand-logo .site-name {
             font-size: 1.8rem;
             font-weight: bold;
             color: var(--color-text-light);
-            text-decoration: none; /* Asegura que no tenga subrayado si se hace link */
+            text-decoration: none;
         }
 
         /* Navegación */
@@ -89,10 +89,14 @@
         }
 
         /* Barra de búsqueda */
+        .search-container {
+            display: flex;
+            align-items: center;
+        }
+        
         .search-bar {
             display: flex;
             gap: 0.5rem;
-            margin-top: 0;
         }
 
         .search-bar input[type="text"] {
@@ -116,6 +120,17 @@
 
         .search-bar button:hover {
             background-color: #555;
+        }
+
+        .search-toggle {
+            display: none; /* Ocultar por defecto */
+            background: none;
+            border: none;
+            color: var(--color-text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            margin-right: 1rem;
         }
 
         /* Carrusel de Héroe */
@@ -279,33 +294,47 @@
         /* Media Queries para Responsividad */
         @media (max-width: 768px) {
             .main-header .container {
-                flex-direction: column;
-                align-items: center; /* Centrar los elementos en móviles */
-            }
-
-            .brand-logo {
                 flex-direction: row;
-                align-self: center;
-                margin-bottom: 1rem;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 1rem;
             }
 
-            .main-nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
-                margin-top: 0;
-                margin-bottom: 1rem;
+            .main-nav {
+                display: none;
             }
 
             .search-bar {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
                 width: 100%;
+                background: var(--color-primary);
+                padding: 1rem;
+                flex-wrap: nowrap;
+                z-index: 10;
                 justify-content: center;
-            }
-        }
-        @media (max-width: 480px) {
-            .brand-logo .site-name {
-                font-size: 1.5rem;
+                gap: 10px;
             }
 
+            .search-bar.show {
+                display: flex;
+            }
+            
+            .search-bar input {
+                flex: 1;
+            }
+
+            .search-toggle {
+                display: block;
+            }
+            .brand-logo .site-name {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
             .brand-logo img {
                 height: 30px;
             }
@@ -346,16 +375,12 @@
                 <img src="images/LOGOE.png" alt="Logo de tu tienda">
                 <a href="#" class="site-name">EREBUS SHOP</a>
             </div>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#" data-category="all">Inicio</a></li>
-                    <li><a href="#" data-category="ropa">Ropa</a></li>
-                    <li><a href="#" data-category="perfumes">Perfumes</a></li>
-                </ul>
-            </nav>
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Buscar productos...">
-                <button id="searchButton">Buscar</button>
+            <div class="search-container">
+                <button id="search-toggle" class="search-toggle">&#x1F50D;</button>
+                <div id="search-bar" class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Buscar productos...">
+                    <button id="searchButton">Buscar</button>
+                </div>
             </div>
         </div>
     </header>
@@ -435,6 +460,14 @@
             window.addEventListener('resize', updateCarousel);
             updateCarousel(); // Llamar al inicio para posicionar correctamente
 
+            // --- Toggle de la barra de búsqueda en móvil ---
+            const searchToggle = document.getElementById('search-toggle');
+            const searchBar = document.getElementById('search-bar');
+            
+            searchToggle.addEventListener('click', () => {
+                searchBar.classList.toggle('show');
+            });
+            
             // --- Carga de Productos y Funcionalidad de Búsqueda/Filtro ---
             const productListSection = document.getElementById('product-list');
             const searchInput = document.getElementById('searchInput');
@@ -442,7 +475,7 @@
             const navLinks = document.querySelectorAll('.main-nav ul li a');
 
             const products = [
-                { id: 1, name: "PLAYERA OVERIZE NEGRA 220G", description: "Comodidad superior y una sensación de alta calidad.", price: $220.00", image: "images/PLAYERANEGRA1.png", category: "ropa", keywords: "Playera overize negra" },
+                { id: 1, name: "Camisa de Lino", description: "Fresca y elegante para el verano.", price: "€45.00", image: "images/ropa1.jpg", category: "ropa", keywords: "camisa lino elegante verano" },
                 { id: 2, name: "Pantalón Chino", description: "Comodidad y estilo para el día a día.", price: "€60.00", image: "images/ropa2.jpg", category: "ropa", keywords: "pantalon chino casual comodo" },
                 { id: 3, name: "Vestido Midi Negro", description: "Clásico y versátil para cualquier ocasión.", price: "€80.00", image: "images/ropa3.jpg", category: "ropa", keywords: "vestido midi negro elegante fiesta" },
                 { id: 4, name: "Jersey de Punto", description: "Suave y cálido para los días fríos.", price: "€55.00", image: "images/ropa4.jpg", category: "ropa", keywords: "jersey punto suave calido invierno" },
