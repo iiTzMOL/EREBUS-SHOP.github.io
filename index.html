@@ -23,39 +23,36 @@ header {
   z-index:1000;
   display:flex;
   flex-direction:column;
-  justify-content:flex-end;
-  height:100px;
-  padding:0 20px;
-  transition: all 0.3s ease;
+  transition: all 0.5s ease; /* transición suave */
 }
 
 .logo-container {
   display:flex;
   align-items:center;
   justify-content:center;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  height:70px;
+  transition: all 0.5s ease;
 }
 
-.logo-container img { height:50px; margin-right:10px; transition: all 0.3s ease; }
-.logo-container h1 { font-size:1.8rem; color: var(--color-background); transition: all 0.3s ease; }
+.logo-container img { height:50px; margin-right:10px; transition: all 0.5s ease; }
+.logo-container h1 { font-size:1.8rem; color: var(--color-background); transition: all 0.5s ease; }
 
+/* Al hacer scroll: solo mueve el logo hacia arriba y reduce opacidad */
 .header-scrolled .logo-container {
-  transform: scale(0);
-  opacity:0;
+  opacity: 0;
+  margin-top: -70px; /* se desplaza hacia arriba suavemente */
 }
 
 nav {
-  flex:1;
   display:flex;
-  align-items:center;
   justify-content:center;
+  padding:10px 0;
 }
 
 nav ul {
   list-style:none;
   display:flex;
   gap:30px;
-  padding:10px 0;
 }
 
 nav ul li a {
@@ -166,51 +163,41 @@ setInterval(showNextSlide, 3000);
 
 // Productos
 const products = [
-  { id: 1, name: "PLAYERA OVERSIZE NEGRA 220G", description: "Comodidad superior y sensación de alta calidad.", price: "$220.00", image: "images/PLAYERANEGRA1.png", category: "ropa", keywords: "PLAYERA OVERSIZE NEGRA 220G" },
-  { id: 2, name: "Pantalón Chino", description: "Cómodo y versátil.", price: "€55.00", image: "https://via.placeholder.com/300x200", category: "ropa", keywords: "pantalón chino casual" },
-  { id: 3, name: "Vestido de Noche", description: "Ideal para eventos formales.", price: "€120.00", image: "https://via.placeholder.com/300x200", category: "ropa", keywords: "vestido noche elegante formal" },
-  { id: 4, name: "Chaqueta de Cuero", description: "Clásico que nunca pasa de moda.", price: "€150.00", image: "https://via.placeholder.com/300x200", category: "ropa", keywords: "chaqueta cuero moda" },
-  { id: 5, name: "Perfume Floral", description: "Aroma fresco y duradero.", price: "€70.00", image: "https://via.placeholder.com/300x200", category: "perfumes", keywords: "perfume floral aroma fresco" },
-  { id: 6, name: "Perfume Amaderado", description: "Notas profundas y masculinas.", price: "€85.00", image: "https://via.placeholder.com/300x200", category: "perfumes", keywords: "perfume amaderado intenso" },
-  { id: 7, name: "Perfume Cítrico", description: "Energía y frescura.", price: "€65.00", image: "https://via.placeholder.com/300x200", category: "perfumes", keywords: "perfume cítrico fresco" },
-  { id: 8, name: "Perfume Dulce", description: "Dulzura irresistible.", price: "€90.00", image: "https://via.placeholder.com/300x200", category: "perfumes", keywords: "perfume dulce sofisticado" }
+  { id:1,name:"PLAYERA OVERSIZE NEGRA 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",category:"ropa",keywords:"PLAYERA OVERSIZE NEGRA 220G"},
+  { id:2,name:"Pantalón Chino",description:"Cómodo y versátil.",price:"€55.00",image:"https://via.placeholder.com/300x200",category:"ropa",keywords:"pantalón chino casual"},
+  { id:3,name:"Vestido de Noche",description:"Ideal para eventos formales.",price:"€120.00",image:"https://via.placeholder.com/300x200",category:"ropa",keywords:"vestido noche elegante formal"},
+  { id:4,name:"Chaqueta de Cuero",description:"Clásico que nunca pasa de moda.",price:"€150.00",image:"https://via.placeholder.com/300x200",category:"ropa",keywords:"chaqueta cuero moda"},
+  { id:5,name:"Perfume Floral",description:"Aroma fresco y duradero.",price:"€70.00",image:"https://via.placeholder.com/300x200",category:"perfumes",keywords:"perfume floral aroma fresco"},
+  { id:6,name:"Perfume Amaderado",description:"Notas profundas y masculinas.",price:"€85.00",image:"https://via.placeholder.com/300x200",category:"perfumes",keywords:"perfume amaderado intenso"},
+  { id:7,name:"Perfume Cítrico",description:"Energía y frescura.",price:"€65.00",image:"https://via.placeholder.com/300x200",category:"perfumes",keywords:"perfume cítrico fresco"},
+  { id:8,name:"Perfume Dulce",description:"Dulzura irresistible.",price:"€90.00",image:"https://via.placeholder.com/300x200",category:"perfumes",keywords:"perfume dulce sofisticado"}
 ];
 
-function renderProducts() {
-  const ropaContainer = document.getElementById('ropaProducts');
-  const perfumeContainer = document.getElementById('perfumeProducts');
-  ropaContainer.innerHTML = '';
-  perfumeContainer.innerHTML = '';
-  products.forEach(p => {
-    const div = document.createElement('div');
+function renderProducts(){
+  const ropaContainer=document.getElementById('ropaProducts');
+  const perfumeContainer=document.getElementById('perfumeProducts');
+  ropaContainer.innerHTML='';
+  perfumeContainer.innerHTML='';
+  products.forEach(p=>{
+    const div=document.createElement('div');
     div.classList.add('product');
-    div.innerHTML = `
-      <img src="${p.image}" alt="${p.name}">
-      <h3>${p.name}</h3>
-      <p>${p.description}</p>
-      <p class="price">${p.price}</p>
-    `;
+    div.innerHTML=`<img src="${p.image}" alt="${p.name}"><h3>${p.name}</h3><p>${p.description}</p><p class="price">${p.price}</p>`;
     if(p.category==='ropa') ropaContainer.appendChild(div);
     else perfumeContainer.appendChild(div);
   });
 }
 
-function searchProducts() {
-  const query = document.getElementById('searchInput').value.toLowerCase();
-  const filtered = products.filter(p => p.name.toLowerCase().includes(query) || p.keywords.includes(query));
-  const ropaContainer = document.getElementById('ropaProducts');
-  const perfumeContainer = document.getElementById('perfumeProducts');
-  ropaContainer.innerHTML = '';
-  perfumeContainer.innerHTML = '';
-  filtered.forEach(p => {
-    const div = document.createElement('div');
+function searchProducts(){
+  const query=document.getElementById('searchInput').value.toLowerCase();
+  const filtered=products.filter(p=>p.name.toLowerCase().includes(query)||p.keywords.includes(query));
+  const ropaContainer=document.getElementById('ropaProducts');
+  const perfumeContainer=document.getElementById('perfumeProducts');
+  ropaContainer.innerHTML='';
+  perfumeContainer.innerHTML='';
+  filtered.forEach(p=>{
+    const div=document.createElement('div');
     div.classList.add('product');
-    div.innerHTML = `
-      <img src="${p.image}" alt="${p.name}">
-      <h3>${p.name}</h3>
-      <p>${p.description}</p>
-      <p class="price">${p.price}</p>
-    `;
+    div.innerHTML=`<img src="${p.image}" alt="${p.name}"><h3>${p.name}</h3><p>${p.description}</p><p class="price">${p.price}</p>`;
     if(p.category==='ropa') ropaContainer.appendChild(div);
     else perfumeContainer.appendChild(div);
   });
@@ -218,20 +205,25 @@ function searchProducts() {
 
 renderProducts();
 
-// Scroll con umbral para animación
+// Scroll fluido sin brincos
 const header = document.getElementById('mainHeader');
-let scrollTriggered = false;
 const SCROLL_THRESHOLD = 100;
 
+let lastScrollY = window.scrollY;
 window.addEventListener('scroll', () => {
-  if(window.scrollY > SCROLL_THRESHOLD && !scrollTriggered){
+  const currentScroll = window.scrollY;
+
+  if(currentScroll > SCROLL_THRESHOLD && currentScroll > lastScrollY){
+    // Scroll hacia abajo
     header.classList.add('header-scrolled');
-    scrollTriggered = true;
-  } else if(window.scrollY <= SCROLL_THRESHOLD && scrollTriggered){
+  } else if(currentScroll < lastScrollY || currentScroll <= SCROLL_THRESHOLD){
+    // Scroll hacia arriba o por debajo del umbral
     header.classList.remove('header-scrolled');
-    scrollTriggered = false;
   }
+
+  lastScrollY = currentScroll;
 });
 </script>
 </body>
 </html>
+
