@@ -50,21 +50,21 @@
             flex-wrap: wrap;
         }
 
-        .brand-logo { /* Nuevo contenedor para el logo y el nombre */
+        .brand-logo {
             display: flex;
             align-items: center;
-            gap: 10px; /* Espacio entre el logo y el nombre */
+            gap: 10px;
         }
 
         .brand-logo img {
             height: 40px; /* Tamaño del logo */
         }
 
-        .brand-logo .site-name { /* Estilo para el nombre de la tienda */
+        .brand-logo .site-name {
             font-size: 1.8rem;
             font-weight: bold;
             color: var(--color-text-light);
-            text-decoration: none; /* Asegura que no tenga subrayado si se hace link */
+            text-decoration: none;
         }
 
         /* Navegación */
@@ -89,10 +89,14 @@
         }
 
         /* Barra de búsqueda */
+        .search-container {
+            display: flex;
+            align-items: center;
+        }
+        
         .search-bar {
             display: flex;
             gap: 0.5rem;
-            margin-top: 0;
         }
 
         .search-bar input[type="text"] {
@@ -117,6 +121,18 @@
         .search-bar button:hover {
             background-color: #555;
         }
+
+        .search-toggle {
+            display: none; /* Ocultar por defecto */
+            background: none;
+            border: none;
+            color: var(--color-text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            margin-right: 1rem;
+        }
+
 
         /* Carrusel de Héroe */
         .hero-carousel {
@@ -279,33 +295,47 @@
         /* Media Queries para Responsividad */
         @media (max-width: 768px) {
             .main-header .container {
-                flex-direction: column;
-                align-items: center; /* Centrar los elementos en móviles */
+                flex-direction: row; /* Mantener en línea el logo y los iconos */
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 1rem;
             }
 
-            .brand-logo {
-                flex-direction: row;
-                align-self: center;
-                margin-bottom: 1rem;
-            }
-
-            .main-nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
-                margin-top: 0;
-                margin-bottom: 1rem;
+            .main-nav {
+                display: none; /* Ocultar la navegación principal en móviles */
             }
 
             .search-bar {
+                display: none; /* Ocultar la barra de búsqueda en móviles */
+                position: absolute;
+                top: 70px; /* Posición debajo del header */
+                left: 0;
                 width: 100%;
+                background: var(--color-primary);
+                padding: 1rem;
+                flex-wrap: nowrap;
+                z-index: 10;
                 justify-content: center;
-            }
-        }
-        @media (max-width: 480px) {
-            .brand-logo .site-name {
-                font-size: 1.5rem;
+                gap: 10px;
             }
 
+            .search-bar.show {
+                display: flex; /* Mostrar la barra de búsqueda si tiene la clase 'show' */
+            }
+            
+            .search-bar input {
+                flex: 1;
+            }
+
+            .search-toggle {
+                display: block; /* Mostrar la lupa en móviles */
+            }
+            .brand-logo .site-name {
+                display: none; /* Ocultar el nombre de la tienda */
+            }
+        }
+        
+        @media (max-width: 480px) {
             .brand-logo img {
                 height: 30px;
             }
@@ -346,16 +376,12 @@
                 <img src="images/LOGOE.png" alt="Logo de tu tienda">
                 <a href="#" class="site-name">EREBUS SHOP</a>
             </div>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#" data-category="all">Inicio</a></li>
-                    <li><a href="#" data-category="ropa">Ropa</a></li>
-                    <li><a href="#" data-category="perfumes">Perfumes</a></li>
-                </ul>
-            </nav>
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Buscar productos...">
-                <button id="searchButton">Buscar</button>
+            <div class="search-container">
+                <button id="search-toggle" class="search-toggle">&#x1F50D;</button>
+                <div id="search-bar" class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Buscar productos...">
+                    <button id="searchButton">Buscar</button>
+                </div>
             </div>
         </div>
     </header>
@@ -435,6 +461,14 @@
             window.addEventListener('resize', updateCarousel);
             updateCarousel(); // Llamar al inicio para posicionar correctamente
 
+            // --- Toggle de la barra de búsqueda en móvil ---
+            const searchToggle = document.getElementById('search-toggle');
+            const searchBar = document.getElementById('search-bar');
+            
+            searchToggle.addEventListener('click', () => {
+                searchBar.classList.toggle('show');
+            });
+            
             // --- Carga de Productos y Funcionalidad de Búsqueda/Filtro ---
             const productListSection = document.getElementById('product-list');
             const searchInput = document.getElementById('searchInput');
