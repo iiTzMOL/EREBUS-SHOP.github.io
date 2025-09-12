@@ -24,10 +24,11 @@
       position: sticky;
       top: 0;
       z-index: 1000;
-      height: 70px; /* Altura constante */
+      height: 100px;
       display: flex;
       flex-direction: column;
-      transition: all 0.3s ease;
+      justify-content: flex-end;
+      transition: height 0.3s ease;
       padding: 0 20px;
     }
 
@@ -35,16 +36,24 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.3s ease, opacity 0.3s ease;
-      overflow: hidden;
+      transition: all 0.3s ease;
     }
 
-    .logo-container img { height: 50px; margin-right: 10px; transition: height 0.3s ease; }
-    .logo-container h1 { font-size: 1.8rem; transition: font-size 0.3s ease; color: var(--color-background); }
+    .logo-container img { height: 50px; margin-right: 10px; transition: all 0.3s ease; }
+    .logo-container h1 { font-size: 1.8rem; color: var(--color-background); transition: all 0.3s ease; }
 
-    .header-scrolled .logo-container {
-      transform: scaleY(0);
-      opacity: 0;
+    /* Mini header al hacer scroll */
+    .header-scrolled {
+      height: 60px;
+    }
+
+    .header-scrolled .logo-container img {
+      height: 35px;
+      margin-right: 5px;
+    }
+
+    .header-scrolled .logo-container h1 {
+      font-size: 1.2rem;
     }
 
     nav {
