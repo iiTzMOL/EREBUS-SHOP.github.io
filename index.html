@@ -24,25 +24,34 @@
       top: 0;
       z-index: 1000;
       transition: all 0.3s ease;
+      padding: 10px 0;
     }
 
-    /* Logo y título */
     .logo-container {
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 70px;
-      transition: transform 0.3s ease, height 0.3s ease;
-      overflow: hidden;
+      transition: all 0.3s ease;
     }
 
-    .logo-container img { height: 50px; margin-right: 10px; transition: height 0.3s ease; }
-    .logo-container h1 { font-size: 1.8rem; transition: font-size 0.3s ease; }
+    .logo-container img {
+      height: 50px;
+      margin-right: 10px;
+      transition: height 0.3s ease;
+    }
 
-    /* Clase cuando hace scroll */
-    .header-scrolled .logo-container {
-      transform: translateY(-100%);
-      height: 0;
+    .logo-container h1 {
+      font-size: 1.8rem;
+      transition: font-size 0.3s ease;
+    }
+
+    /* Mini header al hacer scroll */
+    .header-scrolled .logo-container img {
+      height: 30px;
+    }
+
+    .header-scrolled .logo-container h1 {
+      font-size: 1rem;
     }
 
     nav ul {
@@ -50,7 +59,6 @@
       display: flex;
       justify-content: center;
       gap: 20px;
-      background: var(--color-primary);
       transition: all 0.3s ease;
     }
 
@@ -151,13 +159,12 @@
     <p>Tel: +34 600 123 456</p>
   </section>
 
-  <!-- Footer -->
   <footer>
     <p>&copy; 2024 Tu Tienda Elegante. Todos los derechos reservados.</p>
   </footer>
 
   <script>
-    // Carrusel automático
+    // Carrusel
     const carouselInner = document.querySelector('.carousel-inner');
     const carouselItems = document.querySelectorAll('.carousel-item');
     let index = 0;
@@ -176,7 +183,7 @@
       { id: 5, name: "Perfume Floral", description: "Aroma fresco y duradero.", price: "€70.00", image: "https://via.placeholder.com/300x200", category: "perfumes", keywords: "perfume floral aroma fresco" },
       { id: 6, name: "Perfume Amaderado", description: "Notas profundas y masculinas.", price: "€85.00", image: "https://via.placeholder.com/300x200", category: "perfumes", keywords: "perfume amaderado intenso" },
       { id: 7, name: "Perfume Cítrico", description: "Energía y frescura en cada gota.", price: "€65.00", image: "https://via.placeholder.com/300x200", category: "perfumes", keywords: "perfume cítrico fresco" },
-      { id: 8, name: "Perfume Dulce", description: "Dulzura irresistible y sofisticada.", price: "€90.00", image: "https://via.placeholder.com/300x200", category: "perfumes", keywords: "perfume dulce sofisticado" }
+           { id: 8, name: "Perfume Dulce", description: "Dulzura irresistible y sofisticada.", price: "€90.00", image: "https://via.placeholder.com/300x200", category: "perfumes", keywords: "perfume dulce sofisticado" }
     ];
 
     function renderProducts() {
@@ -184,6 +191,7 @@
       const perfumeContainer = document.getElementById('perfumeProducts');
       ropaContainer.innerHTML = '';
       perfumeContainer.innerHTML = '';
+
       products.forEach(product => {
         const div = document.createElement('div');
         div.classList.add('product');
@@ -205,6 +213,7 @@
       const perfumeContainer = document.getElementById('perfumeProducts');
       ropaContainer.innerHTML = '';
       perfumeContainer.innerHTML = '';
+
       filtered.forEach(product => {
         const div = document.createElement('div');
         div.classList.add('product');
@@ -221,27 +230,19 @@
 
     renderProducts();
 
-    // Scroll header
+    // Animación scroll suave sin saltos
     const header = document.getElementById('mainHeader');
+    let lastScroll = 0;
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) header.classList.add('header-scrolled');
-      else header.classList.remove('header-scrolled');
-    });
-
-    // Scroll suave navegación
-    document.querySelectorAll('nav ul li a').forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href').substring(1);
-        const targetSection = document.getElementById(targetId);
-        const headerHeight = header.offsetHeight;
-        const sectionTop = targetSection.offsetTop;
-        window.scrollTo({
-          top: sectionTop - headerHeight,
-          behavior: 'smooth'
-        });
-      });
+      const currentScroll = window.scrollY;
+      if (currentScroll > 50 && currentScroll > lastScroll) {
+        header.classList.add('header-scrolled');
+      } else if (currentScroll <= 50 || currentScroll < lastScroll) {
+        header.classList.remove('header-scrolled');
+      }
+      lastScroll = currentScroll;
     });
   </script>
 </body>
 </html>
+
