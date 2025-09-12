@@ -36,25 +36,11 @@
     overflow: hidden;
   }
 
-  .logo-container img {
-    height: 50px;
-    margin-right: 10px;
-    transition: all 0.3s ease;
-  }
+  .logo-container img { height: 50px; margin-right: 10px; transition: all 0.3s ease; }
+  .logo-container h1 { font-size: 1.8rem; transition: all 0.3s ease; }
 
-  .logo-container h1 {
-    font-size: 1.8rem;
-    transition: all 0.3s ease;
-  }
-
-  .header-hidden .logo-container {
-    height: 0;
-    transform: translateY(-100%);
-  }
-
-  .header-hidden nav ul {
-    margin-top: 0;
-  }
+  .header-hidden .logo-container { height: 0; transform: translateY(-100%); }
+  .header-hidden nav ul { margin-top: 0; }
 
   nav ul {
     list-style: none;
@@ -66,52 +52,25 @@
     transition: all 0.3s ease;
   }
 
-  nav ul li a {
-    color: var(--color-background);
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
-  }
-
+  nav ul li a { color: var(--color-background); text-decoration: none; font-weight: 500; transition: color 0.3s ease; }
   nav ul li a:hover { color: var(--color-accent); }
 
-  .carousel { position: relative; overflow: hidden; margin-top: 70px; }
+  .carousel { position: relative; overflow: hidden; max-height: 500px; margin-top: 70px; }
   .carousel-inner { display: flex; transition: transform 1s ease; }
-  .carousel-item {
-    min-width: 100%;
-    transition: opacity 1s ease;
-    position: relative;
-    height: 500px; /* altura fija para video e imágenes */
-  }
-
-  .carousel-item img,
-  .carousel-item video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+  .carousel-item { min-width: 100%; transition: opacity 1s ease; position: relative; }
+  .carousel-item img, .carousel-item video { width: 100%; display: block; object-fit: cover; }
 
   section { padding: 4rem 2rem; text-align: center; }
   section h2 { margin-bottom: 2rem; font-size: 2rem; color: var(--color-primary); }
 
-  .products {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-  }
-
+  .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
   .product {
     border: 1px solid var(--color-accent);
     border-radius: 8px;
     padding: 1rem;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
-
-  .product:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  }
-
+  .product:hover { transform: translateY(-5px); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
   .product img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
   .product h3 { margin-bottom: 0.5rem; color: var(--color-secondary); }
   .product p { margin-bottom: 0.5rem; }
@@ -145,14 +104,14 @@
 <!-- Carrusel -->
 <section class="carousel" id="inicio">
   <div class="carousel-inner">
-    <!-- Video -->
+    <!-- Video Slide -->
     <div class="carousel-item">
-      <video autoplay muted loop playsinline>
+      <video id="video1" muted>
         <source src="VIDEO1.mp4" type="video/mp4">
-        Tu navegador no soporta video.
+        Tu navegador no soporta el video.
       </video>
     </div>
-    <!-- Imágenes -->
+    <!-- Imagenes -->
     <div class="carousel-item"><img src="https://via.placeholder.com/1200x500?text=Hero+2" alt="Slide 2"></div>
     <div class="carousel-item"><img src="https://via.placeholder.com/1200x500?text=Hero+3" alt="Slide 3"></div>
   </div>
@@ -195,10 +154,18 @@
   let index = 0;
 
   function showNextSlide() {
+    // Pausar todos los videos
+    document.querySelectorAll('.carousel-item video').forEach(video => video.pause());
+
     index = (index + 1) % carouselItems.length;
     carouselInner.style.transform = `translateX(-${index * 100}%)`;
+
+    // Reproducir video si existe
+    const currentVideo = carouselItems[index].querySelector('video');
+    if(currentVideo) currentVideo.play();
   }
-  setInterval(showNextSlide, 5000); // 5s para ver video
+
+  setInterval(showNextSlide, 5000); // Cambia cada 5 segundos
 
   // Productos
   const products = [
@@ -217,6 +184,7 @@
     const perfumeContainer = document.getElementById('perfumeProducts');
     ropaContainer.innerHTML = '';
     perfumeContainer.innerHTML = '';
+
     products.forEach(product => {
       const div = document.createElement('div');
       div.classList.add('product');
@@ -226,7 +194,7 @@
         <p>${product.description}</p>
         <p class="price">${product.price}</p>
       `;
-      if (product.category === 'ropa') ropaContainer.appendChild(div);
+      if(product.category === 'ropa') ropaContainer.appendChild(div);
       else perfumeContainer.appendChild(div);
     });
   }
@@ -238,6 +206,7 @@
     const perfumeContainer = document.getElementById('perfumeProducts');
     ropaContainer.innerHTML = '';
     perfumeContainer.innerHTML = '';
+
     filtered.forEach(product => {
       const div = document.createElement('div');
       div.classList.add('product');
@@ -247,23 +216,20 @@
         <p>${product.description}</p>
         <p class="price">${product.price}</p>
       `;
-      if (product.category === 'ropa') ropaContainer.appendChild(div);
+      if(product.category === 'ropa') ropaContainer.appendChild(div);
       else perfumeContainer.appendChild(div);
     });
   }
 
   renderProducts();
 
-  // Header scroll
+  // Animación del header al hacer scroll
   const header = document.getElementById('mainHeader');
   let lastScrollTop = 0;
   window.addEventListener('scroll', () => {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    if(scrollTop > lastScrollTop && scrollTop > 50){
-      header.classList.add('header-hidden');
-    } else {
-      header.classList.remove('header-hidden');
-    }
+    if(scrollTop > lastScrollTop && scrollTop > 50) header.classList.add('header-hidden');
+    else header.classList.remove('header-hidden');
     lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
   });
 </script>
