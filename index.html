@@ -88,24 +88,38 @@
   section { padding: 4rem 2rem; text-align: center; }
   section h2 { margin-bottom: 2rem; font-size: 2rem; color: var(--color-primary); }
 
+  /* Grid productos */
   .products {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* productos más pequeños */
     gap: 20px;
+    justify-content: center;
+  }
+
+  @media (max-width: 600px) {
+    .products {
+      grid-template-columns: repeat(2, 1fr); /* 2 productos por fila en móvil */
+    }
   }
 
   .product {
     border: 1px solid var(--color-accent);
     border-radius: 8px;
-    padding: 1rem;
+    padding: 0.75rem; /* menos padding para productos más compactos */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
   .product:hover { transform: translateY(-5px); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
 
-  .product img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
-  .product h3 { margin-bottom: 0.5rem; color: var(--color-secondary); }
-  .product p { margin-bottom: 0.5rem; }
+  .product img {
+    width: 100%;
+    height: auto; 
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+  }
+
+  .product h3 { margin-bottom: 0.5rem; color: var(--color-secondary); font-size: 1rem; }
+  .product p { margin-bottom: 0.5rem; font-size: 0.9rem; }
   .product .price { font-weight: bold; color: var(--color-primary); }
 
   footer { background: var(--color-primary); color: var(--color-background); text-align: center; padding: 2rem 1rem; }
@@ -191,7 +205,6 @@
     index = (index + 1) % carouselItems.length;
     carouselItems[index].classList.add('active');
 
-    // Si el nuevo slide es un video, esperar a que termine
     const video = carouselItems[index].querySelector('video');
     if(video) {
       video.play();
@@ -199,10 +212,9 @@
     }
   }
 
-  // Iniciar video si el primer slide es video
   const firstVideo = carouselItems[0].querySelector('video');
   if(firstVideo) firstVideo.onended = showNextSlide;
-  else setInterval(showNextSlide, 5000); // imágenes cambiar cada 5s
+  else setInterval(showNextSlide, 5000);
 
   // Productos
   const products = [
@@ -263,10 +275,8 @@
   // Animación del header al hacer scroll
   const header = document.getElementById('mainHeader');
   let lastScrollTop = 0;
-
   window.addEventListener('scroll', () => {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
     if(scrollTop > lastScrollTop && scrollTop > 50){
       header.classList.add('header-hidden');
     } else {
