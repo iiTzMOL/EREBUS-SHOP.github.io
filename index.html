@@ -83,18 +83,18 @@
   section { padding: 4rem 2rem; text-align: center; }
   section h2 { margin-bottom: 2rem; font-size: 2rem; color: var(--color-primary); }
 
+  /* Grid de productos */
   .products {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
-    justify-content: center; /* centra productos si hay pocos */
+    justify-content: start; /* mantiene el tamaño original en PC */
   }
 
   .product {
     border: 1px solid var(--color-accent);
     border-radius: 8px;
     padding: 1rem;
-    max-width: 300px; /* evita que un solo producto ocupe toda la pantalla */
     width: 100%;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
@@ -108,7 +108,7 @@
 
   @media (max-width: 600px) {
     .products {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, 1fr); /* 2 productos por fila en móvil */
     }
   }
 
