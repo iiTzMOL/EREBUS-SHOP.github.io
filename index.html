@@ -71,56 +71,46 @@
 
   nav ul li a:hover { color: var(--color-accent); }
 
-  /* Carrusel */
   .carousel { position: relative; overflow: hidden; max-height: 500px; margin-top: 70px; }
   .carousel-inner { display: flex; transition: transform 1s ease; }
-  .carousel-item { min-width: 100%; position: relative; display: none; }
-  .carousel-item.active { display: block; }
-
+  .carousel-item { min-width: 100%; transition: opacity 1s ease; position: relative; }
   .carousel-item img, .carousel-item video {
     width: 100%;
-    max-height: 500px;
     display: block;
-    object-fit: contain; /* Mantiene proporciones */
-    object-position: center;
+    object-fit: cover;
   }
 
   section { padding: 4rem 2rem; text-align: center; }
   section h2 { margin-bottom: 2rem; font-size: 2rem; color: var(--color-primary); }
 
-  /* Grid productos */
   .products {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* productos más pequeños */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
-    justify-content: center;
-  }
-
-  @media (max-width: 600px) {
-    .products {
-      grid-template-columns: repeat(2, 1fr); /* 2 productos por fila en móvil */
-    }
+    justify-content: center; /* centra productos si hay pocos */
   }
 
   .product {
     border: 1px solid var(--color-accent);
     border-radius: 8px;
-    padding: 0.75rem; /* menos padding para productos más compactos */
+    padding: 1rem;
+    max-width: 300px; /* evita que un solo producto ocupe toda la pantalla */
+    width: 100%;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
   .product:hover { transform: translateY(-5px); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
 
-  .product img {
-    width: 100%;
-    height: auto; 
-    border-radius: 8px;
-    margin-bottom: 0.5rem;
-  }
-
-  .product h3 { margin-bottom: 0.5rem; color: var(--color-secondary); font-size: 1rem; }
-  .product p { margin-bottom: 0.5rem; font-size: 0.9rem; }
+  .product img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
+  .product h3 { margin-bottom: 0.5rem; color: var(--color-secondary); }
+  .product p { margin-bottom: 0.5rem; }
   .product .price { font-weight: bold; color: var(--color-primary); }
+
+  @media (max-width: 600px) {
+    .products {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
 
   footer { background: var(--color-primary); color: var(--color-background); text-align: center; padding: 2rem 1rem; }
 
@@ -150,18 +140,14 @@
 <!-- Carrusel -->
 <section class="carousel" id="inicio">
   <div class="carousel-inner">
-    <div class="carousel-item active">
-      <video autoplay muted playsinline>
+    <div class="carousel-item">
+      <video autoplay muted loop playsinline>
         <source src="images/VIDEO1.mp4" type="video/mp4">
         Tu navegador no soporta el elemento de video.
       </video>
     </div>
-    <div class="carousel-item">
-      <img src="https://via.placeholder.com/1200x500?text=Hero+2" alt="Slide 2">
-    </div>
-    <div class="carousel-item">
-      <img src="https://via.placeholder.com/1200x500?text=Hero+3" alt="Slide 3">
-    </div>
+    <div class="carousel-item"><img src="https://via.placeholder.com/1200x500?text=Hero+2" alt="Slide 2"></div>
+    <div class="carousel-item"><img src="https://via.placeholder.com/1200x500?text=Hero+3" alt="Slide 3"></div>
   </div>
 </section>
 
@@ -196,25 +182,16 @@
 </footer>
 
 <script>
-  // Carrusel mejorado
+  // Carrusel
+  const carouselInner = document.querySelector('.carousel-inner');
   const carouselItems = document.querySelectorAll('.carousel-item');
   let index = 0;
 
   function showNextSlide() {
-    carouselItems[index].classList.remove('active');
     index = (index + 1) % carouselItems.length;
-    carouselItems[index].classList.add('active');
-
-    const video = carouselItems[index].querySelector('video');
-    if(video) {
-      video.play();
-      video.onended = showNextSlide;
-    }
+    carouselInner.style.transform = `translateX(-${index * 100}%)`;
   }
-
-  const firstVideo = carouselItems[0].querySelector('video');
-  if(firstVideo) firstVideo.onended = showNextSlide;
-  else setInterval(showNextSlide, 5000);
+  setInterval(showNextSlide, 3000);
 
   // Productos
   const products = [
@@ -228,13 +205,15 @@
     { id: 8, name: "Perfume Dulce", description: "Dulzura irresistible y sofisticada.", price: "€90.00", image: "https://via.placeholder.com/300x200", category: "perfumes", keywords: "perfume dulce sofisticado" }
   ];
 
-  function renderProducts() {
+  function renderProducts(filtered = null) {
     const ropaContainer = document.getElementById('ropaProducts');
     const perfumeContainer = document.getElementById('perfumeProducts');
     ropaContainer.innerHTML = '';
     perfumeContainer.innerHTML = '';
 
-    products.forEach(product => {
+    const list = filtered || products;
+
+    list.forEach(product => {
       const div = document.createElement('div');
       div.classList.add('product');
       div.innerHTML = `
@@ -251,23 +230,7 @@
   function searchProducts() {
     const query = document.getElementById('searchInput').value.toLowerCase();
     const filtered = products.filter(p => p.name.toLowerCase().includes(query) || p.keywords.toLowerCase().includes(query));
-    const ropaContainer = document.getElementById('ropaProducts');
-    const perfumeContainer = document.getElementById('perfumeProducts');
-    ropaContainer.innerHTML = '';
-    perfumeContainer.innerHTML = '';
-
-    filtered.forEach(product => {
-      const div = document.createElement('div');
-      div.classList.add('product');
-      div.innerHTML = `
-        <img src="${product.image}" alt="${product.name}">
-        <h3>${product.name}</h3>
-        <p>${product.description}</p>
-        <p class="price">${product.price}</p>
-      `;
-      if (product.category === 'ropa') ropaContainer.appendChild(div);
-      else perfumeContainer.appendChild(div);
-    });
+    renderProducts(filtered);
   }
 
   renderProducts();
@@ -275,6 +238,7 @@
   // Animación del header al hacer scroll
   const header = document.getElementById('mainHeader');
   let lastScrollTop = 0;
+
   window.addEventListener('scroll', () => {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     if(scrollTop > lastScrollTop && scrollTop > 50){
