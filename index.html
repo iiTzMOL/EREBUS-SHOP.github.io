@@ -182,10 +182,10 @@ footer { background: var(--color-primary); color: var(--color-background); text-
       </video>
     </div>
     <div class="carousel-item">
-      <img src="images/TELA_NEGRA.png" alt="Slide 2 - Tela Negra">
+      <img src="images/TELA NEGRA.jpg" alt="Slide 2 - Tela Negra">
     </div>
     <div class="carousel-item">
-      <img src="images/SLIDE.jpg" alt="Slide 3">
+      <img src="images/SLIDE3.jpg" alt="Slide 3 - Slide3">
     </div>
   </div>
 </section>
@@ -235,11 +235,12 @@ const video = document.getElementById('videoSlide');
 
 function showNextSlide() {
   index = (index + 1) % carouselItems.length;
+
   if(index === 0){ video.currentTime = 0; video.play(); }
+
   carouselInner.style.transform = `translateX(-${index * 100}%)`;
 }
 
-// Cambia de slide cada 5 segundos
 setInterval(showNextSlide, 5000);
 
 // Productos
@@ -312,3 +313,4 @@ renderProducts();
 </script>
 </body>
 </html>
+
