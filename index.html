@@ -1,119 +1,120 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Perfumes - EREBUS</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>EREBUS - Inicio</title>
 <style>
-:root {
-  --color-primary: #000;
-  --color-secondary: #555;
-  --color-background: #fff;
-  --color-accent: #e0e0e0;
-  --color-text: #333;
-  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+:root{
+  --color-primary:#000;
+  --color-secondary:#555;
+  --color-background:#fff;
+  --color-accent:#e0e0e0;
+  --color-text:#333;
+  --font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: var(--font-family); background-color: var(--color-background); color: var(--color-text); line-height: 1.6; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-family);background:var(--color-background);color:var(--color-text);line-height:1.6}
 
 /* HEADER */
-header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background: var(--color-primary);
-  color: var(--color-background);
-  z-index: 1000;
-  transition: all 0.3s ease;
+header{
+  position:fixed;top:0;left:0;width:100%;
+  background:var(--color-primary);color:var(--color-background);z-index:1000;
+  transition:all .3s ease;
 }
+.logo-container{display:flex;align-items:center;justify-content:center;height:70px;overflow:hidden;transition:all .3s}
+.logo-container img{height:50px;margin-right:10px}
+.logo-container h1{font-size:1.8rem}
+.header-hidden .logo-container{height:0;transform:translateY(-100%)}
 
-.logo-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 70px;
-}
+/* NAV */
+nav ul{list-style:none;display:flex;justify-content:center;gap:20px;background:var(--color-primary);padding:10px 0}
+nav a{color:var(--color-background);text-decoration:none;font-weight:500}
+nav a:hover{color:var(--color-accent)}
 
-.logo-container img { height: 50px; margin-right: 10px; }
-.logo-container h1 { font-size: 1.8rem; }
+/* CARRUSEL */
+.carousel{position:relative;overflow:hidden;margin-top:70px;max-height:900px}
+.carousel-inner{display:flex;transition:transform 1s ease}
+.carousel-item{min-width:100%;position:relative}
+.carousel-item img, .carousel-item video{width:100%;display:block;object-fit:cover;max-height:900px;height:500px}
 
-nav ul {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  background: var(--color-primary);
-  padding: 10px 0;
-}
+/* SEARCH */
+.search-container{display:flex;justify-content:center;align-items:center;margin:2rem auto;max-width:650px;padding:0 1rem}
+#clearBtn{font-size:24px;cursor:pointer;margin-right:10px;color:#555;display:none;user-select:none}
+.search-bar{display:flex;flex:1;border:1px solid var(--color-accent);border-radius:4px;overflow:hidden;align-items:center;background:#fff}
+.search-bar input{flex:1;padding:.75rem;border:0;outline:none;font-size:16px}
+.search-bar svg{width:18px;height:18px;margin:0 10px;flex-shrink:0}
 
-nav ul li a {
-  color: var(--color-background);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
+/* ROPA - PRODUCTOS */
+section{padding:4rem 2rem;text-align:center}
+section h2{margin-bottom:2rem;font-size:2rem;color:var(--color-primary)}
+.products{display:grid;gap:20px;grid-template-columns:repeat(4,1fr)}
+@media (max-width:1024px){.products{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:768px){.products{grid-template-columns:repeat(1,1fr)}}
 
-nav ul li a:hover { color: var(--color-accent); }
-
-/* PRODUCTOS */
-section { padding: 6rem 2rem 4rem; text-align: center; }
-section h2 { margin-bottom: 2rem; font-size: 2rem; color: var(--color-primary); }
-
-.products {
-  display: grid;
-  gap: 20px;
-  grid-template-columns: repeat(5, 1fr);
-}
-
-@media (max-width:1024px){ .products { grid-template-columns: repeat(3,1fr); } }
-@media (max-width:768px){ .products { grid-template-columns: repeat(2,1fr); } }
-
-.product {
-  border: 1px solid var(--color-accent);
-  border-radius: 8px;
-  padding: 1rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.product:hover { transform: translateY(-5px); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-
-.product img { 
-  width: 100%; 
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: 8px; 
-  margin-bottom: 1rem; 
-}
-
-.product h3 { margin-bottom: 0.5rem; color: var(--color-secondary); }
-.product p { margin-bottom: 0.5rem; }
-.product .price { font-weight: bold; color: var(--color-primary); }
+.product{border:1px solid var(--color-accent);border-radius:8px;padding:1rem;transition:transform .3s,box-shadow .3s}
+.product:hover{transform:translateY(-5px);box-shadow:0 4px 20px rgba(0,0,0,.1)}
+.product img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px;margin-bottom:1rem}
+.product h3{margin-bottom:.5rem;color:var(--color-secondary)}
+.product .price{font-weight:bold;color:var(--color-primary)}
 
 /* FOOTER */
-footer { background: var(--color-primary); color: var(--color-background); text-align: center; padding: 2rem 1rem; margin-top: 2rem; }
+footer{background:var(--color-primary);color:var(--color-background);text-align:center;padding:2rem 1rem;margin-top:2rem}
 </style>
 </head>
 <body>
-
-<header>
+<header id="mainHeader">
   <div class="logo-container">
-    <img src="images/LOGOE.png" alt="Logo">
+    <img src="images/LOGOE.png" alt="Logo EREBUS">
     <h1>EREBUS</h1>
   </div>
   <nav>
     <ul>
-      <li><a href="index.html#inicio">Inicio</a></li>
-      <li><a href="index.html#ropa">Ropa</a></li>
-      <li><a href="perfumes.html">Perfumes</a></li>
-      <li><a href="index.html#contacto">Contacto</a></li>
+      <li><a href="#inicio" id="homeLink">Inicio</a></li>
+      <li><a href="#ropa">Ropa</a></li>
+      <li><a href="perfumes.html">Perfumes</a></li> <!-- va a la página perfumes.html -->
+      <li><a href="#contacto">Contacto</a></li>
     </ul>
   </nav>
 </header>
 
-<section>
-  <h2>Nuestros Perfumes</h2>
-  <div class="products" id="perfumeProducts"></div>
+<!-- Carrusel -->
+<section class="carousel" id="inicio">
+  <div class="carousel-inner">
+    <div class="carousel-item">
+      <video id="videoSlide" autoplay muted playsinline>
+        <source src="images/VIDEO1.mp4" type="video/mp4">
+        Tu navegador no soporta el video.
+      </video>
+    </div>
+    <div class="carousel-item"><img src="images/TELA NEGRA.jpg" alt="Tela Negra"></div>
+    <div class="carousel-item"><img src="images/SLIDE3.jpg" alt="Slide 3"></div>
+  </div>
+</section>
+
+<!-- Buscador (solo buscará ROPA aquí) -->
+<div class="search-container">
+  <span id="clearBtn">&times;</span>
+  <div class="search-bar">
+    <svg class="lupa" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="11" cy="11" r="7" stroke="black" stroke-width="2" fill="none"/>
+      <line x1="16" y1="16" x2="22" y2="22" stroke="black" stroke-width="2"/>
+    </svg>
+    <input type="text" id="searchInput" placeholder="Buscar productos (solo ropa en esta página)..." />
+  </div>
+</div>
+
+<!-- ROPA -->
+<section id="ropa">
+  <h2>Nuestra Ropa</h2>
+  <div class="products" id="ropaProducts"></div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <h2>Contacto</h2>
+  <p>Email: contacto@tutienda.com</p>
+  <p>Tel: +34 600 123 456</p>
 </section>
 
 <footer>
@@ -121,31 +122,81 @@ footer { background: var(--color-primary); color: var(--color-background); text-
 </footer>
 
 <script>
-const perfumes = [
-  { id:1,name:"Perfume 120ML",description:"Aroma fresco y duradero.",price:"$299.00",image:"images/PERFUME1.png"},
-  { id:2,name:"Perfume 120ML",description:"Aroma elegante y sofisticado.",price:"$350.00",image:"images/PERFUME1.png"},
-  { id:3,name:"Perfume 60ML",description:"Fragancia amaderada única.",price:"$199.00",image:"images/PERFUME1.png"},
-  { id:4,name:"Perfume 50ML",description:"Notas florales suaves.",price:"$180.00",image:"images/PERFUME1.png"},
-  { id:5,name:"Perfume 30ML",description:"Compacto y fresco para el día.",price:"$150.00",image:"images/PERFUME1.png"},
-  { id:6,name:"Perfume 250ML",description:"Fragancia intensa y duradera.",price:"$450.00",image:"images/PERFUME1.png"},
+/* --- Carrusel simple --- */
+const carouselInner = document.querySelector('.carousel-inner');
+const carouselItems = document.querySelectorAll('.carousel-item');
+let slideIndex = 0;
+const video = document.getElementById('videoSlide');
+
+function showNextSlide(){
+  slideIndex = (slideIndex + 1) % carouselItems.length;
+  carouselInner.style.transform = `translateX(-${slideIndex*100}%)`;
+  // si el slide actual es el video, reproducirlo; si no, pausar
+  document.querySelectorAll('.carousel-item video').forEach(v=>{
+    if (carouselItems[slideIndex].contains(v)) v.play();
+    else v.pause();
+  });
+}
+setInterval(showNextSlide, 5000);
+
+/* --- Productos (solo ropa para index) --- */
+const ropaProducts = [
+  {id:1,name:"PLAYERA OVERSIZE NEGRA 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",keywords:"playera negra oversize"},
+  {id:2,name:"Pantalón Chino",description:"Cómodo y versátil.",price:"€55.00",image:"https://via.placeholder.com/300x300",keywords:"pantalon chino"},
+  {id:3,name:"Vestido Midi Negro",description:"Clásico y versátil.",price:"€80.00",image:"https://via.placeholder.com/300x300",keywords:"vestido midi"},
+  {id:4,name:"Jersey de Punto",description:"Suave y cálido.",price:"€55.00",image:"https://via.placeholder.com/300x300",keywords:"jersey punto"}
 ];
 
-function renderPerfumes(){
-  const container = document.getElementById('perfumeProducts');
-  perfumes.forEach(p=>{
+function renderRopa(list){
+  const cont = document.getElementById('ropaProducts');
+  cont.innerHTML = '';
+  (list||ropaProducts).forEach(p=>{
     const div = document.createElement('div');
-    div.classList.add('product');
-    div.innerHTML=`
+    div.className = 'product';
+    div.innerHTML = `
       <img src="${p.image}" alt="${p.name}">
       <h3>${p.name}</h3>
       <p>${p.description}</p>
       <p class="price">${p.price}</p>
     `;
-    container.appendChild(div);
+    cont.appendChild(div);
   });
 }
 
-renderPerfumes();
+/* --- Buscador (solo ropa en esta página) --- */
+const searchInput = document.getElementById('searchInput');
+const clearBtn = document.getElementById('clearBtn');
+
+searchInput.addEventListener('input', ()=>{
+  const q = searchInput.value.trim().toLowerCase();
+  if(q){
+    clearBtn.style.display = 'inline-block';
+    const filtered = ropaProducts.filter(p => p.name.toLowerCase().includes(q) || (p.keywords && p.keywords.toLowerCase().includes(q)) );
+    renderRopa(filtered);
+  } else {
+    clearBtn.style.display = 'none';
+    renderRopa();
+  }
+});
+clearBtn.addEventListener('click', ()=>{
+  searchInput.value = '';
+  clearBtn.style.display = 'none';
+  renderRopa();
+});
+
+/* --- Header hide on scroll --- */
+const header = document.getElementById('mainHeader');
+let lastY = 0;
+window.addEventListener('scroll', ()=>{
+  const y = window.pageYOffset || document.documentElement.scrollTop;
+  if(y > lastY && y > 50) header.classList.add('header-hidden'); else header.classList.remove('header-hidden');
+  lastY = y <= 0 ? 0 : y;
+});
+
+/* Inicial */
+renderRopa();
+// Pausar video por defecto si no está visible al cargar
+document.querySelectorAll('.carousel-item video').forEach(v => { if (!carouselItems[0].contains(v)) v.pause(); });
 </script>
 </body>
 </html>
