@@ -83,10 +83,9 @@
   section { padding: 4rem 2rem; text-align: center; }
   section h2 { margin-bottom: 2rem; font-size: 2rem; color: var(--color-primary); }
 
-  /* Grid de productos */
   .products {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 productos por fila en PC */
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
   }
 
@@ -94,7 +93,7 @@
     border: 1px solid var(--color-accent);
     border-radius: 8px;
     padding: 1rem;
-    max-width: 100%; /* evita que se estire */
+    max-width: 100%;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
@@ -105,21 +104,60 @@
   .product p { margin-bottom: 0.5rem; }
   .product .price { font-weight: bold; color: var(--color-primary); }
 
-  /* Responsive */
   @media (max-width: 992px) {
-    .products { grid-template-columns: repeat(2, 1fr); } /* 2 productos por fila en tablet */
+    .products { grid-template-columns: repeat(2, 1fr); }
   }
 
   @media (max-width: 600px) {
-    .products { grid-template-columns: 1fr; } /* 1 producto por fila en móvil */
+    .products { grid-template-columns: 1fr; }
   }
 
   footer { background: var(--color-primary); color: var(--color-background); text-align: center; padding: 2rem 1rem; }
 
-  .search-bar { margin: 2rem auto; max-width: 600px; display: flex; }
-  .search-bar input { flex: 1; padding: 0.75rem; border: 1px solid var(--color-accent); border-radius: 4px 0 0 4px; outline: none; }
-  .search-bar button { padding: 0.75rem 1.5rem; border: none; background: var(--color-primary); color: var(--color-background); cursor: pointer; border-radius: 0 4px 4px 0; transition: background 0.3s ease; }
+  /* Buscador con botón de limpiar */
+  .search-bar {
+    margin: 2rem auto;
+    max-width: 600px;
+    display: flex;
+    position: relative;
+  }
+
+  .search-bar input {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid var(--color-accent);
+    border-radius: 4px 0 0 4px;
+    outline: none;
+  }
+
+  .search-bar button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    background: var(--color-primary);
+    color: var(--color-background);
+    cursor: pointer;
+    border-radius: 0 4px 4px 0;
+    transition: background 0.3s ease;
+  }
+
   .search-bar button:hover { background: var(--color-secondary); }
+
+  .clear-btn {
+    position: absolute;
+    right: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #ccc;
+    border: none;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    display: none;
+  }
+
+  .clear-btn:hover { background: #999; }
 </style>
 </head>
 <body>
@@ -131,7 +169,7 @@
   </div>
   <nav>
     <ul>
-      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#inicio" id="homeLink">Inicio</a></li>
       <li><a href="#ropa">Ropa</a></li>
       <li><a href="#perfumes">Perfumes</a></li>
       <li><a href="#contacto">Contacto</a></li>
@@ -139,7 +177,6 @@
   </nav>
 </header>
 
-<!-- Carrusel -->
 <section class="carousel" id="inicio">
   <div class="carousel-inner">
     <div class="carousel-item">
@@ -153,32 +190,28 @@
   </div>
 </section>
 
-<!-- Buscador -->
 <div class="search-bar">
   <input type="text" id="searchInput" placeholder="Buscar productos...">
   <button onclick="searchProducts()">Buscar</button>
+  <button class="clear-btn" id="clearBtn">&times;</button>
 </div>
 
-<!-- Productos Ropa -->
 <section id="ropa">
   <h2>Nuestra Ropa</h2>
   <div class="products" id="ropaProducts"></div>
 </section>
 
-<!-- Productos Perfumes -->
 <section id="perfumes">
   <h2>Nuestros Perfumes</h2>
   <div class="products" id="perfumeProducts"></div>
 </section>
 
-<!-- Contacto -->
 <section id="contacto">
   <h2>Contacto</h2>
   <p>Email: contacto@tutienda.com</p>
   <p>Tel: +34 600 123 456</p>
 </section>
 
-<!-- Footer -->
 <footer>
   <p>&copy; 2024 Tu Tienda Elegante. Todos los derechos reservados.</p>
 </footer>
@@ -233,7 +266,24 @@
     const query = document.getElementById('searchInput').value.toLowerCase();
     const filtered = products.filter(p => p.name.toLowerCase().includes(query) || p.keywords.toLowerCase().includes(query));
     renderProducts(filtered);
+
+    // Mostrar tache si hay texto
+    document.getElementById('clearBtn').style.display = query ? 'block' : 'none';
   }
+
+  // Limpiar búsqueda
+  document.getElementById('clearBtn').addEventListener('click', () => {
+    document.getElementById('searchInput').value = '';
+    renderProducts();
+    document.getElementById('clearBtn').style.display = 'none';
+  });
+
+  // Limpiar búsqueda al hacer clic en Inicio
+  document.getElementById('homeLink').addEventListener('click', () => {
+    document.getElementById('searchInput').value = '';
+    renderProducts();
+    document.getElementById('clearBtn').style.display = 'none';
+  });
 
   renderProducts();
 
