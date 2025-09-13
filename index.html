@@ -101,7 +101,7 @@ section h2 { margin-bottom: 2rem; font-size: 2rem; color: var(--color-primary); 
 /* FOOTER */
 footer { background: var(--color-primary); color: var(--color-background); text-align: center; padding: 2rem 1rem; }
 
-/* BUSCADOR MINIMALISTA */
+/* BUSCADOR */
 .search-container {
   display: flex;
   justify-content: center;
@@ -125,31 +125,343 @@ footer { background: var(--color-primary); color: var(--color-background); text-
   display: flex;
   flex: 1;
   border: 1px solid var(--color-accent);
-  border-radius: 25px;
+  border-radius: 4px;
   overflow: hidden;
   align-items: center;
-  padding-left: 10px;
 }
 
 .search-bar input {
   flex: 1;
-  padding: 0.5rem 0.75rem;
+  padding: 0.75rem;
   border: none;
   outline: none;
   font-size: 16px;
 }
 
-.search-bar .lupa {
-  font-size: 18px;
-  margin-right: 8px;
-  color: #555;
-}
-
-/* RESPONSIVE BUTTON */
 .search-bar button {
-  display: none; /* ocultamos el botón, solo queda la lupa */
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: var(--color-primary);
+  color: var(--color-background);
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
+.search-bar button:hover { background: var(--color-secondary); }
+
+/* LUPA MONOCROMÁTICA */
+.search-bar .lupa {
+  color: #000; /* negro */
+  font-size: 18px;
+  margin-left: 8px;
+}
+</style>
+</head>
+<body>
+
+<header id="mainHeader">
+  <div class="logo-container">
+    <img src="images/LOGOE.png" alt="Logo">
+    <h1>EREBUS</h1>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="#inicio" id="homeLink">Inicio</a></li>
+      <li><a href="#ropa">Ropa</a></li>
+      <li><a href="#perfumes">Perfumes</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- CARRUSEL -->
+<section class="carousel" id="inicio">
+  <div class="carousel-inner">
+    <div class="carousel-item">
+      <video autoplay muted loop playsinline>
+        <source src="images/VIDEO1.mp4" type="video/mp4">
+        Tu navegador no soporta el elemento de video.
+      </video>
+    </div>
+    <div class="carousel-item"><img src="https://via.placeholder.com/1200x500?text=Hero+2" alt="Slide 2"></div>
+    <div class="carousel-item"><img src="https://via.placeholder.com/1200x500?text=Hero+3" alt="Slide 3"></div>
+  </div>
+</section>
+
+<!-- BUSCADOR -->
+<div class="search-container">
+  <span id="clearBtn">&times;</span>
+  <div class="search-bar">
+    <span class="lupa">&#128269;</span>
+    <input type="text" id="searchInput" placeholder="Buscar productos...">
+  </div>
+</div>
+
+<!-- PRODUCTOS ROPA -->
+<section id="ropa">
+  <h2>Nuestra Ropa</h2>
+  <div class="products" id="ropaProducts"></div>
+</section>
+
+<!-- PRODUCTOS PERFUMES -->
+<section id="perfumes">
+  <h2>Nuestros Perfumes</h2>
+  <div class="products" id="perfumeProducts"></div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <h2>Contacto</h2>
+  <p>Email: contacto@tutienda.com</p>
+  <p>Tel: +34 600 123 456</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2024 Tu Tienda Elegante. Todos los derechos reservados.</p>
+</footer>
+
+<script>
+// Carrusel
+const carouselInner = document.querySelector('.carousel-inner');
+const carouselItems = document.querySelectorAll('.carousel-item');
+let index = 0;
+function showNextSlide() {
+  index = (index + 1) % carouselItems.length;
+  carouselInner.style.transform = `translateX(-${index * 100}%)`;
+}
+setInterval(showNextSlide, 3000);
+
+// Productos
+const products = [
+  { id:1,name:"PLAYERA OVERSIZE NEGRA 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",category:"ropa",keywords:"playera negra oversize"},
+  { id:2,name:"Pantalón Chino",description:"Cómodo y versátil.",price:"€55.00",image:"https://via.placeholder.com/300x200",category:"ropa",keywords:"pantalón chino casual"},
+  { id:3,name:"Vestido de Noche",description:"Ideal para eventos formales.",price:"€120.00",image:"https://via.placeholder.com/300x200",category:"ropa",keywords:"vestido noche elegante formal"},
+  { id:4,name:"Chaqueta de Cuero",description:"Un clásico que nunca pasa de moda.",price:"€150.00",image:"https://via.placeholder.com/300x200",category:"ropa",keywords:"chaqueta cuero moda"},
+  { id:5,name:"Perfume Floral",description:"Aroma fresco y duradero.",price:"€70.00",image:"https://via.placeholder.com/300x200",category:"perfumes",keywords:"perfume floral aroma fresco"},
+  { id:6,name:"Perfume Amaderado",description:"Notas profundas y masculinas.",price:"€85.00",image:"https://via.placeholder.com/300x200",category:"perfumes",keywords:"perfume amaderado intenso"},
+  { id:7,name:"Perfume Cítrico",description:"Energía y frescura.",price:"€65.00",image:"https://via.placeholder.com/300x200",category:"perfumes",keywords:"perfume cítrico fresco"},
+  { id:8,name:"Perfume Dulce",description:"Dulzura irresistible y sofisticada.",price:"€90.00",image:"https://via.placeholder.com/300x200",category:"perfumes",keywords:"perfume dulce sofisticado"}
+];
+
+// Render
+function renderProducts(filteredProducts){
+  const ropaContainer = document.getElementById('ropaProducts');
+  const perfumeContainer = document.getElementById('perfumeProducts');
+  ropaContainer.innerHTML = '';
+  perfumeContainer.innerHTML = '';
+  const list = filteredProducts || products;
+  list.forEach(product=>{
+    const div = document.createElement('div');
+    div.classList.add('product');
+    div.innerHTML=`
+      <img src="${product.image}" alt="${product.name}">
+      <h3>${product.name}</h3>
+      <p>${product.description}</p>
+      <p class="price">${product.price}</p>
+    `;
+    if(product.category==='ropa') ropaContainer.appendChild(div);
+    else perfumeContainer.appendChild(div);
+  });
+}
+
+// Filtrado automático mientras escribes
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('input', ()=>{
+  const query = searchInput.value.toLowerCase();
+  const filtered = products.filter(p =>
+    p.name.toLowerCase().includes(query) || p.keywords.toLowerCase().includes(query)
+  );
+  renderProducts(filtered);
+  document.getElementById('clearBtn').style.display = query ? 'block' : 'none';
+});
+
+// Limpiar búsqueda
+document.getElementById('clearBtn').addEventListener('click',()=>{
+  searchInput.value='';
+  renderProducts();
+  document.getElementById('clearBtn').style.display='none';
+});
+
+// Inicio limpia búsqueda
+document.getElementById('homeLink').addEventListener('click',()=>{
+  searchInput.value='';
+  renderProducts();
+  document.getElementById('clearBtn').style.display='none';
+});
+
+// Header animación
+const header = document.getElementById('mainHeader');
+let lastScrollTop = 0;
+window.addEventListener('scroll', ()=>{
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  if(scrollTop > lastScrollTop && scrollTop > 50){
+    header.classList.add('header-hidden');
+  } else { header.classList.remove('header-hidden'); }
+  lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+});
+
+renderProducts();
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EREBUS</title>
+<style>
+:root {
+  --color-primary: #000;
+  --color-secondary: #555;
+  --color-background: #fff;
+  --color-accent: #e0e0e0;
+  --color-text: #333;
+  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font-family); background-color: var(--color-background); color: var(--color-text); line-height: 1.6; }
+
+/* HEADER */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: var(--color-primary);
+  color: var(--color-background);
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.logo-container img {
+  height: 50px;
+  margin-right: 10px;
+  transition: all 0.3s ease;
+}
+
+.logo-container h1 { font-size: 1.8rem; transition: all 0.3s ease; }
+
+.header-hidden .logo-container { height: 0; transform: translateY(-100%); }
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  background: var(--color-primary);
+  padding: 10px 0;
+}
+
+nav ul li a {
+  color: var(--color-background);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover { color: var(--color-accent); }
+
+/* CARRUSEL */
+.carousel { position: relative; overflow: hidden; max-height: 500px; margin-top: 70px; }
+.carousel-inner { display: flex; transition: transform 1s ease; }
+.carousel-item { min-width: 100%; position: relative; }
+.carousel-item img, .carousel-item video { width: 100%; display: block; object-fit: cover; max-height: 500px; }
+
+/* SECCIONES */
+section { padding: 4rem 2rem; text-align: center; }
+section h2 { margin-bottom: 2rem; font-size: 2rem; color: var(--color-primary); }
+
+/* PRODUCTOS */
+.products {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width:1024px){ .products { grid-template-columns: repeat(2,1fr); } }
+@media (max-width:768px){ .products { grid-template-columns: repeat(1,1fr); } }
+
+.product {
+  border: 1px solid var(--color-accent);
+  border-radius: 8px;
+  padding: 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product:hover { transform: translateY(-5px); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+.product img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
+.product h3 { margin-bottom: 0.5rem; color: var(--color-secondary); }
+.product p { margin-bottom: 0.5rem; }
+.product .price { font-weight: bold; color: var(--color-primary); }
+
+/* FOOTER */
+footer { background: var(--color-primary); color: var(--color-background); text-align: center; padding: 2rem 1rem; }
+
+/* BUSCADOR */
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem auto;
+  max-width: 650px;
+}
+
+#clearBtn {
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 10px;
+  color: #555;
+  user-select: none;
+  display: none;
+}
+
+#clearBtn:hover { color: #000; }
+
+.search-bar {
+  display: flex;
+  flex: 1;
+  border: 1px solid var(--color-accent);
+  border-radius: 4px;
+  overflow: hidden;
+  align-items: center;
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+
+.search-bar button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: var(--color-primary);
+  color: var(--color-background);
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.search-bar button:hover { background: var(--color-secondary); }
+
+/* LUPA MONOCROMÁTICA */
+.search-bar .lupa {
+  color: #000; /* negro */
+  font-size: 18px;
+  margin-left: 8px;
+}
 </style>
 </head>
 <body>
