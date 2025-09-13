@@ -102,35 +102,38 @@ section h2 { margin-bottom: 2rem; font-size: 2rem; color: var(--color-primary); 
 footer { background: var(--color-primary); color: var(--color-background); text-align: center; padding: 2rem 1rem; }
 
 /* BUSCADOR */
-.search-bar {
-  margin: 2rem auto;
-  max-width: 600px;
+.search-container {
   display: flex;
-  position: relative;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem auto;
+  max-width: 650px;
+}
+
+#clearBtn {
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 10px;
+  color: #555;
+  user-select: none;
+  display: none;
+}
+
+#clearBtn:hover { color: #000; }
+
+.search-bar {
+  display: flex;
+  flex: 1;
 }
 
 .search-bar input {
   flex: 1;
-  padding: 0.75rem 2.5rem 0.75rem 0.75rem;
+  padding: 0.75rem;
   border: 1px solid var(--color-accent);
   border-radius: 4px 0 0 4px;
   outline: none;
   font-size: 16px;
 }
-
-#clearBtn {
-  position: absolute;
-  right: 90px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 20px;
-  color: #555;
-  cursor: pointer;
-  display: none;
-  user-select: none;
-}
-
-#clearBtn:hover { color: #000; }
 
 .search-bar button {
   padding: 0.75rem 1.5rem;
@@ -177,10 +180,12 @@ footer { background: var(--color-primary); color: var(--color-background); text-
 </section>
 
 <!-- BUSCADOR -->
-<div class="search-bar">
-  <input type="text" id="searchInput" placeholder="Buscar productos...">
+<div class="search-container">
   <span id="clearBtn">&times;</span>
-  <button onclick="searchProducts()">Buscar</button>
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Buscar productos...">
+    <button onclick="searchProducts()">Buscar</button>
+  </div>
 </div>
 
 <!-- PRODUCTOS ROPA -->
@@ -220,7 +225,7 @@ setInterval(showNextSlide, 3000);
 
 // Productos
 const products = [
-  { id:1,name:"PLAYERA OVERSIZE NEGRA 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",category:"ropa",keywords:"PLAYERA OVERSIZE NEGRA 220G"},
+  { id:1,name:"PLAYERA OVERSIZE NEGRA 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",category:"ropa",keywords:"playera negra oversize"},
   { id:2,name:"Pantalón Chino",description:"Cómodo y versátil.",price:"€55.00",image:"https://via.placeholder.com/300x200",category:"ropa",keywords:"pantalón chino casual"},
   { id:3,name:"Vestido de Noche",description:"Ideal para eventos formales.",price:"€120.00",image:"https://via.placeholder.com/300x200",category:"ropa",keywords:"vestido noche elegante formal"},
   { id:4,name:"Chaqueta de Cuero",description:"Un clásico que nunca pasa de moda.",price:"€150.00",image:"https://via.placeholder.com/300x200",category:"ropa",keywords:"chaqueta cuero moda"},
@@ -251,28 +256,29 @@ function renderProducts(filteredProducts){
   });
 }
 
-// Búsqueda
-function searchProducts(){
-  const query = document.getElementById('searchInput').value.toLowerCase();
+// Filtrado automático mientras escribes
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('input', ()=>{
+  const query = searchInput.value.toLowerCase();
   const filtered = products.filter(p =>
     p.name.toLowerCase().includes(query) || p.keywords.toLowerCase().includes(query)
   );
   renderProducts(filtered);
   document.getElementById('clearBtn').style.display = query ? 'block' : 'none';
-}
+});
 
 // Limpiar búsqueda
 document.getElementById('clearBtn').addEventListener('click',()=>{
-  document.getElementById('searchInput').value='';
-  document.getElementById('clearBtn').style.display='none';
+  searchInput.value='';
   renderProducts();
+  document.getElementById('clearBtn').style.display='none';
 });
 
 // Inicio limpia búsqueda
 document.getElementById('homeLink').addEventListener('click',()=>{
-  document.getElementById('searchInput').value='';
-  document.getElementById('clearBtn').style.display='none';
+  searchInput.value='';
   renderProducts();
+  document.getElementById('clearBtn').style.display='none';
 });
 
 // Header animación
@@ -290,4 +296,3 @@ renderProducts();
 </script>
 </body>
 </html>
-
