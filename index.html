@@ -124,28 +124,42 @@ footer { background: var(--color-primary); color: var(--color-background); text-
 .search-bar {
   display: flex;
   flex: 1;
+  border: 1px solid var(--color-accent);
+  border-radius: 4px;
+  overflow: hidden;
+  align-items: center;
 }
 
 .search-bar input {
   flex: 1;
   padding: 0.75rem;
-  border: 1px solid var(--color-accent);
-  border-radius: 4px 0 0 4px;
+  border: none;
   outline: none;
   font-size: 16px;
 }
 
 .search-bar button {
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 1rem;
   border: none;
   background: var(--color-primary);
   color: var(--color-background);
   cursor: pointer;
-  border-radius: 0 4px 4px 0;
-  transition: background 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .search-bar button:hover { background: var(--color-secondary); }
+
+.search-bar .icon { margin-right: 5px; }
+
+/* ICON LUPA */
+.lupa {
+  font-size: 18px;
+  margin-left: 10px;
+  color: #555;
+}
+
 </style>
 </head>
 <body>
@@ -183,8 +197,8 @@ footer { background: var(--color-primary); color: var(--color-background); text-
 <div class="search-container">
   <span id="clearBtn">&times;</span>
   <div class="search-bar">
+    <span class="lupa">&#128269;</span>
     <input type="text" id="searchInput" placeholder="Buscar productos...">
-    <button onclick="searchProducts()">Buscar</button>
   </div>
 </div>
 
