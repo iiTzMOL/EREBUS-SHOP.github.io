@@ -66,10 +66,10 @@ nav ul li a {
 nav ul li a:hover { color: var(--color-accent); }
 
 /* CARRUSEL */
-.carousel { position: relative; overflow: hidden; max-height: 500px; margin-top: 70px; }
+.carousel { position: relative; overflow: hidden; max-height: 700px; margin-top: 70px; } /* altura aumentada */
 .carousel-inner { display: flex; transition: transform 1s ease; }
 .carousel-item { min-width: 100%; position: relative; }
-.carousel-item img, .carousel-item video { width: 100%; display: block; object-fit: cover; max-height: 500px; }
+.carousel-item img, .carousel-item video { width: 100%; display: block; object-fit: cover; max-height: 700px; }
 
 /* SECCIONES */
 section { padding: 4rem 2rem; text-align: center; }
@@ -94,11 +94,11 @@ section h2 { margin-bottom: 2rem; font-size: 2rem; color: var(--color-primary); 
 
 .product:hover { transform: translateY(-5px); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
 
-/* 👇 Aquí el cambio importante */
+/* Imagen cuadrada para todos los productos */
 .product img { 
   width: 100%; 
-  aspect-ratio: 1 / 1; /* Fuerza a ser cuadrada */
-  object-fit: cover;   /* Recorta proporcionalmente */
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
   border-radius: 8px; 
   margin-bottom: 1rem; 
 }
@@ -178,13 +178,13 @@ footer { background: var(--color-primary); color: var(--color-background); text-
 <section class="carousel" id="inicio">
   <div class="carousel-inner">
     <div class="carousel-item">
-      <video autoplay muted loop playsinline>
+      <video id="videoSlide" autoplay muted playsinline>
         <source src="images/VIDEO1.mp4" type="video/mp4">
         Tu navegador no soporta el elemento de video.
       </video>
     </div>
-    <div class="carousel-item"><img src="https://via.placeholder.com/1200x500?text=Hero+2" alt="Slide 2"></div>
-    <div class="carousel-item"><img src="https://via.placeholder.com/1200x500?text=Hero+3" alt="Slide 3"></div>
+    <div class="carousel-item"><img src="https://via.placeholder.com/1200x700?text=Hero+2" alt="Slide 2"></div>
+    <div class="carousel-item"><img src="https://via.placeholder.com/1200x700?text=Hero+3" alt="Slide 3"></div>
   </div>
 </section>
 
@@ -192,7 +192,6 @@ footer { background: var(--color-primary); color: var(--color-background); text-
 <div class="search-container">
   <span id="clearBtn">&times;</span>
   <div class="search-bar">
-    <!-- LUPA SVG -->
     <svg class="lupa" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
       <circle cx="11" cy="11" r="7" stroke="black" stroke-width="2" fill="none"/>
       <line x1="16" y1="16" x2="22" y2="22" stroke="black" stroke-width="2"/>
@@ -230,11 +229,21 @@ footer { background: var(--color-primary); color: var(--color-background); text-
 const carouselInner = document.querySelector('.carousel-inner');
 const carouselItems = document.querySelectorAll('.carousel-item');
 let index = 0;
+
+// Función para avanzar slide
 function showNextSlide() {
   index = (index + 1) % carouselItems.length;
   carouselInner.style.transform = `translateX(-${index * 100}%)`;
 }
-setInterval(showNextSlide, 3000);
+
+// Configuramos duración del primer slide según video
+const video = document.getElementById('videoSlide');
+video.addEventListener('loadedmetadata', () => {
+  setTimeout(() => {
+    showNextSlide();
+    setInterval(showNextSlide, 3000); // Los siguientes slides cada 3s
+  }, video.duration * 1000);
+});
 
 // Productos
 const products = [
