@@ -66,7 +66,7 @@ nav ul li a {
 nav ul li a:hover { color: var(--color-accent); }
 
 /* CARRUSEL */
-.carousel { position: relative; overflow: hidden; max-height: 900px; margin-top: 70px; } /* Altura aumentada */
+.carousel { position: relative; overflow: hidden; max-height: 900px; margin-top: 70px; }
 .carousel-inner { display: flex; transition: transform 1s ease; }
 .carousel-item { min-width: 100%; position: relative; }
 .carousel-item img, .carousel-item video { width: 100%; display: block; object-fit: cover; max-height: 900px; }
@@ -181,9 +181,12 @@ footer { background: var(--color-primary); color: var(--color-background); text-
         Tu navegador no soporta el elemento de video.
       </video>
     </div>
-      </div>
-    <div class="carousel-item"><img src="images/EEE.png" alt="Slide 2"></div>
-    <div class="carousel-item"><img src="https://via.placeholder.com/1200x900?text=Hero+3" alt="Slide 3"></div>
+    <div class="carousel-item">
+      <img src="images/EEE.png" alt="Slide 2">
+    </div>
+    <div class="carousel-item">
+      <img src="https://via.placeholder.com/1200x900?text=Hero+3" alt="Slide 3">
+    </div>
   </div>
 </section>
 
@@ -233,17 +236,19 @@ const video = document.getElementById('videoSlide');
 function showNextSlide() {
   index = (index + 1) % carouselItems.length;
 
-  // Reinicia el video si vuelve al primer slide
-  if (index === 0) {
-    video.currentTime = 0;
-    video.play();
-  }
+  if(index === 0){ video.currentTime = 0; video.play(); }
 
   carouselInner.style.transform = `translateX(-${index * 100}%)`;
 }
 
-// Cambia de slide cada 5 segundos
-setInterval(showNextSlide, 5000);
+// Ajustamos intervalo: 5s para imágenes, duración real para el video
+setInterval(()=>{
+  if(index===0){
+    // Esperamos la duración del video
+    const dur = video.duration * 1000 || 5000;
+    setTimeout(showNextSlide, dur);
+  } else { showNextSlide(); }
+},5000);
 
 // Productos
 const products = [
