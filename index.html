@@ -90,7 +90,7 @@
   /* PRODUCTOS */
   .products {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
   }
 
@@ -129,7 +129,7 @@
 
   #clearBtn {
     position: absolute;
-    right: 90px; /* dentro del input, ajustable */
+    right: 90px; /* Ajusta visibilidad */
     top: 50%;
     transform: translateY(-50%);
     font-size: 20px;
@@ -156,11 +156,9 @@
   /* RESPONSIVE */
   @media (max-width: 768px){
     .products {
-      grid-template-columns: repeat(1, 1fr); /* 1 producto por fila en móvil */
+      grid-template-columns: repeat(1, 1fr);
     }
-    #clearBtn {
-      right: 70px;
-    }
+    #clearBtn { right: 70px; }
   }
 </style>
 </head>
@@ -249,7 +247,7 @@
     { id: 8, name: "Perfume Dulce", description: "Dulzura irresistible y sofisticada.", price: "€90.00", image: "https://via.placeholder.com/300x200", category: "perfumes", keywords: "perfume dulce sofisticado" }
   ];
 
-  function renderProducts(filteredProducts) {
+  function renderProducts(filteredProducts){
     const ropaContainer = document.getElementById('ropaProducts');
     const perfumeContainer = document.getElementById('perfumeProducts');
     ropaContainer.innerHTML = '';
@@ -266,41 +264,36 @@
         <p>${product.description}</p>
         <p class="price">${product.price}</p>
       `;
-      if (product.category === 'ropa') ropaContainer.appendChild(div);
+      if(product.category === 'ropa') ropaContainer.appendChild(div);
       else perfumeContainer.appendChild(div);
     });
   }
 
-  // BUSCADOR
-  const searchInput = document.getElementById('searchInput');
-  const clearBtn = document.getElementById('clearBtn');
+  function searchProducts(){
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const filtered = products.filter(p => p.name.toLowerCase().includes(query) || p.keywords.toLowerCase().includes(query));
+    renderProducts(filtered);
 
-  function searchProducts() {
-    const query = searchInput.value.toLowerCase();
-    if(query){
-      const filtered = products.filter(p => p.name.toLowerCase().includes(query) || p.keywords.toLowerCase().includes(query));
-      renderProducts(filtered);
-    } else {
-      renderProducts();
-    }
+    const clearBtn = document.getElementById('clearBtn');
     clearBtn.style.display = query ? 'block' : 'none';
   }
 
-  searchInput.addEventListener('input', searchProducts);
-
+  // CLEAR BUTTON
+  const clearBtn = document.getElementById('clearBtn');
   clearBtn.addEventListener('click', () => {
-    searchInput.value = '';
+    document.getElementById('searchInput').value = '';
     clearBtn.style.display = 'none';
     renderProducts();
   });
 
-  // BOTÓN INICIO limpia búsqueda
-  const homeLink = document.getElementById('homeLink');
-  homeLink.addEventListener('click', () => {
-    searchInput.value = '';
+  // HOME LINK
+  document.getElementById('homeLink').addEventListener('click', () => {
+    document.getElementById('searchInput').value = '';
     clearBtn.style.display = 'none';
     renderProducts();
   });
+
+  renderProducts();
 
   // ANIMACIÓN HEADER
   const header = document.getElementById('mainHeader');
@@ -314,9 +307,6 @@
     }
     lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
   });
-
-  renderProducts(); // Inicial
 </script>
-
 </body>
 </html>
