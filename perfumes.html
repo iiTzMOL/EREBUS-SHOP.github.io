@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>EREBUS - Perfumes</title>
+<style>
+:root{
+  --color-primary:#000;--color-secondary:#555;--color-background:#fff;
+  --color-accent:#e0e0e0;--color-text:#333;--font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-family);background:var(--color-background);color:var(--color-text);line-height:1.6}
+
+/* Header/Nav */
+header{position:fixed;top:0;left:0;width:100%;background:var(--color-primary);color:var(--color-background);z-index:1000}
+.logo-container{display:flex;align-items:center;justify-content:center;height:70px}
+.logo-container img{height:50px;margin-right:10px}
+nav ul{list-style:none;display:flex;justify-content:center;gap:20px;background:var(--color-primary);padding:10px 0}
+nav a{color:var(--color-background);text-decoration:none;font-weight:500}
+nav a:hover{color:var(--color-accent)}
+
+/* Layout perfumes */
+section{padding:6rem 2rem 4rem;text-align:center}
+h2{margin-bottom:2rem;font-size:2rem;color:var(--color-primary)}
+.products{display:grid;gap:20px;grid-template-columns:repeat(5,1fr);max-width:1300px;margin:0 auto}
+@media (max-width:1024px){.products{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:768px){.products{grid-template-columns:repeat(2,1fr)}}
+
+.product{border:1px solid var(--color-accent);border-radius:8px;padding:1rem;transition:transform .3s,box-shadow .3s}
+.product:hover{transform:translateY(-5px);box-shadow:0 4px 20px rgba(0,0,0,.1)}
+.product img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px;margin-bottom:1rem}
+.product h3{margin-bottom:.5rem;color:var(--color-secondary)}
+.product .price{font-weight:bold;color:var(--color-primary)}
+
+/* Footer */
+footer{background:var(--color-primary);color:var(--color-background);text-align:center;padding:2rem 1rem;margin-top:2rem}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo-container">
+    <img src="images/LOGOE.png" alt="Logo">
+    <h1>EREBUS</h1>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="index.html#inicio">Inicio</a></li>
+      <li><a href="index.html#ropa">Ropa</a></li>
+      <li><a href="perfumes.html">Perfumes</a></li>
+      <li><a href="index.html#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section>
+  <h2>Nuestros Perfumes</h2>
+  <div class="products" id="perfumeProducts"></div>
+</section>
+
+<footer>
+  <p>&copy; 2024 Tu Tienda Elegante. Todos los derechos reservados.</p>
+</footer>
+
+<script>
+const perfumes = [
+  {id:1,name:"Perfume 120ML",description:"Aroma fresco y duradero.",price:"$299.00",image:"images/PERFUME1.png"},
+  {id:2,name:"Perfume 120ML - Edición",description:"Aroma elegante y sofisticado.",price:"$350.00",image:"images/PERFUME1.png"},
+  {id:3,name:"Perfume 60ML",description:"Fragancia amaderada única.",price:"$199.00",image:"images/PERFUME1.png"},
+  {id:4,name:"Perfume 50ML",description:"Notas florales suaves.",price:"$180.00",image:"images/PERFUME1.png"},
+  {id:5,name:"Perfume 30ML",description:"Compacto y fresco para el día.",price:"$150.00",image:"images/PERFUME1.png"},
+  {id:6,name:"Perfume 250ML",description:"Fragancia intensa y duradera.",price:"$450.00",image:"images/PERFUME1.png"},
+  {id:7,name:"Set Miniaturas",description:"3 miniaturas para probar.",price:"$120.00",image:"images/PERFUME1.png"},
+  {id:8,name:"Edición Limitada",description:"Notas exclusivas y sofisticadas.",price:"$599.00",image:"images/PERFUME1.png"}
+];
+
+function renderPerfumes(){
+  const cont = document.getElementById('perfumeProducts');
+  cont.innerHTML = '';
+  perfumes.forEach(p=>{
+    const d = document.createElement('div');
+    d.className = 'product';
+    d.innerHTML = `
+      <img src="${p.image}" alt="${p.name}">
+      <h3>${p.name}</h3>
+      <p>${p.description}</p>
+      <p class="price">${p.price}</p>
+    `;
+    cont.appendChild(d);
+  });
+}
+renderPerfumes();
+</script>
+</body>
+</html>
