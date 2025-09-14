@@ -17,7 +17,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font-family);background:var(--color-background);color:var(--color-text);line-height:1.6;padding-top:150px}
 
-/* --- HEADER IGUAL QUE ROPA --- */
+/* --- HEADER --- */
 header{
   position:fixed;
   top:0;
@@ -30,14 +30,14 @@ header{
 }
 .logo-container{
   display:flex;
-  align-items:center;
+  align-items:center; /* centra verticalmente logo y texto */
   justify-content:center;
   height:70px;
   overflow:hidden;
   transition:all .3s;
 }
 .logo-container img{height:50px;margin-right:10px}
-.logo-container h1{font-size:1.8rem;color:#fff;}
+.logo-container h1{font-size:1.8rem;color:#fff; display:flex; align-items:center;}
 .header-hidden .logo-container{
   height:0;
   transform:translateY(-100%);
