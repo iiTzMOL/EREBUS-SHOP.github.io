@@ -15,9 +15,9 @@
 
 /* Reset */
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font-family);background:var(--color-background);color:var(--color-text);line-height:1.6;padding-top:120px}
+body{font-family:var(--font-family);background:var(--color-background);color:var(--color-text);line-height:1.6;padding-top:150px}
 
-/* HEADER: logo y nombre en la misma línea */
+/* HEADER: logo a la izquierda, nombre centrado */
 header{
   position:fixed;
   top:0;
@@ -27,29 +27,43 @@ header{
   color:var(--color-background);
   z-index:1000;
   transition:all .3s ease;
-  text-align:center;
+  text-align:left;
   padding:10px 20px;
 }
-.logo-container{
+.header-inner{
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:10px;
-  height:70px;
-  transition:all .3s;
+  position:relative;
+}
+.logo-container{
+  position:absolute;
+  left:20px;
+  display:flex;
+  align-items:center;
+  height:60px;
 }
 .logo-container img{height:50px}
-.logo-container h1{font-size:2rem;color:#fff}
-.header-hidden .logo-container{height:0;transform:translateY(-100%)}
+.logo-container h1{font-size:1.8rem;color:#fff;margin-left:10px}
+/* Nombre centrado horizontalmente */
+.header-title{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:2rem;
+  color:#fff;
+}
 
-/* NAV debajo del logo */
+/* NAV debajo del logo y título */
+nav{
+  margin-top:80px; /* separa de header */
+}
 nav ul{
   list-style:none;
   display:flex;
   justify-content:center;
   gap:30px;
   padding:10px 0;
-  background:var(--color-primary);
   flex-wrap:wrap;
 }
 nav a{color:var(--color-background);text-decoration:none;font-weight:500;font-size:1rem}
@@ -90,10 +104,13 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
 </style>
 </head>
 <body>
-<header id="mainHeader">
-  <div class="logo-container">
-    <img src="images/LOGOE.png" alt="Logo EREBUS">
-    <h1>EREBUS</h1>
+<header>
+  <div class="header-inner">
+    <div class="logo-container">
+      <img src="images/LOGOE.png" alt="Logo EREBUS">
+      <h1>EREBUS</h1>
+    </div>
+    <div class="header-title">EREBUS</div>
   </div>
   <nav>
     <ul>
@@ -162,16 +179,5 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
 <footer>
   <p>© 2024 Tu Tienda Elegante. Todos los derechos reservados.</p>
 </footer>
-
-<script>
-const header = document.getElementById('mainHeader');
-let lastY = 0;
-window.addEventListener('scroll', ()=>{
-  const y = window.pageYOffset || document.documentElement.scrollTop;
-  if(y > lastY && y > 50) header.classList.add('header-hidden'); 
-  else header.classList.remove('header-hidden');
-  lastY = y <= 0 ? 0 : y;
-});
-</script>
 </body>
 </html>
