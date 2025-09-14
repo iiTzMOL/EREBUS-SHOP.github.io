@@ -5,11 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Perfumes - EREBUS</title>
   <style>
-    body {
+    /* Reset y corrección de desbordes */
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
       font-family: Arial, sans-serif;
       background-color: #fff;
       color: #333;
+      overflow-x: hidden; /* evita scroll lateral */
     }
 
     header {
@@ -19,6 +26,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      width: 100%;
     }
 
     header img {
@@ -28,9 +36,9 @@
 
     nav ul {
       list-style: none;
+      display: flex;
       margin: 0;
       padding: 0;
-      display: flex;
     }
 
     nav ul li {
@@ -45,6 +53,8 @@
 
     main {
       padding: 40px 20px;
+      max-width: 1400px;
+      margin: 0 auto;
     }
 
     h1 {
@@ -58,19 +68,17 @@
       display: grid;
       grid-template-columns: repeat(5, 1fr); /* PC = 5 columnas */
       gap: 30px;
-      max-width: 1400px;
-      margin: 0 auto;
     }
 
     @media (max-width: 1024px) {
       .perfumes {
-        grid-template-columns: repeat(3, 1fr); /* Tablets = 3 columnas */
+        grid-template-columns: repeat(3, 1fr); /* Tablet = 3 */
       }
     }
 
     @media (max-width: 768px) {
       .perfumes {
-        grid-template-columns: repeat(2, 1fr); /* Celulares = 2 columnas */
+        grid-template-columns: repeat(2, 1fr); /* Cel = 2 */
       }
     }
 
@@ -89,9 +97,10 @@
     }
 
     .perfume img {
-      width: 180px; /* tamaño fijo de perfume */
+      width: 180px;
       height: auto;
       border-radius: 8px;
+      max-width: 100%; /* asegura que nunca se salga */
     }
 
     .perfume h3 {
@@ -115,6 +124,7 @@
       text-align: center;
       padding: 15px 10px;
       margin-top: 40px;
+      width: 100%;
     }
   </style>
 </head>
@@ -193,4 +203,3 @@
   </footer>
 </body>
 </html>
-
