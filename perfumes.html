@@ -12,52 +12,39 @@
   --color-text:#333;
   --font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
-/* Reset */
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font-family);background:var(--color-background);color:var(--color-text);line-height:1.6;padding-top:150px}
 
 /* HEADER */
-header{
-  position:fixed; top:0; left:0; width:100%;
-  background:var(--color-primary); color:var(--color-background);
-  z-index:1000; transition:all .3s ease;
-}
-.logo-container{
-  display:flex; align-items:center; justify-content:center; height:70px; overflow:hidden; transition:all .3s;
-}
+header{position:fixed;top:0;left:0;width:100%;background:var(--color-primary);color:var(--color-background);z-index:1000;transition:all .3s ease;}
+.logo-container{display:flex;align-items:center;justify-content:center;height:70px;overflow:hidden;transition:all .3s}
 .logo-container img{height:50px;margin-right:10px}
-.logo-container h1{font-size:1.8rem; color:#fff; margin:0}
+.logo-container h1{font-size:1.8rem;color:#fff;margin:0;}
+.header-hidden .logo-container{height:0;transform:translateY(-100%)}
 
 /* NAV */
-nav ul{list-style:none;display:flex;justify-content:center;gap:20px;padding:10px 0}
-nav a{color:var(--color-background);text-decoration:none;font-weight:500;font-size:1rem}
-nav a:hover{color:var(--color-accent)}
-nav a.active{color:var(--color-accent); border-bottom:2px solid var(--color-accent); padding-bottom:2px}
+nav ul{list-style:none;display:flex;justify-content:center;gap:20px;padding:10px 0;background:var(--color-primary);}
+nav a{color:var(--color-background);text-decoration:none;font-weight:500;font-size:1rem;padding:5px 0;}
+nav a.active{color:var(--color-accent);border-bottom:2px solid var(--color-accent);}
 
 /* MAIN PERFUMES */
 main{padding:40px 20px;max-width:1400px;margin:0 auto;text-align:center}
 h1{margin-bottom:40px;margin-top:0}
 
 /* Grid responsivo 5/3/2 */
-.perfumes{
-  display:grid; gap:20px; justify-items:center; grid-template-columns:repeat(5,1fr);
-}
+.perfumes{display:grid;gap:20px;justify-items:center;grid-template-columns:repeat(5,1fr);}
 @media(max-width:1024px){.perfumes{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:768px){.perfumes{grid-template-columns:repeat(2,1fr)}}
 
-.perfume{
-  background:#fff; border:1px solid var(--color-accent); border-radius:10px; padding:15px; text-align:center;
-  transition:transform .3s,box-shadow .3s; width:100%; max-width:220px;
-}
-.perfume:hover{transform:translateY(-5px); box-shadow:0 4px 20px rgba(0,0,0,.1)}
-.perfume img{width:100%; height:auto; border-radius:8px}
-.perfume h3{margin:10px 0 5px; font-size:1.1rem}
-.perfume p{margin:5px 0; font-size:0.9rem; color:#666}
-.perfume .price{font-weight:bold; margin-top:10px; font-size:1rem; color:#000}
+.perfume{background:#fff;border:1px solid var(--color-accent);border-radius:10px;padding:15px;text-align:center;transition:transform .3s,box-shadow .3s;width:100%;max-width:220px;}
+.perfume:hover{transform:translateY(-5px);box-shadow:0 4px 20px rgba(0,0,0,.1)}
+.perfume img{width:100%;height:auto;border-radius:8px}
+.perfume h3{margin:10px 0 5px;font-size:1.1rem}
+.perfume p{margin:5px 0;font-size:0.9rem;color:#666}
+.perfume .price{font-weight:bold;margin-top:10px;font-size:1rem;color:#000}
 
 /* FOOTER */
-footer{background:var(--color-primary); color:var(--color-background); text-align:center; padding:15px 10px; margin-top:40px; width:100%}
+footer{background:var(--color-primary);color:var(--color-background);text-align:center;padding:15px 10px;margin-top:40px;width:100%}
 </style>
 </head>
 <body>
@@ -95,24 +82,21 @@ footer{background:var(--color-primary); color:var(--color-background); text-alig
 </footer>
 
 <script>
-/* --- Header hide on scroll --- */
+/* Header hide on scroll */
 const header = document.getElementById('mainHeader');
-let lastY = 0;
+let lastY=0;
 window.addEventListener('scroll', ()=>{
   const y = window.pageYOffset || document.documentElement.scrollTop;
-  if(y > lastY && y > 50) header.classList.add('header-hidden'); 
-  else header.classList.remove('header-hidden');
-  lastY = y <= 0 ? 0 : y;
+  if(y > lastY && y > 50) header.classList.add('header-hidden'); else header.classList.remove('header-hidden');
+  lastY = y<=0?0:y;
 });
 
-/* --- Pestaña activa --- */
+/* Active nav tab */
 const navLinks = document.querySelectorAll('nav a');
 const currentPage = window.location.pathname.split("/").pop();
-navLinks.forEach(link => {
+navLinks.forEach(link=>{
   const linkPage = link.getAttribute('href').split("/").pop();
-  if(linkPage === currentPage || (linkPage === "index.html" && currentPage === "")) {
-    link.classList.add('active');
-  }
+  if(linkPage===currentPage) link.classList.add('active');
 });
 </script>
 </body>
