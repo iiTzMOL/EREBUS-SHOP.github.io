@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Perfumes - EREBUS</title>
   <style>
-    /* Reset y corrección de desbordes */
     * {
       margin: 0;
       padding: 0;
@@ -16,7 +15,7 @@
       font-family: Arial, sans-serif;
       background-color: #fff;
       color: #333;
-      overflow-x: hidden; /* evita scroll lateral */
+      overflow-x: hidden;
     }
 
     header {
@@ -26,7 +25,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap; /* permite que los elementos se acomoden en pantallas pequeñas */
+      flex-wrap: wrap;
     }
 
     header img {
@@ -39,7 +38,7 @@
       display: flex;
       margin: 0;
       padding: 0;
-      flex-wrap: wrap; /* se ajusta en pantallas pequeñas */
+      flex-wrap: wrap;
     }
 
     nav ul li {
@@ -67,9 +66,21 @@
     /* GRID RESPONSIVE */
     .perfumes {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* se ajusta automáticamente */
       gap: 20px;
       justify-items: center;
+      grid-template-columns: repeat(5, 1fr); /* PC por defecto */
+    }
+
+    @media (max-width: 1024px) {
+      .perfumes {
+        grid-template-columns: repeat(3, 1fr); /* Tablet */
+      }
+    }
+
+    @media (max-width: 768px) {
+      .perfumes {
+        grid-template-columns: repeat(2, 1fr); /* Celular */
+      }
     }
 
     .perfume {
@@ -80,7 +91,7 @@
       text-align: center;
       transition: transform 0.2s, box-shadow 0.2s;
       width: 100%;
-      max-width: 220px; /* limita tamaño máximo */
+      max-width: 220px;
     }
 
     .perfume:hover {
@@ -197,203 +208,3 @@
   </footer>
 </body>
 </html>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perfumes - EREBUS</title>
-  <style>
-    /* Reset y corrección de desbordes */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #fff;
-      color: #333;
-      overflow-x: hidden; /* evita scroll lateral */
-    }
-
-    header {
-      background-color: #000;
-      color: #fff;
-      padding: 15px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap; /* permite que los elementos se acomoden en pantallas pequeñas */
-    }
-
-    header img {
-      height: 40px;
-      margin-right: 10px;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      margin: 0;
-      padding: 0;
-      flex-wrap: wrap; /* se ajusta en pantallas pequeñas */
-    }
-
-    nav ul li {
-      margin-left: 20px;
-    }
-
-    nav ul li a {
-      text-decoration: none;
-      color: #fff;
-      font-weight: bold;
-    }
-
-    main {
-      padding: 40px 20px;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 40px;
-      margin-top: 30px;
-    }
-
-    /* GRID RESPONSIVE */
-    .perfumes {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* se ajusta automáticamente */
-      gap: 20px;
-      justify-items: center;
-    }
-
-    .perfume {
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 15px;
-      text-align: center;
-      transition: transform 0.2s, box-shadow 0.2s;
-      width: 100%;
-      max-width: 220px; /* limita tamaño máximo */
-    }
-
-    .perfume:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    }
-
-    .perfume img {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-    }
-
-    .perfume h3 {
-      margin: 10px 0 5px;
-      font-size: 1.1rem;
-    }
-
-    .perfume p {
-      margin: 5px 0;
-      font-size: 0.9rem;
-      color: #666;
-    }
-
-    .perfume .price {
-      font-weight: bold;
-      margin-top: 10px;
-      font-size: 1rem;
-      color: #000;
-    }
-
-    footer {
-      background-color: #000;
-      color: #fff;
-      text-align: center;
-      padding: 15px 10px;
-      margin-top: 40px;
-      width: 100%;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <div style="display: flex; align-items: center;">
-      <img src="images/LOGOE.png" alt="Logo EREBUS">
-      <h2>EREBUS</h2>
-    </div>
-    <nav>
-      <ul>
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="index.html#ropa">Ropa</a></li>
-        <li><a href="perfumes.html">Perfumes</a></li>
-        <li><a href="index.html#contacto">Contacto</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-    <h1>Nuestros Perfumes</h1>
-    <div class="perfumes">
-      <div class="perfume">
-        <img src="images/PERFUME1.png" alt="Perfume 120ML">
-        <h3>Perfume 120ML</h3>
-        <p>Aroma fresco y duradero.</p>
-        <p class="price">$299.00</p>
-      </div>
-      <div class="perfume">
-        <img src="images/PERFUME1.png" alt="Perfume 120ML - Edición">
-        <h3>Perfume 120ML - Edición</h3>
-        <p>Aroma elegante y sofisticado.</p>
-        <p class="price">$350.00</p>
-      </div>
-      <div class="perfume">
-        <img src="images/PERFUME1.png" alt="Perfume 60ML">
-        <h3>Perfume 60ML</h3>
-        <p>Fragancia amaderada única.</p>
-        <p class="price">$199.00</p>
-      </div>
-      <div class="perfume">
-        <img src="images/PERFUME1.png" alt="Perfume 50ML">
-        <h3>Perfume 50ML</h3>
-        <p>Notas florales suaves.</p>
-        <p class="price">$180.00</p>
-      </div>
-      <div class="perfume">
-        <img src="images/PERFUME1.png" alt="Perfume 30ML">
-        <h3>Perfume 30ML</h3>
-        <p>Compacto y fresco para el día.</p>
-        <p class="price">$150.00</p>
-      </div>
-      <div class="perfume">
-        <img src="images/PERFUME1.png" alt="Perfume 250ML">
-        <h3>Perfume 250ML</h3>
-        <p>Fragancia intensa y duradera.</p>
-        <p class="price">$450.00</p>
-      </div>
-      <div class="perfume">
-        <img src="images/PERFUME1.png" alt="Set Miniaturas">
-        <h3>Set Miniaturas</h3>
-        <p>3 miniaturas para probar.</p>
-        <p class="price">$120.00</p>
-      </div>
-      <div class="perfume">
-        <img src="images/PERFUME1.png" alt="Edición Limitada">
-        <h3>Edición Limitada</h3>
-        <p>Notas exclusivas y sofisticadas.</p>
-        <p class="price">$599.00</p>
-      </div>
-    </div>
-  </main>
-
-  <footer>
-    <p>© 2024 Tu Tienda Elegante. Todos los derechos reservados.</p>
-  </footer>
-</body>
-</html>
-
