@@ -14,7 +14,7 @@
   --font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font-family);background:var(--color-background);color:var(--color-text);line-height:1.6}
+body{font-family:var(--font-family);background:var(--color-background);color:var(--color-text);line-height:1.6;padding-top:150px}
 
 /* HEADER */
 header{
@@ -24,14 +24,13 @@ header{
 }
 .logo-container{display:flex;align-items:center;justify-content:center;height:70px;overflow:hidden;transition:all .3s}
 .logo-container img{height:50px;margin-right:10px}
-.logo-container h1{font-size:1.8rem}
+.logo-container h1{font-size:1.8rem;color:#fff;margin:0;}
 .header-hidden .logo-container{height:0;transform:translateY(-100%)}
 
 /* NAV */
-nav ul{list-style:none;display:flex;justify-content:center;gap:20px;background:var(--color-primary);padding:10px 0}
-nav a{color:var(--color-background);text-decoration:none;font-weight:500}
-nav a:hover{color:var(--color-accent)}
-nav a.active{color:var(--color-accent); border-bottom:2px solid var(--color-accent); padding-bottom:2px}
+nav ul{list-style:none;display:flex;justify-content:center;gap:20px;padding:10px 0;background:var(--color-primary);}
+nav a{color:var(--color-background);text-decoration:none;font-weight:500;font-size:1rem;padding:5px 0;}
+nav a.active{color:var(--color-accent);border-bottom:2px solid var(--color-accent);}
 
 /* CARRUSEL */
 .carousel{position:relative;overflow:hidden;margin-top:70px;max-height:900px}
@@ -43,7 +42,7 @@ nav a.active{color:var(--color-accent); border-bottom:2px solid var(--color-acce
 .search-container{display:flex;justify-content:center;align-items:center;margin:2rem auto;max-width:650px;padding:0 1rem}
 #clearBtn{font-size:24px;cursor:pointer;margin-right:10px;color:#555;display:none;user-select:none}
 .search-bar{display:flex;flex:1;border:1px solid var(--color-accent);border-radius:4px;overflow:hidden;align-items:center;background:#fff}
-.search-bar input{flex:1;padding:.75rem;border:0;outline:none;font-size:16px}
+.search-bar input{flex:1;padding:.75rem;border:0;outline:none;font-size:16}
 .search-bar svg{width:18px;height:18px;margin:0 10px;flex-shrink:0}
 
 /* ROPA - PRODUCTOS */
@@ -93,7 +92,7 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
   </div>
 </section>
 
-<!-- Buscador (solo buscará ROPA aquí) -->
+<!-- Buscador -->
 <div class="search-container">
   <span id="clearBtn">&times;</span>
   <div class="search-bar">
@@ -105,13 +104,11 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
   </div>
 </div>
 
-<!-- ROPA -->
 <section id="ropa">
   <h2>Nuestra Ropa</h2>
   <div class="products" id="ropaProducts"></div>
 </section>
 
-<!-- CONTACTO -->
 <section id="contacto">
   <h2>Contacto</h2>
   <p>Email: contacto@tutienda.com</p>
@@ -123,90 +120,71 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
 </footer>
 
 <script>
-/* --- Carrusel simple --- */
+/* Carrusel */
 const carouselInner = document.querySelector('.carousel-inner');
 const carouselItems = document.querySelectorAll('.carousel-item');
 let slideIndex = 0;
-const video = document.getElementById('videoSlide');
-
 function showNextSlide(){
   slideIndex = (slideIndex + 1) % carouselItems.length;
   carouselInner.style.transform = `translateX(-${slideIndex*100}%)`;
   document.querySelectorAll('.carousel-item video').forEach(v=>{
-    if (carouselItems[slideIndex].contains(v)) v.play();
+    if(carouselItems[slideIndex].contains(v)) v.play();
     else v.pause();
   });
 }
 setInterval(showNextSlide, 5000);
 
-/* --- Productos (solo ropa para index) --- */
+/* Productos */
 const ropaProducts = [
   {id:1,name:"PLAYERA OVERSIZE NEGRA 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",keywords:"playera negra oversize"},
   {id:2,name:"Pantalón Chino",description:"Cómodo y versátil.",price:"€55.00",image:"https://via.placeholder.com/300x300",keywords:"pantalon chino"},
   {id:3,name:"Vestido Midi Negro",description:"Clásico y versátil.",price:"€80.00",image:"https://via.placeholder.com/300x300",keywords:"vestido midi"},
   {id:4,name:"Jersey de Punto",description:"Suave y cálido.",price:"€55.00",image:"https://via.placeholder.com/300x300",keywords:"jersey punto"}
 ];
-
 function renderRopa(list){
   const cont = document.getElementById('ropaProducts');
   cont.innerHTML = '';
   (list||ropaProducts).forEach(p=>{
     const div = document.createElement('div');
     div.className = 'product';
-    div.innerHTML = `
-      <img src="${p.image}" alt="${p.name}">
-      <h3>${p.name}</h3>
-      <p>${p.description}</p>
-      <p class="price">${p.price}</p>
-    `;
+    div.innerHTML = `<img src="${p.image}" alt="${p.name}"><h3>${p.name}</h3><p>${p.description}</p><p class="price">${p.price}</p>`;
     cont.appendChild(div);
   });
 }
 
-/* --- Buscador (solo ropa en esta página) --- */
+/* Buscador */
 const searchInput = document.getElementById('searchInput');
 const clearBtn = document.getElementById('clearBtn');
-
 searchInput.addEventListener('input', ()=>{
   const q = searchInput.value.trim().toLowerCase();
   if(q){
-    clearBtn.style.display = 'inline-block';
-    const filtered = ropaProducts.filter(p => p.name.toLowerCase().includes(q) || (p.keywords && p.keywords.toLowerCase().includes(q)) );
+    clearBtn.style.display='inline-block';
+    const filtered = ropaProducts.filter(p => p.name.toLowerCase().includes(q) || (p.keywords && p.keywords.toLowerCase().includes(q)));
     renderRopa(filtered);
-  } else {
-    clearBtn.style.display = 'none';
-    renderRopa();
-  }
+  }else{ clearBtn.style.display='none'; renderRopa(); }
 });
-clearBtn.addEventListener('click', ()=>{
-  searchInput.value = '';
-  clearBtn.style.display = 'none';
-  renderRopa();
-});
+clearBtn.addEventListener('click', ()=>{ searchInput.value=''; clearBtn.style.display='none'; renderRopa(); });
 
-/* --- Header hide on scroll --- */
+/* Header hide on scroll */
 const header = document.getElementById('mainHeader');
-let lastY = 0;
+let lastY=0;
 window.addEventListener('scroll', ()=>{
   const y = window.pageYOffset || document.documentElement.scrollTop;
-  if(y > lastY && y > 50) header.classList.add('header-hidden'); 
-  else header.classList.remove('header-hidden');
-  lastY = y <= 0 ? 0 : y;
+  if(y > lastY && y > 50) header.classList.add('header-hidden'); else header.classList.remove('header-hidden');
+  lastY = y<=0?0:y;
 });
 
-/* --- Pestaña activa --- */
+/* Active nav tab */
 const navLinks = document.querySelectorAll('nav a');
 const currentPage = window.location.pathname.split("/").pop();
-navLinks.forEach(link => {
+navLinks.forEach(link=>{
   const linkPage = link.getAttribute('href').split("/").pop();
-  if(linkPage === currentPage || (linkPage === "index.html" && currentPage === "")) {
-    link.classList.add('active');
-  }
+  if(linkPage===currentPage || (linkPage==="index.html" && currentPage==="")) link.classList.add('active');
 });
 
 /* Inicial */
 renderRopa();
-document.querySelectorAll('.carousel-item video').forEach(v => { if (!carouselItems[0].contains(v)) v.pause(); });
+document.querySelectorAll('.carousel-item video').forEach(v=>{ if(!carouselItems[0].contains(v)) v.pause(); });
 </script>
 </body>
 </html>
