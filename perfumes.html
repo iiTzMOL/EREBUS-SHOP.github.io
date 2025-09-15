@@ -31,20 +31,30 @@ nav a.active{color:var(--color-accent);border-bottom:2px solid var(--color-accen
 main{padding:40px 20px;max-width:1400px;margin:0 auto;text-align:center}
 h1{margin-bottom:40px;margin-top:0}
 
-/* Grid responsivo 5/3/2 */
+/* Grid responsivo */
 .perfumes{display:grid;gap:20px;justify-items:center;grid-template-columns:repeat(5,1fr);}
 @media(max-width:1024px){.perfumes{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:768px){.perfumes{grid-template-columns:repeat(2,1fr)}}
 
-.perfume{background:#fff;border:1px solid var(--color-accent);border-radius:10px;padding:15px;text-align:center;transition:transform .3s,box-shadow .3s;width:100%;max-width:220px;}
+.perfume{background:#fff;border:1px solid var(--color-accent);border-radius:10px;padding:15px;text-align:center;transition:transform .3s,box-shadow .3s;width:100%;max-width:220px;cursor:pointer}
 .perfume:hover{transform:translateY(-5px);box-shadow:0 4px 20px rgba(0,0,0,.1)}
 .perfume img{width:100%;height:auto;border-radius:8px}
 .perfume h3{margin:10px 0 5px;font-size:1.1rem}
 .perfume p{margin:5px 0;font-size:0.9rem;color:#666}
 .perfume .price{font-weight:bold;margin-top:10px;font-size:1rem;color:#000}
 
-/* FOOTER */
-footer{background:var(--color-primary);color:var(--color-background);text-align:center;padding:15px 10px;margin-top:40px;width:100%}
+/* MODAL */
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:2000;justify-content:center;align-items:center}
+.modal-content{background:#fff;width:90%;max-width:900px;display:flex;border-radius:10px;overflow:hidden}
+.modal-left, .modal-right{flex:1;padding:20px}
+.modal-left img{width:100%;height:auto;border-radius:10px}
+.modal-right h2{margin-bottom:15px}
+.modal-right p{margin-bottom:15px}
+.modal-right label{font-weight:bold;display:block;margin:10px 0 5px}
+.modal-right select, .modal-right input{padding:8px;width:100%;margin-bottom:15px}
+.add-cart{background:var(--color-primary);color:#fff;padding:12px;border:none;cursor:pointer;width:100%;border-radius:5px;font-size:1rem}
+.add-cart:hover{background:#333}
+.close{position:absolute;top:15px;right:20px;font-size:28px;font-weight:bold;color:#fff;cursor:pointer}
 </style>
 </head>
 <body>
@@ -65,25 +75,83 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
 
 <main>
   <h1>Nuestros Perfumes</h1>
-  <div class="perfumes">
-    <div class="perfume"><img src="images/ADGPROFUMO.png" alt="Perfume 120ML"><h3>Mar Negro</h3><p>Oscuro, marino, misterioso.</p><p class="price">$299.00</p></div>
-    <div class="perfume"><img src="images/INV.png" alt="Perfume 120ML - Edición"><h3>Neblina</h3><p>Fresco, salado, acuático..</p><p class="price">$299.00</p></div>
-    <div class="perfume"><img src="images/INVPLAT.png" alt="Perfume 60ML"><h3>Neblina Plateada</h3><p>Fresco, audaz, moderno.</p><p class="price">$299.00</p></div>
-    <div class="perfume"><img src="images/JEANGARD.png" alt="Perfume 50ML"><h3>Edén Tropical</h3><p>Exótico, tropical, vibrante.</p><p class="price">$299.00</p></div>
-    <div class="perfume"><img src="images/LUCKY.png" alt="Perfume 30ML"><h3>Fortuna Dorada</h3><p>Dulce, audaz, opulento.</p><p class="price">$299.00</p></div>
-    <div class="perfume"><img src="images/PROFONDO.png" alt="Perfume 250ML"><h3>Abismo Azul</h3><p>Acuático, fresco, profundo.</p><p class="price">$299.00</p></div>
-    <div class="perfume"><img src="images/SANTAL.png" alt="Set Miniaturas"><h3>Sombra de Sandalo</h3><p>Leñoso, ahumado, robusto.</p><p class="price">$299.00</p></div>
-    <div class="perfume"><img src="images/VELIXIR.png" alt="Edición Limitada"><h3>Neblina V Elixir</h3><p> Intenso, picante, potente.</p><p class="price">$299.00</p></div>
-    <div class="perfume"><img src="images/BLEU.png" alt="Set Miniaturas"><h3>Océano Ígneo</h3><p>Elegante, fresco, audaz.</p><p class="price">$299.00</p></div>
-    <div class="perfume"><img src="images/CREED.png" alt="Edición Limitada"><h3>Legado</h3><p>Fresco, leñoso, complejo.</p><p class="price">$299.00</p></div>
-  </div>
+  <div class="perfumes" id="perfumesContainer"></div>
 </main>
+
+<!-- MODAL -->
+<div class="modal" id="productModal">
+  <div class="modal-content">
+    <span class="close" id="closeModal">&times;</span>
+    <div class="modal-left">
+      <img id="modalImage" src="" alt="Producto">
+    </div>
+    <div class="modal-right">
+      <h2 id="modalTitle"></h2>
+      <p id="modalDescription"></p>
+      <p id="modalPrice" class="price"></p>
+      <label for="ml">Presentación:</label>
+      <select id="ml">
+        <option value="60ml">60 ml</option>
+        <option value="120ml">120 ml</option>
+      </select>
+      <label for="quantity">Cantidad:</label>
+      <input type="number" id="quantity" min="1" value="1">
+      <button class="add-cart">Agregar al carrito 🛒</button>
+    </div>
+  </div>
+</div>
 
 <footer>
   <p>© 2024 Tu Tienda Elegante. Todos los derechos reservados.</p>
 </footer>
 
 <script>
+/* Lista de perfumes */
+const perfumes = [
+  {name:"Mar Negro",description:"Oscuro, marino, misterioso.",price:"$299.00",image:"images/ADGPROFUMO.png"},
+  {name:"Neblina",description:"Fresco, salado, acuático.",price:"$299.00",image:"images/INV.png"},
+  {name:"Neblina Plateada",description:"Fresco, audaz, moderno.",price:"$299.00",image:"images/INVPLAT.png"},
+  {name:"Edén Tropical",description:"Exótico, tropical, vibrante.",price:"$299.00",image:"images/JEANGARD.png"},
+  {name:"Fortuna Dorada",description:"Dulce, audaz, opulento.",price:"$299.00",image:"images/LUCKY.png"},
+  {name:"Abismo Azul",description:"Acuático, fresco, profundo.",price:"$299.00",image:"images/PROFONDO.png"},
+  {name:"Sombra de Sándalo",description:"Leñoso, ahumado, robusto.",price:"$299.00",image:"images/SANTAL.png"},
+  {name:"Neblina V Elixir",description:"Intenso, picante, potente.",price:"$299.00",image:"images/VELIXIR.png"},
+  {name:"Océano Ígneo",description:"Elegante, fresco, audaz.",price:"$299.00",image:"images/BLEU.png"},
+  {name:"Legado",description:"Fresco, leñoso, complejo.",price:"$299.00",image:"images/CREED.png"},
+];
+
+/* Renderizar perfumes */
+const perfumesContainer = document.getElementById("perfumesContainer");
+perfumes.forEach((p, index)=>{
+  const div = document.createElement("div");
+  div.className="perfume";
+  div.innerHTML = `
+    <img src="${p.image}" alt="${p.name}">
+    <h3>${p.name}</h3>
+    <p>${p.description}</p>
+    <p class="price">${p.price}</p>`;
+  div.addEventListener("click", ()=>openModal(p));
+  perfumesContainer.appendChild(div);
+});
+
+/* Modal */
+const modal = document.getElementById("productModal");
+const closeModal = document.getElementById("closeModal");
+const modalImage = document.getElementById("modalImage");
+const modalTitle = document.getElementById("modalTitle");
+const modalDescription = document.getElementById("modalDescription");
+const modalPrice = document.getElementById("modalPrice");
+
+function openModal(product){
+  modal.style.display="flex";
+  modalImage.src = product.image;
+  modalTitle.textContent = product.name;
+  modalDescription.textContent = product.description;
+  modalPrice.textContent = product.price;
+}
+closeModal.addEventListener("click", ()=>modal.style.display="none");
+window.addEventListener("click", e=>{if(e.target===modal) modal.style.display="none";});
+
 /* Header hide on scroll */
 const header = document.getElementById('mainHeader');
 let lastY=0;
