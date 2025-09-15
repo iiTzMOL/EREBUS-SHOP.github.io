@@ -14,7 +14,13 @@
   --font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font-family);background:var(--color-background);color:var(--color-text);line-height:1.6;padding-top:150px}
+body{
+  font-family:var(--font-family);
+  background:var(--color-background);
+  color:var(--color-text);
+  line-height:1.6;
+  padding-top:120px; /* espacio justo para el header fijo */
+}
 
 /* HEADER */
 header{
@@ -36,7 +42,7 @@ nav a.active{color:var(--color-accent);border-bottom:2px solid var(--color-accen
 .hero-banners{
   display:flex;
   width:100%;
-  margin-top:70px;
+  margin-top:0; /* quitamos espacio extra */
   overflow:hidden;
 }
 .banner{
@@ -55,17 +61,26 @@ nav a.active{color:var(--color-accent);border-bottom:2px solid var(--color-accen
   transform:scale(1.05);
 }
 
-/* --- En móvil y tablet se convierte en carrusel deslizable --- */
+/* --- En móvil y tablet: carrusel pantalla completa --- */
 @media(max-width:1024px){
+  body{padding-top:100px;} /* menos espacio en header */
+  
   .hero-banners{
     display:flex;
     overflow-x:auto;
     scroll-snap-type:x mandatory;
     -webkit-overflow-scrolling: touch;
+    margin-top:0;
   }
   .banner{
     flex:0 0 100%;
+    height:100vh;              /* ocupa toda la pantalla */
     scroll-snap-align:center;
+  }
+  .banner img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
   }
 }
 
