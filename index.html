@@ -57,7 +57,7 @@ nav a.active{color:var(--color-accent);border-bottom:2px solid var(--color-accen
   max-height:90vh;
   overflow:hidden;
   min-width:0;
-  margin:0; /* elimina espacio entre banners */
+  margin:0;
 }
 .banner img{
   width:100%;
@@ -68,7 +68,7 @@ nav a.active{color:var(--color-accent);border-bottom:2px solid var(--color-accen
 }
 .banner img:hover{ transform:scale(1.05); }
 
-/* Indicador de scroll para móviles */
+/* Indicador de scroll */
 .scroll-indicator{
   display:none;
   position:absolute;
@@ -81,29 +81,12 @@ nav a.active{color:var(--color-accent);border-bottom:2px solid var(--color-accen
   border-radius:4px;
   z-index:10;
 }
-
-/* Responsive: Móvil y tablet */
 @media(max-width:1024px){
-  .hero-banners{
-    flex-wrap: nowrap;
-    overflow-x:auto;
-    scroll-snap-type:x mandatory;
-    -webkit-overflow-scrolling: touch;
-  }
-  .banner{
-    flex:0 0 100vw;
-    scroll-snap-align:center;
-  }
-  .scroll-indicator{
-    display:block;
-    animation: bounce 1s infinite alternate;
-  }
+  .hero-banners{flex-wrap: nowrap;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling: touch;}
+  .banner{flex:0 0 100vw;scroll-snap-align:center;}
+  .scroll-indicator{display:block;animation: bounce 1s infinite alternate;}
 }
-
-@keyframes bounce{
-  0%{transform: translateX(0);}
-  100%{transform: translateX(5px);}
-}
+@keyframes bounce{0%{transform: translateX(0);}100%{transform: translateX(5px);}}
 
 /* SEARCH */
 .search-container{display:flex;justify-content:center;align-items:center;margin:2rem auto;max-width:650px;padding:0 1rem}
@@ -119,7 +102,7 @@ section h2{margin-bottom:2rem;font-size:2rem;color:var(--color-primary)}
 @media (max-width:1024px){.products{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:768px){.products{grid-template-columns:repeat(1,1fr)}}
 
-.product{border:1px solid var(--color-accent);border-radius:8px;padding:1rem;transition:transform .3s,box-shadow .3s}
+.product{border:1px solid var(--color-accent);border-radius:8px;padding:1rem;transition:transform .3s,box-shadow .3s;cursor:pointer}
 .product:hover{transform:translateY(-5px);box-shadow:0 4px 20px rgba(0,0,0,.1)}
 .product img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px;margin-bottom:1rem}
 .product h3{margin-bottom:.5rem;color:var(--color-secondary)}
@@ -127,6 +110,16 @@ section h2{margin-bottom:2rem;font-size:2rem;color:var(--color-primary)}
 
 /* FOOTER */
 footer{background:var(--color-primary);color:var(--color-background);text-align:center;padding:2rem 1rem;margin-top:2rem}
+
+/* MODAL */
+.modal{display:none;position:fixed;z-index:2000;left:0;top:0;width:100%;height:100%;overflow:auto;background:rgba(0,0,0,0.7);justify-content:center;align-items:center}
+.modal-content{background:#fff;display:flex;flex-direction:row;max-width:900px;width:90%;border-radius:10px;overflow:hidden;position:relative}
+.modal-left, .modal-right{flex:1;padding:20px}
+.modal-left img{width:100%;height:auto;border-radius:8px}
+.modal-right{display:flex;flex-direction:column;justify-content:center}
+.close{position:absolute;top:15px;right:25px;font-size:30px;cursor:pointer;color:#fff}
+#addToCart{background:var(--color-primary);color:#fff;padding:10px 15px;border:none;border-radius:5px;cursor:pointer;font-size:1rem;margin-top:15px}
+#addToCart:hover{background:#333}
 </style>
 </head>
 <body>
@@ -180,6 +173,31 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
   <p>&copy; 2024 Tu Tienda Elegante. Todos los derechos reservados.</p>
 </footer>
 
+<!-- MODAL PRODUCTO -->
+<div id="productModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div class="modal-left">
+      <img id="modalImage" src="" alt="Producto">
+    </div>
+    <div class="modal-right">
+      <h2 id="modalTitle"></h2>
+      <p id="modalDescription"></p>
+      <p class="price" id="modalPrice"></p>
+      <label for="talla">Talla:</label>
+      <select id="modalTalla">
+        <option value="M">Mediana</option>
+        <option value="G">Grande</option>
+        <option value="XG">Extra Grande</option>
+      </select>
+      <br><br>
+      <label for="cantidad">Cantidad:</label>
+      <input type="number" id="modalCantidad" min="1" value="1">
+      <button id="addToCart">🛒 Agregar al carrito</button>
+    </div>
+  </div>
+</div>
+
 <script>
 /* Productos */
 const ropaProducts = [
@@ -231,6 +249,38 @@ navLinks.forEach(link=>{
 
 /* Inicial */
 renderRopa();
+
+/* MODAL */
+const modal = document.getElementById("productModal");
+const modalImg = document.getElementById("modalImage");
+const modalTitle = document.getElementById("modalTitle");
+const modalDesc = document.getElementById("modalDescription");
+const modalPrice = document.getElementById("modalPrice");
+const modalClose = document.querySelector(".close");
+
+function openModal(product){
+  modal.style.display = "flex";
+  modalImg.src = product.image;
+  modalTitle.textContent = product.name;
+  modalDesc.textContent = product.description;
+  modalPrice.textContent = product.price;
+}
+modalClose.onclick = ()=> modal.style.display="none";
+window.onclick = (e)=>{ if(e.target==modal) modal.style.display="none"; };
+
+document.addEventListener("click", (e)=>{
+  if(e.target.closest(".product")){
+    const index = [...document.querySelectorAll(".product")].indexOf(e.target.closest(".product"));
+    openModal(ropaProducts[index]);
+  }
+});
+
+document.getElementById("addToCart").addEventListener("click", ()=>{
+  const talla = document.getElementById("modalTalla").value;
+  const cantidad = document.getElementById("modalCantidad").value;
+  alert(`Agregado al carrito: ${modalTitle.textContent} - Talla ${talla} - Cantidad ${cantidad}`);
+  modal.style.display="none";
+});
 </script>
 </body>
 </html>
