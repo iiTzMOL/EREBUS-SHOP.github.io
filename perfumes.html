@@ -13,28 +13,26 @@
   --font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font-family);background:var(--color-background);color:var(--color-text);line-height:1.6;padding-top:150px}
-
+body{font-family:var(--font-family);background:var(--color-background);color:var(--color-text);line-height:1.6;padding-top:120px}
 /* HEADER */
-header{position:fixed;top:0;left:0;width:100%;background:var(--color-primary);color:var(--color-background);z-index:1000;transition:all .3s ease;}
+header{position:fixed;top:0;left:0;width:100%;background:var(--color-primary);color:#fff;z-index:1000;transition:all .3s ease;}
 .logo-container{display:flex;align-items:center;justify-content:center;height:70px;overflow:hidden;transition:all .3s}
 .logo-container img{height:50px;margin-right:10px}
 .logo-container h1{font-size:1.8rem;color:#fff;margin:0;}
 .header-hidden .logo-container{height:0;transform:translateY(-100%)}
-
 /* NAV */
 nav ul{list-style:none;display:flex;justify-content:center;gap:20px;padding:10px 0;background:var(--color-primary);}
-nav a{color:var(--color-background);text-decoration:none;font-weight:500;font-size:1rem;padding:5px 0;}
+nav a{color:#fff;text-decoration:none;font-weight:500;font-size:1rem;padding:5px 0;}
 nav a.active{color:var(--color-accent);border-bottom:2px solid var(--color-accent);}
-
 /* MAIN PERFUMES */
 main{padding:40px 20px;max-width:1400px;margin:0 auto;text-align:center}
 h1{margin-bottom:40px;margin-top:0}
-
 /* Grid responsivo */
 .perfumes{display:grid;gap:20px;justify-items:center;grid-template-columns:repeat(5,1fr);}
+@media(max-width:1200px){.perfumes{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:1024px){.perfumes{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:768px){.perfumes{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.perfumes{grid-template-columns:repeat(1,1fr)}}
 
 .perfume{background:#fff;border:1px solid var(--color-accent);border-radius:10px;padding:15px;text-align:center;transition:transform .3s,box-shadow .3s;width:100%;max-width:220px;cursor:pointer}
 .perfume:hover{transform:translateY(-5px);box-shadow:0 4px 20px rgba(0,0,0,.1)}
@@ -42,22 +40,25 @@ h1{margin-bottom:40px;margin-top:0}
 .perfume h3{margin:10px 0 5px;font-size:1.1rem}
 .perfume p{margin:5px 0;font-size:0.9rem;color:#666}
 .perfume .price{font-weight:bold;margin-top:10px;font-size:1rem;color:#000}
-
 /* MODAL */
-.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:2000;justify-content:center;align-items:center;padding:20px;}
-.modal-content{background:#fff;width:90%;max-width:900px;display:flex;border-radius:10px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.3);}
-.modal-left{flex:1.2;background:#000;display:flex;align-items:center;justify-content:center;}
-.modal-left img{width:100%;height:100%;object-fit:cover;border-radius:8px;}
-.modal-right{flex:1;padding:30px;display:flex;flex-direction:column;justify-content:center;text-align:left;}
-.modal-right h2{font-size:1.8rem;margin-bottom:10px;color:#111;}
-.modal-right p{margin-bottom:10px;color:#555;}
-.modal-right .price{font-size:1.5rem;font-weight:bold;margin:15px 0;color:#000;}
-.modal-right label{font-weight:600;margin-bottom:5px;display:block;font-size:0.95rem;}
-.modal-right select,.modal-right input{width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;margin-bottom:15px;font-size:1rem;}
-.add-cart{background:linear-gradient(135deg,#000,#333);color:#fff;padding:14px;border:none;width:100%;border-radius:8px;font-size:1.1rem;font-weight:600;cursor:pointer;transition:all .3s ease;margin-top:10px;}
-.add-cart:hover{background:linear-gradient(135deg,#333,#000);transform:translateY(-2px);}
-.close{position:absolute;top:20px;right:30px;font-size:36px;font-weight:bold;color:#fff;cursor:pointer;z-index:2100;transition:color .3s;}
-.close:hover{color:#aaa;}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:2000;justify-content:center;align-items:center}
+.modal-content{background:#fff;width:90%;max-width:900px;display:flex;border-radius:10px;overflow:hidden;position:relative}
+.modal-left, .modal-right{flex:1;padding:20px}
+.modal-left img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+.modal-right{display:flex;flex-direction:column;justify-content:center;gap:10px}
+.modal-right h2{margin-bottom:15px}
+.modal-right p{margin-bottom:10px}
+.modal-right label{font-weight:bold;display:block;margin:10px 0 5px}
+.modal-right select, .modal-right input{padding:8px;width:100%;margin-bottom:15px;border:1px solid #ccc;border-radius:5px}
+.add-cart{background:var(--color-primary);color:#fff;padding:12px;border:none;cursor:pointer;width:100%;border-radius:5px;font-size:1rem}
+.add-cart:hover{background:#333}
+.close{position:absolute;top:15px;right:20px;font-size:28px;font-weight:bold;color:#fff;cursor:pointer}
+/* Responsivo Modal */
+@media(max-width:768px){
+  .modal-content{flex-direction:column;}
+  .modal-left, .modal-right{width:100%;padding:10px}
+  .modal-left img{height:auto}
+}
 </style>
 </head>
 <body>
@@ -83,8 +84,8 @@ h1{margin-bottom:40px;margin-top:0}
 
 <!-- MODAL -->
 <div class="modal" id="productModal">
-  <span class="close" id="closeModal">&times;</span>
   <div class="modal-content">
+    <span class="close" id="closeModal">&times;</span>
     <div class="modal-left">
       <img id="modalImage" src="" alt="Producto">
     </div>
@@ -109,7 +110,6 @@ h1{margin-bottom:40px;margin-top:0}
 </footer>
 
 <script>
-/* Lista de perfumes */
 const perfumes = [
   {name:"Mar Negro",description:"Oscuro, marino, misterioso.",price:"$299.00",image:"images/ADGPROFUMO.png"},
   {name:"Neblina",description:"Fresco, salado, acuático.",price:"$299.00",image:"images/INV.png"},
@@ -123,23 +123,18 @@ const perfumes = [
   {name:"Legado",description:"Fresco, leñoso, complejo.",price:"$299.00",image:"images/CREED.png"},
 ];
 
-/* Renderizar perfumes */
 const perfumesContainer = document.getElementById("perfumesContainer");
-perfumes.forEach((p, index)=>{
+
+perfumes.forEach((p)=>{
   const div = document.createElement("div");
   div.className="perfume";
-  div.innerHTML = `
-    <img src="${p.image}" alt="${p.name}">
-    <h3>${p.name}</h3>
-    <p>${p.description}</p>
-    <p class="price">${p.price}</p>`;
+  div.innerHTML = `<img src="${p.image}" alt="${p.name}"><h3>${p.name}</h3><p>${p.description}</p><p class="price">${p.price}</p>`;
   div.addEventListener("click", ()=>openModal(p));
   perfumesContainer.appendChild(div);
 });
 
-/* Modal */
 const modal = document.getElementById("productModal");
-const closeModalBtn = document.getElementById("closeModal");
+const closeModal = document.getElementById("closeModal");
 const modalImage = document.getElementById("modalImage");
 const modalTitle = document.getElementById("modalTitle");
 const modalDescription = document.getElementById("modalDescription");
@@ -153,10 +148,9 @@ function openModal(product){
   modalPrice.textContent = product.price;
 }
 
-closeModalBtn.addEventListener("click", ()=>modal.style.display="none");
+closeModal.addEventListener("click", ()=>modal.style.display="none");
 window.addEventListener("click", e=>{if(e.target===modal) modal.style.display="none";});
 
-/* Header hide on scroll */
 const header = document.getElementById('mainHeader');
 let lastY=0;
 window.addEventListener('scroll', ()=>{
@@ -165,7 +159,6 @@ window.addEventListener('scroll', ()=>{
   lastY = y<=0?0:y;
 });
 
-/* Active nav tab */
 const navLinks = document.querySelectorAll('nav a');
 const currentPage = window.location.pathname.split("/").pop();
 navLinks.forEach(link=>{
