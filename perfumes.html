@@ -13,26 +13,27 @@
   --font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font-family);background:var(--color-background);color:var(--color-text);line-height:1.6;padding-top:120px}
+body{font-family:var(--font-family);background:var(--color-background);color:var(--color-text);line-height:1.6;padding-top:150px}
+
 /* HEADER */
-header{position:fixed;top:0;left:0;width:100%;background:var(--color-primary);color:#fff;z-index:1000;transition:all .3s ease;}
+header{position:fixed;top:0;left:0;width:100%;background:var(--color-primary);color:var(--color-background);z-index:1000;transition:all .3s ease;}
 .logo-container{display:flex;align-items:center;justify-content:center;height:70px;overflow:hidden;transition:all .3s}
 .logo-container img{height:50px;margin-right:10px}
 .logo-container h1{font-size:1.8rem;color:#fff;margin:0;}
 .header-hidden .logo-container{height:0;transform:translateY(-100%)}
+
 /* NAV */
 nav ul{list-style:none;display:flex;justify-content:center;gap:20px;padding:10px 0;background:var(--color-primary);}
-nav a{color:#fff;text-decoration:none;font-weight:500;font-size:1rem;padding:5px 0;}
+nav a{color:var(--color-background);text-decoration:none;font-weight:500;font-size:1rem;padding:5px 0;}
 nav a.active{color:var(--color-accent);border-bottom:2px solid var(--color-accent);}
+
 /* MAIN PERFUMES */
 main{padding:40px 20px;max-width:1400px;margin:0 auto;text-align:center}
 h1{margin-bottom:40px;margin-top:0}
+
 /* Grid responsivo */
-.perfumes{display:grid;gap:20px;justify-items:center;grid-template-columns:repeat(5,1fr);}
-@media(max-width:1200px){.perfumes{grid-template-columns:repeat(4,1fr)}}
-@media(max-width:1024px){.perfumes{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:768px){.perfumes{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:480px){.perfumes{grid-template-columns:repeat(1,1fr)}}
+.perfumes{display:grid;gap:20px;justify-items:center;grid-template-columns:repeat(2,1fr);}
+@media(min-width:1025px){.perfumes{grid-template-columns:repeat(5,1fr)}}
 
 .perfume{background:#fff;border:1px solid var(--color-accent);border-radius:10px;padding:15px;text-align:center;transition:transform .3s,box-shadow .3s;width:100%;max-width:220px;cursor:pointer}
 .perfume:hover{transform:translateY(-5px);box-shadow:0 4px 20px rgba(0,0,0,.1)}
@@ -40,24 +41,29 @@ h1{margin-bottom:40px;margin-top:0}
 .perfume h3{margin:10px 0 5px;font-size:1.1rem}
 .perfume p{margin:5px 0;font-size:0.9rem;color:#666}
 .perfume .price{font-weight:bold;margin-top:10px;font-size:1rem;color:#000}
+
 /* MODAL */
-.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:2000;justify-content:center;align-items:center}
-.modal-content{background:#fff;width:90%;max-width:900px;display:flex;border-radius:10px;overflow:hidden;position:relative}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:2000;justify-content:center;align-items:center;overflow:auto}
+.modal-content{background:#fff;width:90%;max-width:900px;display:flex;border-radius:10px;overflow:hidden;flex-direction:row;position:relative}
 .modal-left, .modal-right{flex:1;padding:20px}
-.modal-left img{width:100%;height:100%;object-fit:cover;border-radius:10px}
-.modal-right{display:flex;flex-direction:column;justify-content:center;gap:10px}
+.modal-left img{width:100%;height:auto;border-radius:10px;display:block;margin:0 auto}
 .modal-right h2{margin-bottom:15px}
-.modal-right p{margin-bottom:10px}
+.modal-right p{margin-bottom:15px}
 .modal-right label{font-weight:bold;display:block;margin:10px 0 5px}
-.modal-right select, .modal-right input{padding:8px;width:100%;margin-bottom:15px;border:1px solid #ccc;border-radius:5px}
+.modal-right select, .modal-right input{padding:8px;width:100%;margin-bottom:15px}
 .add-cart{background:var(--color-primary);color:#fff;padding:12px;border:none;cursor:pointer;width:100%;border-radius:5px;font-size:1rem}
 .add-cart:hover{background:#333}
-.close{position:absolute;top:15px;right:20px;font-size:28px;font-weight:bold;color:#fff;cursor:pointer}
-/* Responsivo Modal */
-@media(max-width:768px){
-  .modal-content{flex-direction:column;}
-  .modal-left, .modal-right{width:100%;padding:10px}
-  .modal-left img{height:auto}
+.close{position:absolute;top:10px;right:15px;font-size:28px;font-weight:bold;color:#fff;cursor:pointer;z-index:10}
+
+/* RESPONSIVE MODAL para móviles y tablets */
+@media(max-width:1024px){
+  .modal-content{
+    flex-direction:column;
+    max-width:90%;
+  }
+  .modal-left,.modal-right{padding:15px}
+  .modal-right{width:100%;}
+  .modal-left img{max-height:300px;object-fit:cover;}
 }
 </style>
 </head>
@@ -124,11 +130,14 @@ const perfumes = [
 ];
 
 const perfumesContainer = document.getElementById("perfumesContainer");
-
-perfumes.forEach((p)=>{
+perfumes.forEach((p)=> {
   const div = document.createElement("div");
   div.className="perfume";
-  div.innerHTML = `<img src="${p.image}" alt="${p.name}"><h3>${p.name}</h3><p>${p.description}</p><p class="price">${p.price}</p>`;
+  div.innerHTML = `
+    <img src="${p.image}" alt="${p.name}">
+    <h3>${p.name}</h3>
+    <p>${p.description}</p>
+    <p class="price">${p.price}</p>`;
   div.addEventListener("click", ()=>openModal(p));
   perfumesContainer.appendChild(div);
 });
