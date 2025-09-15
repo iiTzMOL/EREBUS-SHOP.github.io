@@ -14,12 +14,7 @@
   --font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html, body{
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
+html, body{width:100%;margin:0;padding:0;overflow-x:hidden;}
 body{
   font-family:var(--font-family);
   background:var(--color-background);
@@ -27,7 +22,6 @@ body{
   line-height:1.6;
   padding-top:120px;
 }
-
 /* HEADER */
 header{
   position:fixed;top:0;left:0;width:100%;
@@ -38,45 +32,16 @@ header{
 .logo-container img{height:50px;margin-right:10px}
 .logo-container h1{font-size:1.8rem;color:#fff;margin:0;}
 .header-hidden .logo-container{height:0;transform:translateY(-100%)}
-
 /* NAV */
 nav ul{list-style:none;display:flex;justify-content:center;gap:20px;padding:10px 0;background:var(--color-primary);}
 nav a{color:var(--color-background);text-decoration:none;font-weight:500;font-size:1rem;padding:5px 0;}
 nav a.active{color:var(--color-accent);border-bottom:2px solid var(--color-accent);}
-
 /* HERO - BANNERS */
-.hero-banners{
-  display:flex;width:100vw;margin-top:-60px;overflow-x:hidden;position:relative;
-}
-.banner{
-  flex: 0 0 33.333%;
-  max-height:90vh;
-  overflow:hidden;
-  min-width:0;
-  margin:0;
-}
-.banner img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-  transition:transform .5s ease;
-  border-radius:0; /* eliminado borde */
-}
+.hero-banners{display:flex;width:100vw;margin-top:-60px;overflow-x:hidden;position:relative;}
+.banner{flex:0 0 33.333%;max-height:90vh;overflow:hidden;min-width:0;margin:0;}
+.banner img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
 .banner img:hover{ transform:scale(1.05); }
-
-.scroll-indicator{
-  display:none;
-  position:absolute;
-  right:10px;
-  bottom:10px;
-  font-size:1.2rem;
-  background:rgba(0,0,0,0.5);
-  color:#fff;
-  padding:0.3rem 0.6rem;
-  border-radius:4px;
-  z-index:10;
-}
+.scroll-indicator{display:none;position:absolute;right:10px;bottom:10px;font-size:1.2rem;background:rgba(0,0,0,0.5);color:#fff;padding:0.3rem 0.6rem;border-radius:4px;z-index:10;}
 @media(max-width:1024px){
   .hero-banners{flex-wrap: nowrap;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling: touch;}
   .banner{flex:0 0 100vw;scroll-snap-align:center;}
@@ -97,10 +62,9 @@ section h2{margin-bottom:2rem;font-size:2rem;color:var(--color-primary)}
 .products{display:grid;gap:20px;grid-template-columns:repeat(4,1fr)}
 @media (max-width:1024px){.products{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:768px){.products{grid-template-columns:repeat(1,1fr)}}
-
 .product{border:1px solid var(--color-accent);border-radius:8px;padding:1rem;transition:transform .3s,box-shadow .3s;cursor:pointer}
 .product:hover{transform:translateY(-5px);box-shadow:0 4px 20px rgba(0,0,0,.1)}
-.product img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:0;margin-bottom:1rem} /* eliminado borde */
+.product img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:0;margin-bottom:1rem} /* SIN bordes */
 .product h3{margin-bottom:.5rem;color:var(--color-secondary)}
 .product .price{font-weight:bold;color:var(--color-primary)}
 
@@ -110,18 +74,18 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
 /* MODAL */
 .modal{display:none;position:fixed;z-index:2000;left:0;top:0;width:100%;height:100%;overflow:auto;background:rgba(0,0,0,0.7);justify-content:center;align-items:center}
 .modal-content{background:#fff;display:flex;flex-direction:row;max-width:900px;width:90%;border-radius:10px;overflow:hidden;position:relative}
-.modal-left, .modal-right{flex:1;padding:20px}
-.modal-left img{width:100%;height:auto;border-radius:0} /* eliminado borde */
-.modal-right{display:flex;flex-direction:column;justify-content:center}
-.close{position:absolute;top:15px;right:25px;font-size:30px;cursor:pointer;color:#fff}
-#addToCart{background:var(--color-primary);color:#fff;padding:10px 15px;border:none;border-radius:5px;cursor:pointer;font-size:1rem;margin-top:15px}
+.modal-left, .modal-right{flex:1;padding:0} /* SIN padding de imagen */
+.modal-left img{width:100%;height:100%;object-fit:cover;display:block;margin:0} /* Imagen completa */
+.modal-right{display:flex;flex-direction:column;justify-content:center;padding:20px;gap:10px}
+.close{position:absolute;top:10px;right:15px;font-size:28px;cursor:pointer;color:#fff;font-weight:bold}
+#addToCart{background:var(--color-primary);color:#fff;padding:12px 15px;border:none;border-radius:5px;cursor:pointer;font-size:1rem}
 #addToCart:hover{background:#333}
 
-/* RESPONSIVE MODAL */
-@media(max-width:1024px){
+/* Responsivo Modal */
+@media(max-width:768px){
   .modal-content{flex-direction:column;}
-  .modal-left,.modal-right{padding:15px}
-  .modal-left img{max-height:300px;object-fit:cover;}
+  .modal-left, .modal-right{width:100%}
+  .modal-left img{height:auto}
 }
 </style>
 </head>
@@ -141,7 +105,6 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
   </nav>
 </header>
 
-<!-- Hero Banners -->
 <section class="hero-banners" id="inicio">
   <div class="banner"><img src="images/MODELO4.png" alt="Modelo 1"></div>
   <div class="banner"><img src="images/MODELO2.png" alt="Modelo 2"></div>
@@ -149,7 +112,6 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
   <span class="scroll-indicator">&#8594; Desliza</span>
 </section>
 
-<!-- Buscador -->
 <div class="search-container">
   <span id="clearBtn">&times;</span>
   <div class="search-bar">
@@ -176,7 +138,6 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
   <p>&copy; 2024 Tu Tienda Elegante. Todos los derechos reservados.</p>
 </footer>
 
-<!-- MODAL PRODUCTO -->
 <div id="productModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
@@ -193,7 +154,6 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
         <option value="G">Grande</option>
         <option value="XG">Extra Grande</option>
       </select>
-      <br><br>
       <label for="cantidad">Cantidad:</label>
       <input type="number" id="modalCantidad" min="1" value="1">
       <button id="addToCart">🛒 Agregar al carrito</button>
@@ -202,13 +162,13 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
 </div>
 
 <script>
-/* Productos */
 const ropaProducts = [
    {id:1,name:"PLAYERA OVERSIZE NEGRA 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",keywords:"playera negra oversize"},
    {id:2,name:"PLAYERA OVERSIZE NEGRA 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",keywords:"playera negra oversize"},
    {id:3,name:"PLAYERA OVERSIZE NEGRA 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",keywords:"playera negra oversize"},
    {id:4,name:"PLAYERA OVERSIZE NEGRA 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",keywords:"playera negra oversize"},
 ];
+
 function renderRopa(list){
   const cont = document.getElementById('ropaProducts');
   cont.innerHTML = '';
@@ -220,7 +180,6 @@ function renderRopa(list){
   });
 }
 
-/* Buscador */
 const searchInput = document.getElementById('searchInput');
 const clearBtn = document.getElementById('clearBtn');
 searchInput.addEventListener('input', ()=>{
@@ -233,7 +192,6 @@ searchInput.addEventListener('input', ()=>{
 });
 clearBtn.addEventListener('click', ()=>{ searchInput.value=''; clearBtn.style.display='none'; renderRopa(); });
 
-/* Header hide on scroll */
 const header = document.getElementById('mainHeader');
 let lastY=0;
 window.addEventListener('scroll', ()=>{
@@ -242,7 +200,6 @@ window.addEventListener('scroll', ()=>{
   lastY = y<=0?0:y;
 });
 
-/* Active nav tab */
 const navLinks = document.querySelectorAll('nav a');
 const currentPage = window.location.pathname.split("/").pop();
 navLinks.forEach(link=>{
@@ -250,10 +207,8 @@ navLinks.forEach(link=>{
   if(linkPage===currentPage || (linkPage==="index.html" && currentPage==="")) link.classList.add('active');
 });
 
-/* Inicial */
 renderRopa();
 
-/* MODAL */
 const modal = document.getElementById("productModal");
 const modalImg = document.getElementById("modalImage");
 const modalTitle = document.getElementById("modalTitle");
@@ -268,6 +223,7 @@ function openModal(product){
   modalDesc.textContent = product.description;
   modalPrice.textContent = product.price;
 }
+
 modalClose.onclick = ()=> modal.style.display="none";
 window.onclick = (e)=>{ if(e.target==modal) modal.style.display="none"; };
 
