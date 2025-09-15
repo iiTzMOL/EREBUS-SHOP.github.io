@@ -37,7 +37,7 @@ h1{margin-bottom:40px;margin-top:0}
 
 .perfume{background:#fff;border:1px solid var(--color-accent);border-radius:10px;padding:15px;text-align:center;transition:transform .3s,box-shadow .3s;width:100%;max-width:220px;cursor:pointer}
 .perfume:hover{transform:translateY(-5px);box-shadow:0 4px 20px rgba(0,0,0,.1)}
-.perfume img{width:100%;height:auto;border-radius:0} /* SIN bordes */
+.perfume img{width:100%;height:auto;border-radius:0} /* Sin bordes */
 .perfume h3{margin:10px 0 5px;font-size:1.1rem}
 .perfume p{margin:5px 0;font-size:0.9rem;color:#666}
 .perfume .price{font-weight:bold;margin-top:10px;font-size:1rem;color:#000}
@@ -45,18 +45,21 @@ h1{margin-bottom:40px;margin-top:0}
 /* MODAL */
 .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:2000;justify-content:center;align-items:center;overflow:auto}
 .modal-content{background:#fff;width:90%;max-width:900px;display:flex;border-radius:10px;overflow:hidden;flex-direction:row;position:relative}
-.modal-left, .modal-right{flex:1;padding:0} /* Quitar padding de la imagen */
-.modal-left img{width:100%;height:100%;object-fit:cover;display:block;margin:0} /* Imagen completa, sin bordes */
-.modal-right{display:flex;flex-direction:column;justify-content:center;padding:20px;gap:10px}
-.close{position:absolute;top:10px;right:15px;font-size:28px;font-weight:bold;color:#fff;cursor:pointer;z-index:10}
+.modal-left, .modal-right{flex:1;padding:20px}
+.modal-left img{width:100%;height:100%;object-fit:cover;display:block;margin:0} /* Imagen ocupa todo el espacio, sin bordes */
+.modal-right h2{margin-bottom:15px}
+.modal-right p{margin-bottom:15px}
+.modal-right label{font-weight:bold;display:block;margin:10px 0 5px}
+.modal-right select, .modal-right input{padding:8px;width:100%;margin-bottom:15px}
 .add-cart{background:var(--color-primary);color:#fff;padding:12px;border:none;cursor:pointer;width:100%;border-radius:5px;font-size:1rem}
 .add-cart:hover{background:#333}
+.close{position:absolute;top:10px;right:15px;font-size:28px;font-weight:bold;color:#fff;cursor:pointer;z-index:10}
 
 /* RESPONSIVE MODAL */
 @media(max-width:1024px){
   .modal-content{flex-direction:column;max-width:90%;}
-  .modal-left,.modal-right{width:100%}
-  .modal-left img{width:100%;height:auto;object-fit:cover}
+  .modal-left,.modal-right{padding:15px;width:100%;}
+  .modal-left img{height:300px;object-fit:cover;} /* Imagen centrada y ajustada */
 }
 </style>
 </head>
