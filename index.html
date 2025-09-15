@@ -14,26 +14,11 @@
   --font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html, body{
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
-body{
-  font-family:var(--font-family);
-  background:var(--color-background);
-  color:var(--color-text);
-  line-height:1.6;
-  padding-top:120px;
-}
+html, body{width:100%;margin:0;padding:0;overflow-x:hidden;}
+body{font-family:var(--font-family);background:var(--color-background);color:var(--color-text);line-height:1.6;padding-top:120px}
 
 /* HEADER */
-header{
-  position:fixed;top:0;left:0;width:100%;
-  background:var(--color-primary);color:var(--color-background);z-index:1000;
-  transition:all .3s ease;
-}
+header{position:fixed;top:0;left:0;width:100%;background:var(--color-primary);color:var(--color-background);z-index:1000;transition:all .3s ease;}
 .logo-container{display:flex;align-items:center;justify-content:center;height:70px;overflow:hidden;transition:all .3s}
 .logo-container img{height:50px;margin-right:10px}
 .logo-container h1{font-size:1.8rem;color:#fff;margin:0;}
@@ -45,42 +30,13 @@ nav a{color:var(--color-background);text-decoration:none;font-weight:500;font-si
 nav a.active{color:var(--color-accent);border-bottom:2px solid var(--color-accent);}
 
 /* HERO - BANNERS */
-.hero-banners{
-  display:flex;
-  width:100vw;
-  margin-top:-60px;
-  overflow-x:hidden;
-  position:relative;
-}
-.banner{
-  flex: 0 0 33.333%;
-  max-height:90vh;
-  overflow:hidden;
-  min-width:0;
-  margin:0;
-}
-.banner img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-  transition:transform .5s ease;
-}
+.hero-banners{display:flex;width:100vw;margin-top:-60px;overflow-x:hidden;position:relative;}
+.banner{flex:0 0 33.333%;max-height:90vh;overflow:hidden;min-width:0;margin:0;}
+.banner img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
 .banner img:hover{ transform:scale(1.05); }
 
 /* Indicador de scroll */
-.scroll-indicator{
-  display:none;
-  position:absolute;
-  right:10px;
-  bottom:10px;
-  font-size:1.2rem;
-  background:rgba(0,0,0,0.5);
-  color:#fff;
-  padding:0.3rem 0.6rem;
-  border-radius:4px;
-  z-index:10;
-}
+.scroll-indicator{display:none;position:absolute;right:10px;bottom:10px;font-size:1.2rem;background:rgba(0,0,0,0.5);color:#fff;padding:0.3rem 0.6rem;border-radius:4px;z-index:10;}
 @media(max-width:1024px){
   .hero-banners{flex-wrap: nowrap;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling: touch;}
   .banner{flex:0 0 100vw;scroll-snap-align:center;}
@@ -95,7 +51,7 @@ nav a.active{color:var(--color-accent);border-bottom:2px solid var(--color-accen
 .search-bar input{flex:1;padding:.75rem;border:0;outline:none;font-size:16}
 .search-bar svg{width:18px;height:18px;margin:0 10px;flex-shrink:0}
 
-/* ROPA - PRODUCTOS */
+/* PRODUCTOS */
 section{padding:4rem 2rem;text-align:center}
 section h2{margin-bottom:2rem;font-size:2rem;color:var(--color-primary)}
 .products{display:grid;gap:20px;grid-template-columns:repeat(4,1fr)}
@@ -112,14 +68,20 @@ section h2{margin-bottom:2rem;font-size:2rem;color:var(--color-primary)}
 footer{background:var(--color-primary);color:var(--color-background);text-align:center;padding:2rem 1rem;margin-top:2rem}
 
 /* MODAL */
-.modal{display:none;position:fixed;z-index:2000;left:0;top:0;width:100%;height:100%;overflow:auto;background:rgba(0,0,0,0.7);justify-content:center;align-items:center}
-.modal-content{background:#fff;display:flex;flex-direction:row;max-width:900px;width:90%;border-radius:10px;overflow:hidden;position:relative}
-.modal-left, .modal-right{flex:1;padding:20px}
-.modal-left img{width:100%;height:auto;border-radius:8px}
-.modal-right{display:flex;flex-direction:column;justify-content:center}
-.close{position:absolute;top:15px;right:25px;font-size:30px;cursor:pointer;color:#fff}
-#addToCart{background:var(--color-primary);color:#fff;padding:10px 15px;border:none;border-radius:5px;cursor:pointer;font-size:1rem;margin-top:15px}
-#addToCart:hover{background:#333}
+.modal{display:none;position:fixed;z-index:2000;left:0;top:0;width:100%;height:100%;overflow:auto;background:rgba(0,0,0,0.7);justify-content:center;align-items:center;padding:20px;}
+.modal-content{background:#fff;display:flex;flex-direction:row;max-width:900px;width:90%;border-radius:10px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.3);}
+.modal-left{flex:1.2;background:#000;display:flex;align-items:center;justify-content:center;}
+.modal-left img{width:100%;height:100%;object-fit:cover;border-radius:8px;}
+.modal-right{flex:1;padding:30px;display:flex;flex-direction:column;justify-content:center;text-align:left;}
+.modal-right h2{font-size:1.8rem;margin-bottom:10px;color:#111;}
+.modal-right p{margin-bottom:10px;color:#555;}
+.modal-right .price{font-size:1.5rem;font-weight:bold;margin:15px 0;color:#000;}
+.modal-right label{font-weight:600;margin-bottom:5px;display:block;font-size:0.95rem;}
+.modal-right select,.modal-right input{width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;margin-bottom:15px;font-size:1rem;}
+#addToCart{background:linear-gradient(135deg,#000,#333);color:#fff;padding:14px;border:none;width:100%;border-radius:8px;font-size:1.1rem;font-weight:600;cursor:pointer;transition:all .3s ease;margin-top:10px;}
+#addToCart:hover{background:linear-gradient(135deg,#333,#000);transform:translateY(-2px);}
+.close{position:absolute;top:20px;right:30px;font-size:36px;font-weight:bold;color:#fff;cursor:pointer;z-index:2100;transition:color .3s;}
+.close:hover{color:#aaa;}
 </style>
 </head>
 <body>
@@ -175,8 +137,8 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
 
 <!-- MODAL PRODUCTO -->
 <div id="productModal" class="modal">
+  <span class="close">&times;</span>
   <div class="modal-content">
-    <span class="close">&times;</span>
     <div class="modal-left">
       <img id="modalImage" src="" alt="Producto">
     </div>
@@ -190,7 +152,6 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
         <option value="G">Grande</option>
         <option value="XG">Extra Grande</option>
       </select>
-      <br><br>
       <label for="cantidad">Cantidad:</label>
       <input type="number" id="modalCantidad" min="1" value="1">
       <button id="addToCart">🛒 Agregar al carrito</button>
