@@ -33,34 +33,30 @@ h1{margin-bottom:40px;margin-top:0}
 
 /* Grid responsivo */
 .perfumes{display:grid;gap:20px;justify-items:center;grid-template-columns:repeat(2,1fr);}
-@media(max-width:1024px){.perfumes{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:768px){.perfumes{grid-template-columns:repeat(1,1fr)}}
+@media(min-width:1025px){.perfumes{grid-template-columns:repeat(5,1fr)}}
 
-.perfume{background:#fff;border:1px solid var(--color-accent);border-radius:0;padding:15px;text-align:center;transition:transform .3s,box-shadow .3s;width:100%;max-width:220px;cursor:pointer}
+.perfume{background:#fff;border:1px solid var(--color-accent);border-radius:10px;padding:15px;text-align:center;transition:transform .3s,box-shadow .3s;width:100%;max-width:220px;cursor:pointer}
 .perfume:hover{transform:translateY(-5px);box-shadow:0 4px 20px rgba(0,0,0,.1)}
-.perfume img{width:100%;height:auto;border-radius:0} /* Sin bordes */
+.perfume img{width:100%;height:auto;border-radius:0} /* SIN bordes */
 .perfume h3{margin:10px 0 5px;font-size:1.1rem}
 .perfume p{margin:5px 0;font-size:0.9rem;color:#666}
 .perfume .price{font-weight:bold;margin-top:10px;font-size:1rem;color:#000}
 
 /* MODAL */
-.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:2000;justify-content:center;align-items:center}
-.modal-content{background:#fff;width:90%;max-width:900px;display:flex;border-radius:10px;overflow:hidden}
-.modal-left, .modal-right{flex:1;padding:20px}
-.modal-left img{width:100%;height:auto;border-radius:0} /* Sin bordes */
-.modal-right h2{margin-bottom:15px}
-.modal-right p{margin-bottom:15px}
-.modal-right label{font-weight:bold;display:block;margin:10px 0 5px}
-.modal-right select, .modal-right input{padding:8px;width:100%;margin-bottom:15px}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:2000;justify-content:center;align-items:center;overflow:auto}
+.modal-content{background:#fff;width:90%;max-width:900px;display:flex;border-radius:10px;overflow:hidden;flex-direction:row;position:relative}
+.modal-left, .modal-right{flex:1;padding:0} /* Quitar padding de la imagen */
+.modal-left img{width:100%;height:100%;object-fit:cover;display:block;margin:0} /* Imagen completa, sin bordes */
+.modal-right{display:flex;flex-direction:column;justify-content:center;padding:20px;gap:10px}
+.close{position:absolute;top:10px;right:15px;font-size:28px;font-weight:bold;color:#fff;cursor:pointer;z-index:10}
 .add-cart{background:var(--color-primary);color:#fff;padding:12px;border:none;cursor:pointer;width:100%;border-radius:5px;font-size:1rem}
 .add-cart:hover{background:#333}
-.close{position:absolute;top:15px;right:20px;font-size:28px;font-weight:bold;color:#fff;cursor:pointer}
 
 /* RESPONSIVE MODAL */
 @media(max-width:1024px){
-  .modal-content{flex-direction:column;}
-  .modal-left,.modal-right{padding:15px}
-  .modal-left img{max-height:300px;object-fit:cover;}
+  .modal-content{flex-direction:column;max-width:90%;}
+  .modal-left,.modal-right{width:100%}
+  .modal-left img{width:100%;height:auto;object-fit:cover}
 }
 </style>
 </head>
@@ -113,7 +109,6 @@ h1{margin-bottom:40px;margin-top:0}
 </footer>
 
 <script>
-/* Lista de perfumes */
 const perfumes = [
   {name:"Mar Negro",description:"Oscuro, marino, misterioso.",price:"$299.00",image:"images/ADGPROFUMO.png"},
   {name:"Neblina",description:"Fresco, salado, acuático.",price:"$299.00",image:"images/INV.png"},
@@ -127,9 +122,8 @@ const perfumes = [
   {name:"Legado",description:"Fresco, leñoso, complejo.",price:"$299.00",image:"images/CREED.png"},
 ];
 
-/* Renderizar perfumes */
 const perfumesContainer = document.getElementById("perfumesContainer");
-perfumes.forEach((p,index)=>{
+perfumes.forEach((p)=> {
   const div = document.createElement("div");
   div.className="perfume";
   div.innerHTML = `
@@ -141,7 +135,6 @@ perfumes.forEach((p,index)=>{
   perfumesContainer.appendChild(div);
 });
 
-/* Modal */
 const modal = document.getElementById("productModal");
 const closeModal = document.getElementById("closeModal");
 const modalImage = document.getElementById("modalImage");
@@ -156,10 +149,10 @@ function openModal(product){
   modalDescription.textContent = product.description;
   modalPrice.textContent = product.price;
 }
+
 closeModal.addEventListener("click", ()=>modal.style.display="none");
 window.addEventListener("click", e=>{if(e.target===modal) modal.style.display="none";});
 
-/* Header hide on scroll */
 const header = document.getElementById('mainHeader');
 let lastY=0;
 window.addEventListener('scroll', ()=>{
@@ -168,7 +161,6 @@ window.addEventListener('scroll', ()=>{
   lastY = y<=0?0:y;
 });
 
-/* Active nav tab */
 const navLinks = document.querySelectorAll('nav a');
 const currentPage = window.location.pathname.split("/").pop();
 navLinks.forEach(link=>{
