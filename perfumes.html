@@ -51,10 +51,46 @@ h1{margin-bottom:40px;margin-top:0}
 .modal-right h2{margin-bottom:15px}
 .modal-right p{margin-bottom:15px}
 .modal-right label{font-weight:bold;display:block;margin:10px 0 5px}
-.modal-right select, .modal-right input{padding:8px;width:100%;margin-bottom:15px}
 .add-cart{background:var(--color-primary);color:#fff;padding:12px;border:none;cursor:pointer;width:100%;border-radius:5px;font-size:1rem}
 .add-cart:hover{background:#333}
 .close{position:absolute;top:10px;right:15px;font-size:28px;font-weight:bold;color:#fff;cursor:pointer;z-index:10}
+
+/* RADIO BUTTONS Y CANTIDAD */
+.ml-options {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+.ml-options label {
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.quantity-control button {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  width: 35px;
+  height: 35px;
+  font-size: 1.2rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.quantity-control button:hover {
+  background: #333;
+}
+.quantity-control input {
+  width: 60px;
+  text-align: center;
+  padding: 5px;
+}
 
 /* RESPONSIVE MODAL */
 @media(max-width:1024px){
@@ -97,13 +133,22 @@ h1{margin-bottom:40px;margin-top:0}
       <h2 id="modalTitle"></h2>
       <p id="modalDescription"></p>
       <p id="modalPrice" class="price"></p>
-      <label for="ml">Presentación:</label>
-      <select id="ml">
-        <option value="60ml">60 ml</option>
-        <option value="120ml">120 ml</option>
-      </select>
+
+      <!-- Presentación -->
+      <label>Presentación:</label>
+      <div class="ml-options">
+        <label><input type="radio" name="ml" value="60" id="ml60"> 60 ml</label>
+        <label><input type="radio" name="ml" value="120" id="ml120" checked> 120 ml</label>
+      </div>
+
+      <!-- Cantidad -->
       <label for="quantity">Cantidad:</label>
-      <input type="number" id="quantity" min="1" value="1">
+      <div class="quantity-control">
+        <button type="button" id="decreaseQty">-</button>
+        <input type="number" id="quantity" min="1" value="1">
+        <button type="button" id="increaseQty">+</button>
+      </div>
+
       <button class="add-cart">Agregar al carrito 🛒</button>
     </div>
   </div>
@@ -115,16 +160,16 @@ h1{margin-bottom:40px;margin-top:0}
 
 <script>
 const perfumes = [
-  {name:"Mar Negro",description:"Oscuro, marino, misterioso.",price:"$299.00",image:"images/ADGPROFUMO.png"},
-  {name:"Neblina",description:"Fresco, salado, acuático.",price:"$299.00",image:"images/INV.png"},
-  {name:"Neblina Plateada",description:"Fresco, audaz, moderno.",price:"$299.00",image:"images/INVPLAT.png"},
-  {name:"Edén Tropical",description:"Exótico, tropical, vibrante.",price:"$299.00",image:"images/JEANGARD.png"},
-  {name:"Fortuna Dorada",description:"Dulce, audaz, opulento.",price:"$299.00",image:"images/LUCKY.png"},
-  {name:"Abismo Azul",description:"Acuático, fresco, profundo.",price:"$299.00",image:"images/PROFONDO.png"},
-  {name:"Sombra de Sándalo",description:"Leñoso, ahumado, robusto.",price:"$299.00",image:"images/SANTAL.png"},
-  {name:"Neblina V Elixir",description:"Intenso, picante, potente.",price:"$299.00",image:"images/VELIXIR.png"},
-  {name:"Océano Ígneo",description:"Elegante, fresco, audaz.",price:"$299.00",image:"images/BLEU.png"},
-  {name:"Legado",description:"Fresco, leñoso, complejo.",price:"$299.00",image:"images/CREED.png"},
+  {name:"Mar Negro",description:"Oscuro, marino, misterioso.",image:"images/ADGPROFUMO.png"},
+  {name:"Neblina",description:"Fresco, salado, acuático.",image:"images/INV.png"},
+  {name:"Neblina Plateada",description:"Fresco, audaz, moderno.",image:"images/INVPLAT.png"},
+  {name:"Edén Tropical",description:"Exótico, tropical, vibrante.",image:"images/JEANGARD.png"},
+  {name:"Fortuna Dorada",description:"Dulce, audaz, opulento.",image:"images/LUCKY.png"},
+  {name:"Abismo Azul",description:"Acuático, fresco, profundo.",image:"images/PROFONDO.png"},
+  {name:"Sombra de Sándalo",description:"Leñoso, ahumado, robusto.",image:"images/SANTAL.png"},
+  {name:"Neblina V Elixir",description:"Intenso, picante, potente.",image:"images/VELIXIR.png"},
+  {name:"Océano Ígneo",description:"Elegante, fresco, audaz.",image:"images/BLEU.png"},
+  {name:"Legado",description:"Fresco, leñoso, complejo.",image:"images/CREED.png"},
 ];
 
 const perfumesContainer = document.getElementById("perfumesContainer");
@@ -135,7 +180,7 @@ perfumes.forEach((p)=> {
     <img src="${p.image}" alt="${p.name}">
     <h3>${p.name}</h3>
     <p>${p.description}</p>
-    <p class="price">${p.price}</p>`;
+    <p class="price">$299.00</p>`;
   div.addEventListener("click", ()=>openModal(p));
   perfumesContainer.appendChild(div);
 });
@@ -147,13 +192,41 @@ const modalTitle = document.getElementById("modalTitle");
 const modalDescription = document.getElementById("modalDescription");
 const modalPrice = document.getElementById("modalPrice");
 
+const quantityInput = document.getElementById("quantity");
+const decreaseBtn = document.getElementById("decreaseQty");
+const increaseBtn = document.getElementById("increaseQty");
+const ml60 = document.getElementById("ml60");
+const ml120 = document.getElementById("ml120");
+
 function openModal(product){
   modal.style.display="flex";
   modalImage.src = product.image;
   modalTitle.textContent = product.name;
   modalDescription.textContent = product.description;
-  modalPrice.textContent = product.price;
+  ml120.checked = true; // por defecto 120ml
+  updatePrice();
+  quantityInput.value = 1;
 }
+
+function updatePrice(){
+  if(ml60.checked){
+    modalPrice.textContent = "$199.00";
+  } else {
+    modalPrice.textContent = "$299.00";
+  }
+}
+
+ml60.addEventListener("change", updatePrice);
+ml120.addEventListener("change", updatePrice);
+
+decreaseBtn.addEventListener("click", ()=>{
+  let qty = parseInt(quantityInput.value);
+  if(qty > 1) quantityInput.value = qty - 1;
+});
+increaseBtn.addEventListener("click", ()=>{
+  let qty = parseInt(quantityInput.value);
+  quantityInput.value = qty + 1;
+});
 
 closeModal.addEventListener("click", ()=>modal.style.display="none");
 window.addEventListener("click", e=>{if(e.target===modal) modal.style.display="none";});
