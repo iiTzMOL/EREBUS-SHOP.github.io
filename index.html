@@ -32,7 +32,6 @@ header{
 .logo-container{display:flex;align-items:center;justify-content:center;height:70px;overflow:hidden;transition:all .3s}
 .logo-container img{height:50px;margin-right:10px}
 .logo-container h1{font-size:1.8rem;color:#fff;margin:0;font-family: var(--font-title);}
-.header-hidden .logo-container{height:0;transform:translateY(-100%)}
 nav ul{list-style:none;display:flex;justify-content:center;gap:20px;padding:10px 0;background:var(--color-primary);}
 nav a{color:var(--color-background);text-decoration:none;font-weight:500;font-size:1rem;padding:5px 0;}
 nav a.active{color:#e0e0e0;border-bottom:2px solid var(--color-accent);}
@@ -90,9 +89,8 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
   font-weight:bold;
   color:#000;
   cursor:pointer;
-  transition:all .3s;
-  z-index:3000;
-  background:rgba(255,255,255,0.9);
+  z-index:10;
+  background:rgba(255,255,255,0.95);
   width:40px;
   height:40px;
   border-radius:50%;
@@ -102,6 +100,8 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
   line-height:1;
   user-select:none;
   border:2px solid rgba(0,0,0,0.1);
+  box-shadow:0 2px 6px rgba(0,0,0,0.05);
+  transition:all .3s;
 }
 .close:hover{
   color:#fff;
@@ -109,60 +109,16 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
   transform:scale(1.1);
   border-color:#000;
 }
-#floating-cart{
-  position:fixed;right:30px;bottom:30px;z-index:2001;
-  background:var(--color-primary);color:#fff;
-  border-radius:50%;width:64px;height:64px;display:flex;align-items:center;justify-content:center;
-  box-shadow:0 2px 24px rgba(0,0,0,.18);cursor:pointer;transition:box-shadow .2s;
-  font-size:2.2rem;
+@media(max-width:1024px){
+  .modal-content{flex-direction:column;width:95%;}
+  .modal-left img{height:280px;object-fit:cover;}
+  .modal-right{padding:20px;}
 }
-#floating-cart:hover{box-shadow:0 4px 32px rgba(0,0,0,.24);}
-#cart-count{
-  position:absolute;top:7px;right:7px;
-  background:#dc3545;color:#fff;border-radius:50%;font-size:.9rem;
-  width:22px;height:22px;display:flex;align-items:center;justify-content:center;
-  font-weight:700;box-shadow:0 2px 6px rgba(0,0,0,.14);
-}
-#cart-modal{
-  position:fixed;top:0;right:-400px;width:400px;max-width:100vw;height:100vh;
-  background:#fff;box-shadow:-6px 0 32px rgba(0,0,0,.18);
-  z-index:3002;transition:right .35s cubic-bezier(.4,.1,.22,1);
-  display:flex;flex-direction:column;
-}
-#cart-modal.open{right:0;}
-#cart-modal .modal-header{
-  padding:20px 32px;background:var(--color-primary);color:#fff;display:flex;justify-content:space-between;align-items:center;
-}
-#cart-modal .modal-header h2{
-  font-family:var(--font-title);font-size:1.4rem;margin:0;
-}
-#close-cart-modal{
-  background:transparent;border:none;color:#fff;font-size:2rem;cursor:pointer;
-}
-#cart-modal .modal-content{
-  padding:24px 32px;overflow-y:auto;flex:1;
-  display:flex;flex-direction:column;gap:18px;
-}
-.cart-item{display:flex;gap:15px;padding:12px 0;border-bottom:1px solid var(--color-accent);}
-.cart-item img{width:58px;height:58px;object-fit:cover;border-radius:8px;}
-.cart-item-details{flex:1;display:flex;flex-direction:column;}
-.cart-item-details h3{font-size:1rem;color:var(--color-primary);margin:0 0 2px 0;font-family:var(--font-title);}
-.cart-item-details .variant{font-size:.95rem;color:#666;}
-.cart-item-details .price{color:var(--color-primary);font-weight:600;}
-.cart-item-controls{display:flex;align-items:center;gap:10px;margin-top:7px;}
-.qty-btn{background:var(--color-primary);color:#fff;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;}
-.qty-input{width:34px;text-align:center;border:1px solid var(--color-accent);border-radius:4px;padding:4px 0;}
-.remove-item{color:#dc3545;cursor:pointer;font-size:.9rem;text-decoration:underline;}
-.modal-footer{padding:18px 32px;border-top:1px solid var(--color-accent);}
-.resume-row{display:flex;justify-content:space-between;padding:3px 0;}
-.resume-row.total{font-weight:700;font-size:1.1rem;}
-.btn-primary{background:var(--color-primary);color:#fff;padding:14px;border:none;border-radius:8px;font-size:1rem;font-weight:600;transition:all .3s;cursor:pointer;width:100%;}
-.btn-primary:disabled{background:#ccc;cursor:not-allowed;}
-@media(max-width:500px){
-  #cart-modal{width:100vw;}
-  #cart-modal .modal-header,#cart-modal .modal-content,#cart-modal .modal-footer{padding-left:10px;padding-right:10px;}
-  #floating-cart{right:12px;bottom:16px;width:50px;height:50px;font-size:1.4rem;}
-  #cart-count{width:18px;height:18px;font-size:.8rem;}
+@media(max-width:600px){
+  .close{top:8px;right:8px;width:36px;height:36px;font-size:28px;}
+  .modal-content{width:99vw;}
+  .modal-left img{height:180px;}
+  .modal-right{padding:12px;}
 }
 </style>
 </head>
@@ -181,22 +137,6 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
     </ul>
   </nav>
 </header>
-<!-- Ícono flotante del carrito -->
-<div id="floating-cart">
-  <span style="position:relative;">
-    🛒
-    <span id="cart-count">0</span>
-  </span>
-</div>
-<!-- Modal (cajón lateral) del carrito -->
-<aside id="cart-modal">
-  <div class="modal-header">
-    <h2>Tu Carrito</h2>
-    <button id="close-cart-modal" aria-label="Cerrar carrito">&times;</button>
-  </div>
-  <div class="modal-content" id="cart-modal-content"></div>
-  <div class="modal-footer" id="cart-modal-footer"></div>
-</aside>
 <section class="hero-banners" id="inicio">
   <div class="banner"><img src="images/MODELO4.png" alt="Modelo 1"></div>
   <div class="banner"><img src="images/MODELO2.png" alt="Modelo 2"></div>
@@ -225,7 +165,7 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
 <footer>
   <p>&copy; 2024 Tu Tienda Elegante. Todos los derechos reservados.</p>
 </footer>
-<!-- MODAL DE PRODUCTO -->
+<!-- MODAL -->
 <div id="productModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
@@ -253,83 +193,6 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
   </div>
 </div>
 <script>
-// CABECERA: nav activo
-const navLinks = document.querySelectorAll('nav a');
-const currentPage = window.location.pathname.split("/").pop();
-navLinks.forEach(link=>{
-  const linkPage = link.getAttribute('href').split("/").pop();
-  if(linkPage===currentPage || (linkPage==="index.html" && (currentPage==="" || currentPage==="index.html"))) link.classList.add('active');
-});
-
-// Carrito flotante
-function getCart() {
-  try {
-    return JSON.parse(localStorage.getItem('erebus_cart')||'[]') || [];
-  } catch {return [];}
-}
-function setCart(cart) {
-  localStorage.setItem('erebus_cart', JSON.stringify(cart));
-}
-function updateCartCount() {
-  let cart = getCart(), n = cart.reduce((s,it)=>s+parseInt(it.quantity||1),0);
-  document.getElementById('cart-count').textContent = n;
-}
-updateCartCount();
-const cartModal = document.getElementById('cart-modal');
-document.getElementById('floating-cart').onclick = ()=>{cartModal.classList.add('open'); renderCartModal();};
-document.getElementById('close-cart-modal').onclick = ()=>cartModal.classList.remove('open');
-function renderCartModal() {
-  let cart = getCart();
-  const content = document.getElementById('cart-modal-content');
-  const footer = document.getElementById('cart-modal-footer');
-  if(!cart.length){
-    content.innerHTML = `<div style="text-align:center;padding:40px 0;color:#888">Tu carrito está vacío.</div>`;
-    footer.innerHTML = `<button class="btn-primary" onclick="window.location.href='index.html'">Ir a la tienda</button>`;
-    return;
-  }
-  let subtotal = cart.reduce((sum,it)=>sum+(parseFloat(it.price||0)*parseInt(it.quantity||1)),0);
-  let shipping = subtotal>0 ? 99 : 0, iva = subtotal*0.16, total = subtotal+iva+shipping;
-  content.innerHTML = cart.map(item=>`
-    <div class="cart-item">
-      <img src="${item.image}" alt="${item.name}">
-      <div class="cart-item-details">
-        <h3>${item.name}</h3>
-        <span class="variant">${item.variant||''}</span>
-        <span class="price">$${parseFloat(item.price).toFixed(2)}</span>
-        <div class="cart-item-controls">
-          <button class="qty-btn" onclick="updateQty(${item.id},${item.quantity-1})">-</button>
-          <input type="number" class="qty-input" value="${item.quantity}" min="1" onchange="updateQty(${item.id},this.value)">
-          <button class="qty-btn" onclick="updateQty(${item.id},${parseInt(item.quantity)+1})">+</button>
-          <span class="remove-item" onclick="removeFromCart(${item.id})">Eliminar</span>
-        </div>
-      </div>
-    </div>
-  `).join('');
-  footer.innerHTML = `
-    <div class="resume-row"><span>Subtotal:</span><span>$${subtotal.toFixed(2)}</span></div>
-    <div class="resume-row"><span>Envío:</span><span>$${shipping.toFixed(2)}</span></div>
-    <div class="resume-row"><span>IVA (16%):</span><span>$${iva.toFixed(2)}</span></div>
-    <div class="resume-row total"><span>Total:</span><span>$${total.toFixed(2)}</span></div>
-    <button class="btn-primary" style="margin-top:16px" onclick="alert('Implementar pago aquí')">Proceder al pago</button>
-  `;
-}
-window.updateQty = function(id,qty){
-  let cart = getCart();
-  qty = parseInt(qty)||1;
-  if(qty<=0){ window.removeFromCart(id); return;}
-  let item = cart.find(it=>it.id===id);
-  if(item){item.quantity=qty; setCart(cart);}
-  updateCartCount(); renderCartModal();
-}
-window.removeFromCart = function(id){
-  let cart = getCart().filter(it=>it.id!==id);
-  setCart(cart); updateCartCount(); renderCartModal();
-}
-window.addEventListener('storage',e=>{
-  if(e.key==='erebus_cart'){ updateCartCount(); if(cartModal.classList.contains('open')) renderCartModal(); }
-});
-
-// ==== Lógica para productos de ropa y modal ====
 const ropaProducts = [
    {id:1,name:"Playera Oversize Negra 220g",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",keywords:"playera negra oversize"},
    {id:2,name:"Playera Oversize Negra 220g",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",keywords:"playera negra oversize"},
@@ -359,7 +222,20 @@ searchInput.addEventListener('input', ()=>{
   }else{ clearBtn.style.display='none'; renderRopa(); }
 });
 clearBtn.addEventListener('click', ()=>{ searchInput.value=''; clearBtn.style.display='none'; renderRopa(); });
-
+const header = document.getElementById('mainHeader');
+let lastY=0;
+window.addEventListener('scroll', ()=>{
+  const y = window.pageYOffset || document.documentElement.scrollTop;
+  if(y > lastY && y > 50) header.classList.add('header-hidden'); else header.classList.remove('header-hidden');
+  lastY = y<=0?0:y;
+});
+const navLinks = document.querySelectorAll('nav a');
+const currentPage = window.location.pathname.split("/").pop();
+navLinks.forEach(link=>{
+  const linkPage = link.getAttribute('href').split("/").pop();
+  if(linkPage===currentPage || (linkPage==="index.html" && currentPage==="")) link.classList.add('active');
+  if(link.id==='perfumesLink') link.classList.remove('active');
+});
 const modal = document.getElementById("productModal");
 const modalImage = document.getElementById("modalImage");
 const modalTitle = document.getElementById("modalTitle");
@@ -399,39 +275,11 @@ mlOptions.forEach(opt=>{
   });
 });
 addCartBtn.addEventListener("click", ()=>{
-  const cantidad = parseInt(quantityInput.value);
+  const cantidad = quantityInput.value;
   const variant = document.querySelector(".ml-option.active").textContent;
-  window.addToCart({
-    name: modalTitle.textContent,
-    price: modalPrice.textContent,
-    image: modalImage.src,
-    variant: variant,
-    quantity: cantidad
-  });
+  alert(`Agregado al carrito: ${modalTitle.textContent} - Talla: ${variant} - Cantidad: ${cantidad}`);
   modal.style.display="none";
 });
-window.addToCart = function(product) {
-  const cartItem = {
-    id: Date.now(),
-    name: product.name,
-    price: parseFloat(String(product.price).replace(/[^0-9.]/g,'')),
-    image: product.image,
-    variant: product.variant,
-    quantity: parseInt(product.quantity)
-  };
-  let cart = getCart();
-  const existingItem = cart.find(item =>
-    item.name === cartItem.name && item.variant === cartItem.variant
-  );
-  if (existingItem) {
-    existingItem.quantity += cartItem.quantity;
-  } else {
-    cart.push(cartItem);
-  }
-  setCart(cart);
-  updateCartCount();
-  alert(`${cartItem.name} agregado al carrito. Total: ${existingItem ? existingItem.quantity : cartItem.quantity} unidades`);
-};
 </script>
 </body>
 </html>
