@@ -17,7 +17,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font-family);background:var(--color-background);color:var(--color-text);line-height:1.6;padding-top:120px}
 
-/* ===== HEADER COMÚN ===== */
+/* HEADER COMÚN */
 header{
   position:fixed;top:0;left:0;width:100%;
   background:var(--color-primary);color:var(--color-background);z-index:1000;
@@ -68,28 +68,22 @@ h1{margin-bottom:40px;margin-top:0;font-family: var(--font-title);}
 .modal-right h2{font-size:1.6rem;color:var(--color-primary);border-bottom:1px solid var(--color-accent);padding-bottom:10px;margin-bottom:10px;font-family: var(--font-title);}
 .modal-right p{margin-bottom:5px;font-size:1rem;color:#444;}
 .price{color:#000;font-weight:bold;font-size:1.2rem}
-
-/* Presentaciones ml */
 .ml-options{display:flex;gap:10px;margin:10px 0;}
 .ml-option{flex:1;text-align:center;padding:10px;border:1px solid var(--color-accent);border-radius:20px;cursor:pointer;transition:all .3s;font-size:0.9rem;background:#f9f9f9;color:#333;}
 .ml-option:hover{border-color:#000;}
 .ml-option.active{background:#000;color:#fff;border-color:#000;}
-
-/* Cantidad con botones */
 .quantity-control{display:flex;align-items:center;gap:10px;margin:10px 0;}
 .quantity-btn{background:#000;color:#fff;border:none;width:35px;height:35px;border-radius:50%;font-size:1.2rem;cursor:pointer;transition:all .3s}
 .quantity-btn:hover{background:#333;}
 #quantity{width:50px;text-align:center;border:1px solid var(--color-accent);border-radius:6px;padding:6px;font-size:1rem}
-
-/* Botón carrito */
 .add-cart{background:#000;color:#fff;padding:14px;border:none;cursor:pointer;width:100%;border-radius:8px;font-size:1rem;font-weight:600;transition:all .3s}
 .add-cart:hover{background:#333;transform:translateY(-2px)}
 
-/* Cerrar modal afuera del recuadro */
+/* Botón cerrar modal */
 .close{
   position:absolute;
-  top:-15px;
-  right:-15px;
+  top:10px;
+  right:10px;
   font-size:32px;
   font-weight:bold;
   color:#000;
@@ -174,68 +168,64 @@ const perfumes = [
   {name:"Edén Tropical",description:"Exótico, tropical, vibrante.",price60:"$199.00",price120:"$299.00",image:"images/JEANGARD.png"},
   {name:"Fortuna Dorada",description:"Dulce, audaz, opulento.",price60:"$199.00",price120:"$299.00",image:"images/LUCKY.png"},
   {name:"Abismo Azul",description:"Acuático, fresco, profundo.",price60:"$199.00",price120:"$299.00",image:"images/PROFONDO.png"},
-  {name:"Sombra de Sándalo",description:"Leñoso, ahumado, robusto.",price60:"$199.00",price120:"$299.00",image:"images/SANTAL.png"},
-  {name:"Neblina V Elixir",description:"Intenso, picante, potente.",price60:"$199.00",price120:"$299.00",image:"images/VELIXIR.png"},
-  {name:"Océano Ígneo",description:"Elegante, fresco, audaz.",price60:"$199.00",price120:"$299.00",image:"images/BLEU.png"},
-  {name:"Legado",description:"Fresco, leñoso, complejo.",price60:"$199.00",price120:"$299.00",image:"images/CREED.png"},
+  {name:"Seducción Roja",description:"Intenso, floral, seductor.",price60:"$199.00",price120:"$299.00",image:"images/RED.png"},
 ];
 
-// Renderizar perfumes
-const perfumesContainer = document.getElementById("perfumesContainer");
-perfumes.forEach((p)=> {
-  const div = document.createElement("div");
-  div.className="perfume";
-  div.innerHTML = `
-    <img src="${p.image}" alt="${p.name}">
-    <h3>${p.name}</h3>
-    <p>${p.description}</p>
-    <p class="price">${p.price120}</p>`;
-  div.addEventListener("click", ()=>openModal(p));
-  perfumesContainer.appendChild(div);
+const container = document.getElementById('perfumesContainer');
+
+perfumes.forEach(p=>{
+  const div = document.createElement('div');
+  div.className = 'perfume';
+  div.innerHTML = `<img src="${p.image}" alt="${p.name}"><h3>${p.name}</h3><p>${p.description}</p><p class="price">${p.price60}</p>`;
+  div.addEventListener('click',()=>openModal(p));
+  container.appendChild(div);
 });
 
 // Modal
 const modal = document.getElementById("productModal");
-const closeModal = document.getElementById("closeModal");
 const modalImage = document.getElementById("modalImage");
 const modalTitle = document.getElementById("modalTitle");
 const modalDescription = document.getElementById("modalDescription");
 const modalPrice = document.getElementById("modalPrice");
+const modalClose = document.getElementById("closeModal");
 const decreaseBtn = document.getElementById("decrease");
 const increaseBtn = document.getElementById("increase");
 const quantityInput = document.getElementById("quantity");
+const addCartBtn = document.querySelector(".add-cart");
 const mlOptions = document.querySelectorAll(".ml-option");
 
 function openModal(product){
   modal.style.display="flex";
-  modalImage.src = product.image;
-  modalTitle.textContent = product.name;
-  modalDescription.textContent = product.description;
-  modalPrice.textContent = product.price60;
-  quantityInput.value = 1;
+  modalImage.src=product.image;
+  modalTitle.textContent=product.name;
+  modalDescription.textContent=product.description;
+  modalPrice.textContent=product.price60;
+  quantityInput.value=1;
   mlOptions.forEach(opt=>opt.classList.remove("active"));
   mlOptions[0].classList.add("active");
 }
 
-closeModal.addEventListener("click", ()=> modal.style.display="none");
+modalClose.addEventListener("click",()=>modal.style.display="none");
 window.addEventListener("click", e=>{if(e.target==modal) modal.style.display="none";});
 
-// Opciones y cantidad
+decreaseBtn.addEventListener("click", ()=>{let val=parseInt(quantityInput.value); if(val>1) quantityInput.value=val-1;});
+increaseBtn.addEventListener("click", ()=>{let val=parseInt(quantityInput.value); quantityInput.value=val+1;});
+
 mlOptions.forEach(opt=>{
-  opt.addEventListener("click",()=>{
+  opt.addEventListener("click", ()=>{
     mlOptions.forEach(o=>o.classList.remove("active"));
     opt.classList.add("active");
-    const productName = modalTitle.textContent;
-    const product = perfumes.find(p=>p.name===productName);
-    modalPrice.textContent = opt.dataset.ml==="60ml"?product.price60:product.price120;
+    const price = opt.dataset.ml === "60ml" ? "$199.00" : "$299.00";
+    modalPrice.textContent = price;
   });
 });
 
-increaseBtn.onclick = ()=> quantityInput.value = parseInt(quantityInput.value)+1;
-decreaseBtn.onclick = ()=>{
-  let val = parseInt(quantityInput.value);
-  if(val>1) quantityInput.value=val-1;
-}
+addCartBtn.addEventListener("click", ()=>{
+  const cantidad = quantityInput.value;
+  const variant = document.querySelector(".ml-option.active").textContent;
+  alert(`Agregado al carrito: ${modalTitle.textContent} - Presentación: ${variant} - Cantidad: ${cantidad}`);
+  modal.style.display="none";
+});
 </script>
 
 </body>
