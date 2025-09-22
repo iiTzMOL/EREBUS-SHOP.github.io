@@ -6,7 +6,171 @@
 <title>Perfumes - EREBUS</title>
 <link href="https://fonts.googleapis.com/css2?family=Neblina&display=swap" rel="stylesheet">
 <style>
-/* Usa el MISMO bloque de estilos del index.html anterior */
+:root{
+  --color-primary:#000;
+  --color-secondary:#555;
+  --color-background:#fff;
+  --color-accent:#e0e0e0;
+  --color-text:#333;
+  --font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --font-title:'Neblina', sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-family);background:var(--color-background);color:var(--color-text);line-height:1.6;padding-top:120px}
+header{
+  position:fixed;top:0;left:0;width:100%;
+  background:var(--color-primary);color:var(--color-background);z-index:1000;
+  transition:all .3s ease;
+}
+.logo-container{display:flex;align-items:center;justify-content:center;height:70px;overflow:hidden;transition:all .3s}
+.logo-container img{height:50px;margin-right:10px;}
+.logo-container h1{font-family:var(--font-title);font-size:1.8rem;color:#fff;margin:0;}
+nav ul{list-style:none;display:flex;justify-content:center;gap:20px;padding:10px 0;background:var(--color-primary);}
+nav a{color:var(--color-background);text-decoration:none;font-weight:500;font-size:1rem;padding:5px 0;}
+nav a.active{color:#e0e0e0;border-bottom:2px solid var(--color-accent);}
+main{padding:40px 20px 20px 20px;max-width:1350px;margin:0 auto;}
+main h1{margin-bottom:40px;margin-top:0;font-family: var(--font-title);font-size:2.6rem;text-align:center;}
+.perfumes{
+  display:grid;
+  gap:28px;
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  justify-items:center;
+  margin:0 auto;
+  max-width:1200px;
+}
+.perfume{
+  background:#fff;
+  border:1px solid var(--color-accent);
+  border-radius:12px;
+  padding:18px 16px 24px 16px;
+  text-align:center;
+  transition:transform .3s,box-shadow .3s;
+  width:100%;
+  max-width:235px;
+  min-width:200px;
+  cursor:pointer;
+  box-shadow:0 1px 8px rgba(0,0,0,0.03);
+  display:flex;flex-direction:column;align-items:center;
+}
+.perfume:hover{transform:translateY(-5px);box-shadow:0 4px 20px rgba(0,0,0,.10)}
+.perfume img{width:100%;height:180px;object-fit:cover;border-radius:12px;margin-bottom:14px;}
+.perfume h3{margin:10px 0 5px;font-size:1.05rem;font-family: var(--font-title);}
+.perfume p{margin:5px 0;font-size:0.97rem;color:#666}
+.perfume .price{font-weight:bold;margin-top:10px;font-size:1.06rem;color:#000}
+footer{text-align:center;padding:20px;font-size:0.9rem;background:#f9f9f9;margin-top:40px;color:#666;}
+/* MODAL DE PRODUCTO */
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:2000;justify-content:center;align-items:center;overflow:auto;padding:20px}
+.modal-content{background:#fff;width:95%;max-width:500px;display:flex;border-radius:12px;overflow:hidden;flex-direction:column;position:relative;box-shadow:0 10px 30px rgba(0,0,0,.3);animation:fadeIn .3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+.modal-left{width:100%;text-align:center;background:#fafafa;}
+.modal-left img{width:70%;max-width:180px;margin:30px auto 10px auto;height:170px;object-fit:cover;display:block;border-radius:12px;}
+.modal-right{display:flex;flex-direction:column;justify-content:center;gap:14px;padding:22px;text-align:left}
+.modal-right h2{font-size:1.33rem;color:var(--color-primary);border-bottom:1px solid var(--color-accent);padding-bottom:10px;margin-bottom:10px;font-family: var(--font-title);}
+.modal-right p{margin-bottom:2px;font-size:1rem;color:#444;}
+.price{color:#000;font-weight:bold;font-size:1.12rem}
+.ml-options{display:flex;gap:10px;margin:10px 0;}
+.ml-option{flex:1;text-align:center;padding:10px;border:1px solid var(--color-accent);border-radius:20px;cursor:pointer;transition:all .3s;font-size:0.93rem;background:#f9f9f9;color:#333;}
+.ml-option:hover{border-color:#000;}
+.ml-option.active{background:#000;color:#fff;border-color:#000;}
+.quantity-control{display:flex;align-items:center;gap:10px;margin:10px 0;}
+.quantity-btn{background:#000;color:#fff;border:none;width:35px;height:35px;border-radius:50%;font-size:1.15rem;cursor:pointer;transition:all .3s}
+.quantity-btn:hover{background:#333;}
+#quantity{width:50px;text-align:center;border:1px solid var(--color-accent);border-radius:6px;padding:6px;font-size:1rem}
+.add-cart{background:#000;color:#fff;padding:14px;border:none;cursor:pointer;width:100%;border-radius:8px;font-size:1rem;font-weight:600;transition:all .3s}
+.add-cart:hover{background:#333;transform:translateY(-2px)}
+.close{
+  position:absolute;
+  top:15px;right:20px;
+  font-size:32px;
+  font-weight:bold;
+  color:#000;
+  cursor:pointer;
+  transition:all .3s;
+  z-index:3000;
+  background:rgba(255,255,255,0.9);
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  line-height:1;
+  user-select:none;
+  border:2px solid rgba(0,0,0,0.1);
+}
+.close:hover{
+  color:#fff;
+  background:#000;
+  transform:scale(1.1);
+  border-color:#000;
+}
+@media(max-width:1024px){
+  main{padding:18px 5px;}
+  .perfumes{gap:18px;}
+  .modal-content{max-width:98vw;}
+  .modal-left img{height:140px;}
+}
+@media(max-width:600px){
+  .perfumes{grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;}
+  .perfume img{height:110px;}
+  .modal-left img{height:80px;}
+  .modal-right{padding:12px;}
+}
+#floating-cart{
+  position:fixed;right:30px;bottom:30px;z-index:2001;
+  background:var(--color-primary);color:#fff;
+  border-radius:50%;width:64px;height:64px;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 24px rgba(0,0,0,.18);cursor:pointer;transition:box-shadow .2s;
+  font-size:2.2rem;
+}
+#floating-cart:hover{box-shadow:0 4px 32px rgba(0,0,0,.24);}
+#cart-count{
+  position:absolute;top:7px;right:7px;
+  background:#dc3545;color:#fff;border-radius:50%;font-size:.9rem;
+  width:22px;height:22px;display:flex;align-items:center;justify-content:center;
+  font-weight:700;box-shadow:0 2px 6px rgba(0,0,0,.14);
+}
+#cart-modal{
+  position:fixed;top:0;right:-400px;width:400px;max-width:100vw;height:100vh;
+  background:#fff;box-shadow:-6px 0 32px rgba(0,0,0,.18);
+  z-index:3002;transition:right .35s cubic-bezier(.4,.1,.22,1);
+  display:flex;flex-direction:column;
+}
+#cart-modal.open{right:0;}
+#cart-modal .modal-header{
+  padding:20px 32px;background:var(--color-primary);color:#fff;display:flex;justify-content:space-between;align-items:center;
+}
+#cart-modal .modal-header h2{
+  font-family:var(--font-title);font-size:1.4rem;margin:0;
+}
+#close-cart-modal{
+  background:transparent;border:none;color:#fff;font-size:2rem;cursor:pointer;
+}
+#cart-modal .modal-content{
+  padding:24px 32px;overflow-y:auto;flex:1;
+  display:flex;flex-direction:column;gap:18px;
+}
+.cart-item{display:flex;gap:15px;padding:12px 0;border-bottom:1px solid var(--color-accent);}
+.cart-item img{width:58px;height:58px;object-fit:cover;border-radius:8px;}
+.cart-item-details{flex:1;display:flex;flex-direction:column;}
+.cart-item-details h3{font-size:1rem;color:var(--color-primary);margin:0 0 2px 0;font-family:var(--font-title);}
+.cart-item-details .variant{font-size:.95rem;color:#666;}
+.cart-item-details .price{color:var(--color-primary);font-weight:600;}
+.cart-item-controls{display:flex;align-items:center;gap:10px;margin-top:7px;}
+.qty-btn{background:var(--color-primary);color:#fff;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;}
+.qty-input{width:34px;text-align:center;border:1px solid var(--color-accent);border-radius:4px;padding:4px 0;}
+.remove-item{color:#dc3545;cursor:pointer;font-size:.9rem;text-decoration:underline;}
+.modal-footer{padding:18px 32px;border-top:1px solid var(--color-accent);}
+.resume-row{display:flex;justify-content:space-between;padding:3px 0;}
+.resume-row.total{font-weight:700;font-size:1.1rem;}
+.btn-primary{background:var(--color-primary);color:#fff;padding:14px;border:none;border-radius:8px;font-size:1rem;font-weight:600;transition:all .3s;cursor:pointer;width:100%;}
+.btn-primary:disabled{background:#ccc;cursor:not-allowed;}
+@media(max-width:500px){
+  #cart-modal{width:100vw;}
+  #cart-modal .modal-header,#cart-modal .modal-content,#cart-modal .modal-footer{padding-left:10px;padding-right:10px;}
+  #floating-cart{right:12px;bottom:16px;width:50px;height:50px;font-size:1.4rem;}
+  #cart-count{width:18px;height:18px;font-size:.8rem;}
+}
 </style>
 </head>
 <body>
@@ -24,12 +188,14 @@
     </ul>
   </nav>
 </header>
+<!-- Ícono flotante del carrito -->
 <div id="floating-cart">
   <span style="position:relative;">
     🛒
     <span id="cart-count">0</span>
   </span>
 </div>
+<!-- Modal (cajón lateral) del carrito -->
 <aside id="cart-modal">
   <div class="modal-header">
     <h2>Tu Carrito</h2>
@@ -39,7 +205,7 @@
   <div class="modal-footer" id="cart-modal-footer"></div>
 </aside>
 <main>
-  <h1 style="font-family:var(--font-title);margin-bottom:40px;margin-top:0;">Nuestros Perfumes</h1>
+  <h1>Nuestros Perfumes</h1>
   <div class="perfumes" id="perfumesContainer"></div>
 </main>
 <!-- MODAL DE PRODUCTO -->
@@ -72,7 +238,6 @@
   <p>© 2024 Tu Tienda Elegante. Todos los derechos reservados.</p>
 </footer>
 <script>
-// Usa el MISMO JS de carrito flotante y modal lateral del index.html
 function getCart() {
   try { return JSON.parse(localStorage.getItem('erebus_cart')||'[]') || []; } catch {return [];}
 }
@@ -135,15 +300,17 @@ window.removeFromCart = function(id){
 window.addEventListener('storage',e=>{
   if(e.key==='erebus_cart'){ updateCartCount(); if(cartModal.classList.contains('open')) renderCartModal(); }
 });
-
-// Productos perfumes
 const perfumes = [
   {name:"Mar Negro",description:"Oscuro, marino, misterioso.",price60:"$199.00",price120:"$299.00",image:"images/ADGPROFUMO.png"},
   {name:"Neblina",description:"Fresco, salado, acuático.",price60:"$199.00",price120:"$299.00",image:"images/INV.png"},
   {name:"Neblina Plateada",description:"Fresco, audaz, moderno.",price60:"$199.00",price120:"$299.00",image:"images/INVPLAT.png"},
   {name:"Edén Tropical",description:"Exótico, tropical, vibrante.",price60:"$199.00",price120:"$299.00",image:"images/JEANGARD.png"},
-  {name:"Fortuna Dorada",description:"Dulce, audaz, opulento.",price60:"$199.00",price120:"$299.00",image:"images/LUCKY.png"}
-  // ... agrega más si quieres
+  {name:"Fortuna Dorada",description:"Dulce, audaz, opulento.",price60:"$199.00",price120:"$299.00",image:"images/LUCKY.png"},
+  {name:"Abismo Azul",description:"Acuático, fresco, profundo.",price60:"$199.00",price120:"$299.00",image:"images/PROFONDO.png"},
+  {name:"Sombra de Sándalo",description:"Leñoso, ahumado, robusto.",price60:"$199.00",price120:"$299.00",image:"images/SANTAL.png"},
+  {name:"Neblina V Elixir",description:"Intenso, picante, potente.",price60:"$199.00",price120:"$299.00",image:"images/VELIXIR.png"},
+  {name:"Océano Ígneo",description:"Elegante, fresco, audaz.",price60:"$199.00",price120:"$299.00",image:"images/BLEU.png"},
+  {name:"Legado",description:"Fresco, leñoso, complejo.",price60:"$199.00",price120:"$299.00",image:"images/CREED.png"},
 ];
 const perfumesContainer = document.getElementById("perfumesContainer");
 perfumes.forEach((p)=> {
