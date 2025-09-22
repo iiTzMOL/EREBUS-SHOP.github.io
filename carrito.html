@@ -4,14 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Carrito - EREBUS</title>
-<!-- Stripe.js -->
-<script src="https://js.stripe.com/v3/"></script>
-<!-- PayPal SDK -->
-<script src="https://www.paypal.com/sdk/js?client-id=demo_paypal_client_id&currency=MXN"></script>
-<!-- MercadoPago SDK -->
-<script src="https://sdk.mercadopago.com/js/v2"></script>
 <style>
-/* --------- ESTILOS BÁSICOS --------- */
 :root{
   --color-primary:#000;
   --color-accent:#e0e0e0;
@@ -23,6 +16,9 @@
 body{font-family:Arial, sans-serif;background:#fff;color:#333;padding-top:100px}
 header{position:fixed;top:0;left:0;width:100%;background:#000;color:#fff;padding:15px;z-index:1000;text-align:center}
 header h1{margin:0;font-size:1.5rem}
+nav ul{list-style:none;display:flex;justify-content:center;gap:20px;padding:10px 0;background:var(--color-primary);}
+nav a{color:var(--color-background);text-decoration:none;font-weight:500;font-size:1rem;padding:5px 0;}
+nav a.active{color:#e0e0e0;border-bottom:2px solid var(--color-accent);}
 .container{max-width:1100px;margin:auto;padding:20px}
 .page-title{text-align:center;font-size:2rem;margin-bottom:20px}
 .cart-layout{display:grid;grid-template-columns:2fr 1fr;gap:20px}
@@ -50,11 +46,18 @@ header h1{margin:0;font-size:1.5rem}
 </style>
 </head>
 <body>
-
 <header>
   <h1>EREBUS - Carrito</h1>
+  <nav>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="index.html#ropa">Ropa</a></li>
+      <li><a href="perfumes.html">Perfumes</a></li>
+      <li><a href="carrito.html" class="active">Carrito</a></li>
+      <li><a href="index.html#contacto">Contacto</a></li>
+    </ul>
+  </nav>
 </header>
-
 <div class="container">
   <h2 class="page-title">Carrito de Compras</h2>
   <div class="cart-layout">
@@ -74,21 +77,9 @@ header h1{margin:0;font-size:1.5rem}
       <div class="summary-row"><span>Envío:</span><span id="shipping">$99.00</span></div>
       <div class="summary-row"><span>IVA (16%):</span><span id="tax">$0.00</span></div>
       <div class="summary-row total"><span>Total:</span><span id="total">$0.00</span></div>
-
-      <h3 class="section-title">Pago</h3>
-      <div class="payment-option" id="stripeOption">💳 Tarjeta (Stripe)</div>
-      <div id="stripe-card-element" style="display:none"></div>
-      <button id="stripe-submit" class="btn btn-primary" style="display:none">Pagar con Tarjeta</button>
-
-      <div class="payment-option" id="paypalOption">🅿️ PayPal</div>
-      <div id="paypal-button-container" style="display:none"></div>
-
-      <div class="payment-option" id="mercadopagoOption">💰 MercadoPago</div>
-      <button id="mercadopago-button" class="btn btn-primary" style="display:none">Pagar con MercadoPago</button>
     </div>
   </div>
 </div>
-
 <!-- Modal confirmación -->
 <div id="confirmationModal" class="modal">
   <div class="modal-content">
@@ -97,374 +88,43 @@ header h1{margin:0;font-size:1.5rem}
     <button class="btn btn-primary" onclick="closeConfirmationModal()">Cerrar</button>
   </div>
 </div>
-
 <script>
-// CONFIGURACIÓN DE PASARELAS (Reemplazar con tus claves reales)
-const STRIPE_PUBLIC_KEY = 'pk_test_demo_key'; // Tu clave pública de Stripe
-const PAYPAL_CLIENT_ID = 'demo_paypal_client_id';
-const MERCADOPAGO_PUBLIC_KEY = 'demo_mercadopago_key';
-
-// Inicializar servicios de pago (con verificación de errores)
-let stripe, elements, cardElement, mp;
-
-try {
-  if (typeof Stripe !== 'undefined') {
-    stripe = Stripe(STRIPE_PUBLIC_KEY);
-    elements = stripe.elements();
-  }
-} catch (e) {
-  console.warn('Stripe no pudo inicializarse:', e);
-}
-
-try {
-  if (typeof MercadoPago !== 'undefined') {
-    mp = new MercadoPago(MERCADOPAGO_PUBLIC_KEY);
-  }
-} catch (e) {
-  console.warn('MercadoPago no pudo inicializarse:', e);
-}
-
-// GESTIÓN DEL CARRITO
+// Carrito
 class SecureCartManager {
   constructor() {
     this.cart = this.loadCart();
     this.shippingCost = 99.00;
     this.taxRate = 0.16;
-    this.selectedPaymentMethod = null;
     this.init();
   }
-
   init() {
     this.renderCart();
     this.updateSummary();
-    this.setupPaymentMethods();
-    this.setupEventListeners();
   }
-
   loadCart() {
     try {
       const savedCart = JSON.parse(localStorage.getItem('erebus_cart') || '[]');
       return Array.isArray(savedCart) ? savedCart : [];
     } catch (e) {
-      console.error('Error loading cart:', e);
       return [];
     }
   }
-
   saveCart() {
     try {
       localStorage.setItem('erebus_cart', JSON.stringify(this.cart));
-    } catch (e) {
-      console.error('Error saving cart:', e);
-    }
+    } catch (e) {}
   }
-
-  // Validar formulario de envío
-  validateShippingForm() {
-    const form = document.getElementById('shippingForm');
-    if (!form) return false;
-    
-    const formData = new FormData(form);
-    const requiredFields = ['fullName', 'email', 'phone', 'address', 'city', 'zipCode'];
-    
-    for (let field of requiredFields) {
-      const value = formData.get(field);
-      if (!value || !value.toString().trim()) {
-        this.showAlert('Por favor, completa todos los campos de envío.', 'error');
-        return false;
-      }
-    }
-
-    const email = formData.get('email');
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      this.showAlert('Por favor, ingresa un email válido.', 'error');
-      return false;
-    }
-
-    return true;
-  }
-
-  // Obtener datos de envío
-  getShippingData() {
-    const form = document.getElementById('shippingForm');
-    if (!form) return {};
-    
-    const formData = new FormData(form);
-    return {
-      fullName: formData.get('fullName') || '',
-      email: formData.get('email') || '',
-      phone: formData.get('phone') || '',
-      address: formData.get('address') || '',
-      city: formData.get('city') || '',
-      zipCode: formData.get('zipCode') || ''
-    };
-  }
-
-  // Configurar métodos de pago
-  setupPaymentMethods() {
-    // Configurar elementos de Stripe solo si está disponible
-    if (stripe && elements) {
-      try {
-        cardElement = elements.create('card', {
-          style: {
-            base: {
-              fontSize: '16px',
-              color: '#424770',
-              '::placeholder': {
-                color: '#aab7c4',
-              },
-            },
-          },
-        });
-      } catch (e) {
-        console.warn('Error creating Stripe card element:', e);
-      }
-    }
-
-    // Event listeners para métodos de pago
-    const stripeOption = document.getElementById('stripeOption');
-    const paypalOption = document.getElementById('paypalOption');
-    const mercadopagoOption = document.getElementById('mercadopagoOption');
-    
-    if (stripeOption) {
-      stripeOption.addEventListener('click', () => this.selectPaymentMethod('stripe'));
-    }
-    if (paypalOption) {
-      paypalOption.addEventListener('click', () => this.selectPaymentMethod('paypal'));
-    }
-    if (mercadopagoOption) {
-      mercadopagoOption.addEventListener('click', () => this.selectPaymentMethod('mercadopago'));
-    }
-
-    // Botones de pago
-    const stripeSubmit = document.getElementById('stripe-submit');
-    const mercadopagoButton = document.getElementById('mercadopago-button');
-    
-    if (stripeSubmit) {
-      stripeSubmit.addEventListener('click', (e) => {
-        e.preventDefault();
-        this.processStripePayment();
-      });
-    }
-    
-    if (mercadopagoButton) {
-      mercadopagoButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        this.processMercadoPagoPayment();
-      });
-    }
-  }
-
-  selectPaymentMethod(method) {
-    if (this.cart.length === 0) {
-      this.showAlert('Tu carrito está vacío.', 'error');
-      return;
-    }
-
-    if (!this.validateShippingForm()) {
-      return;
-    }
-
-    // Limpiar selecciones anteriores
-    const paymentOptions = document.querySelectorAll('.payment-option');
-    paymentOptions.forEach(option => {
-      option.classList.remove('active');
-      
-      // Ocultar elementos específicos de cada método
-      const stripeCard = option.querySelector('#stripe-card-element');
-      const stripeSubmit = option.querySelector('#stripe-submit');
-      const paypalContainer = option.querySelector('#paypal-button-container');
-      const mercadopagoBtn = option.querySelector('#mercadopago-button');
-      
-      if (stripeCard) stripeCard.style.display = 'none';
-      if (stripeSubmit) stripeSubmit.style.display = 'none';
-      if (paypalContainer) paypalContainer.style.display = 'none';
-      if (mercadopagoBtn) mercadopagoBtn.style.display = 'none';
-    });
-
-    // Activar método seleccionado
-    this.selectedPaymentMethod = method;
-    const selectedOption = document.getElementById(method + 'Option');
-    if (selectedOption) {
-      selectedOption.classList.add('active');
-    }
-
-    switch (method) {
-      case 'stripe':
-        this.setupStripe();
-        break;
-      case 'paypal':
-        this.setupPayPal();
-        break;
-      case 'mercadopago':
-        this.setupMercadoPago();
-        break;
-    }
-  }
-
-  setupStripe() {
-    const cardElementDiv = document.getElementById('stripe-card-element');
-    const submitBtn = document.getElementById('stripe-submit');
-    
-    if (cardElementDiv) cardElementDiv.style.display = 'block';
-    if (submitBtn) submitBtn.style.display = 'block';
-    
-    if (cardElementDiv && stripe && elements && cardElement && !cardElement._mounted) {
-      try {
-        cardElement.mount('#stripe-card-element');
-        cardElement._mounted = true;
-      } catch (e) {
-        console.warn('Error mounting Stripe element:', e);
-        this.showAlert('Error al cargar el sistema de pagos. Intenta con otro método.', 'error');
-      }
-    }
-  }
-
-  setupPayPal() {
-    const container = document.getElementById('paypal-button-container');
-    if (!container) return;
-    
-    container.style.display = 'block';
-    container.innerHTML = ''; // Limpiar botones anteriores
-    
-    if (typeof paypal !== 'undefined') {
-      try {
-        this.renderPayPalButtons();
-      } catch (e) {
-        console.warn('Error setting up PayPal:', e);
-        this.showAlert('Error al cargar PayPal. Intenta con otro método.', 'error');
-      }
-    } else {
-      this.showAlert('PayPal no está disponible. Intenta con otro método.', 'error');
-    }
-  }
-
-  setupMercadoPago() {
-    const button = document.getElementById('mercadopago-button');
-    if (button) {
-      button.style.display = 'block';
-    }
-  }
-
-  // Procesar pago con Stripe (versión demo)
-  processStripePayment() {
-    if (!this.validateShippingForm()) return;
-
-    this.showLoading(true);
-    
-    // Simulación de pago exitoso (reemplazar con integración real)
-    setTimeout(() => {
-      this.showLoading(false);
-      const success = Math.random() > 0.2; // 80% éxito
-      
-      if (success) {
-        const orderId = 'STRIPE_' + Date.now();
-        this.handlePaymentSuccess('stripe', orderId);
-      } else {
-        this.showAlert('Error en el pago con tarjeta. Intenta nuevamente.', 'error');
-      }
-    }, 2000);
-  }
-
-  // Renderizar botones de PayPal (versión demo)
-  renderPayPalButtons() {
-    const container = document.getElementById('paypal-button-container');
-    if (!container) return;
-    
-    // Simulación (reemplazar con integración real de PayPal)
-    container.innerHTML = `
-      <button class="btn btn-primary btn-full" onclick="cartManager.simulatePayPalPayment()">
-        Pagar con PayPal (Demo)
-      </button>
-    `;
-  }
-
-  simulatePayPalPayment() {
-    this.showLoading(true);
-    
-    setTimeout(() => {
-      this.showLoading(false);
-      const orderId = 'PAYPAL_' + Date.now();
-      this.handlePaymentSuccess('paypal', orderId);
-    }, 1500);
-  }
-
-  // Procesar pago con MercadoPago (versión demo)
-  processMercadoPagoPayment() {
-    if (!this.validateShippingForm()) return;
-
-    this.showLoading(true);
-    
-    // Simulación de pago exitoso
-    setTimeout(() => {
-      this.showLoading(false);
-      const orderId = 'MP_' + Date.now();
-      this.handlePaymentSuccess('mercadopago', orderId);
-    }, 1800);
-  }
-
-  // Manejar éxito del pago
-  handlePaymentSuccess(method, transactionId) {
-    console.log('Payment successful:', method, transactionId);
-    
-    // Limpiar carrito
-    this.cart = [];
-    this.saveCart();
-    this.renderCart();
-    this.updateSummary();
-    
-    // Mostrar confirmación
-    this.showConfirmation(transactionId);
-  }
-
-  showConfirmation(orderId) {
-    const orderNumberElement = document.getElementById('orderNumber');
-    const modal = document.getElementById('confirmationModal');
-    
-    if (orderNumberElement) orderNumberElement.textContent = orderId;
-    if (modal) modal.style.display = 'flex';
-  }
-
-  showAlert(message, type) {
-    const alertContainer = document.getElementById('alertContainer');
-    if (!alertContainer) return;
-    
-    const alertClass = type === 'error' ? 'alert-error' : 
-                     type === 'success' ? 'alert-success' : 'alert-info';
-    
-    alertContainer.innerHTML = `
-      <div class="alert ${alertClass}">
-        ${message}
-      </div>
-    `;
-    
-    setTimeout(() => {
-      alertContainer.innerHTML = '';
-    }, 5000);
-  }
-
-  showLoading(show) {
-    const spinner = document.getElementById('loadingSpinner');
-    if (spinner) {
-      spinner.style.display = show ? 'block' : 'none';
-    }
-  }
-
-  // Métodos del carrito
   removeFromCart(itemId) {
     this.cart = this.cart.filter(item => item.id !== itemId);
     this.saveCart();
     this.renderCart();
     this.updateSummary();
   }
-
   updateQuantity(itemId, newQuantity) {
     if (newQuantity <= 0) {
       this.removeFromCart(itemId);
       return;
     }
-
     const item = this.cart.find(item => item.id === itemId);
     if (item) {
       item.quantity = parseInt(newQuantity);
@@ -473,7 +133,6 @@ class SecureCartManager {
       this.updateSummary();
     }
   }
-
   getSubtotal() {
     return this.cart.reduce((sum, item) => {
       const price = parseFloat(item.price) || 0;
@@ -481,32 +140,25 @@ class SecureCartManager {
       return sum + (price * quantity);
     }, 0);
   }
-
   getTax() {
     return this.getSubtotal() * this.taxRate;
   }
-
   getTotal() {
     const subtotal = this.getSubtotal();
     const tax = this.getTax();
     const shipping = this.cart.length > 0 ? this.shippingCost : 0;
     return subtotal + tax + shipping;
   }
-
   renderCart() {
     const cartItemsContainer = document.getElementById('cartItems');
     const cartEmptyContainer = document.getElementById('cartEmpty');
-    
     if (!cartItemsContainer || !cartEmptyContainer) return;
-
     if (this.cart.length === 0) {
       cartItemsContainer.innerHTML = '';
       cartEmptyContainer.style.display = 'block';
       return;
     }
-
     cartEmptyContainer.style.display = 'none';
-    
     try {
       cartItemsContainer.innerHTML = this.cart.map(item => {
         const price = parseFloat(item.price) || 0;
@@ -515,7 +167,6 @@ class SecureCartManager {
         const variant = item.variant || 'N/A';
         const image = item.image || 'images/placeholder.png';
         const id = item.id || Date.now();
-        
         return `
           <div class="cart-item">
             <img src="${image}" alt="${name}" class="item-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik01MCAzNUM0MS43IDM1IDM1IDQxLjcgMzUgNTBTNDEuNyA2NSA1MCA2NVM2NSA1OC4zIDY1IDUwUzU4LjMgMzUgNTAgMzVaIiBmaWxsPSIjOUI5Qjk5Ii8+Cjwvc3ZnPgo='">
@@ -537,159 +188,29 @@ class SecureCartManager {
         `;
       }).join('');
     } catch (e) {
-      console.error('Error rendering cart:', e);
       cartItemsContainer.innerHTML = '<p>Error al cargar los productos del carrito.</p>';
     }
   }
-
   updateSummary() {
     const subtotal = this.getSubtotal();
     const tax = this.getTax();
     const shipping = this.cart.length > 0 ? this.shippingCost : 0;
     const total = this.getTotal();
-
     const subtotalEl = document.getElementById('subtotal');
     const taxEl = document.getElementById('tax');
     const shippingEl = document.getElementById('shipping');
     const totalEl = document.getElementById('total');
-
-    if (subtotalEl) subtotalEl.textContent = `${subtotal.toFixed(2)}`;
-    if (taxEl) taxEl.textContent = `${tax.toFixed(2)}`;
-    if (shippingEl) shippingEl.textContent = shipping > 0 ? `${shipping.toFixed(2)}` : 'Gratis';
-    if (totalEl) totalEl.textContent = `${total.toFixed(2)}`;
-  }
-
-  setupEventListeners() {
-    // Validación en tiempo real del formulario
-    const shippingInputs = document.querySelectorAll('#shippingForm input');
-    shippingInputs.forEach(input => {
-      input.addEventListener('blur', () => {
-        if (input.required && !input.value.trim()) {
-          input.style.borderColor = 'var(--color-danger)';
-        } else {
-          input.style.borderColor = 'var(--color-accent)';
-        }
-      });
-      
-      input.addEventListener('input', () => {
-        if (input.style.borderColor === 'rgb(220, 53, 69)' || input.style.borderColor === 'var(--color-danger)') {
-          if (input.value.trim()) {
-            input.style.borderColor = 'var(--color-accent)';
-          }
-        }
-      });
-    });
-
-    // Formatear código postal
-    const zipInput = document.querySelector('input[name="zipCode"]');
-    if (zipInput) {
-      zipInput.addEventListener('input', (e) => {
-        e.target.value = e.target.value.replace(/\D/g, '').slice(0, 5);
-      });
-    }
-
-    // Formatear teléfono
-    const phoneInput = document.querySelector('input[name="phone"]');
-    if (phoneInput) {
-      phoneInput.addEventListener('input', (e) => {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length > 0 && value.length <= 10) {
-          if (value.length >= 6) {
-            value = value.replace(/(\d{2})(\d{4})(\d{0,4})/, '$1 $2 $3').trim();
-          } else if (value.length >= 3) {
-            value = value.replace(/(\d{2})(\d{0,4})/, '$1 $2').trim();
-          }
-        }
-        e.target.value = value;
-      });
-    }
+    if (subtotalEl) subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+    if (taxEl) taxEl.textContent = `$${tax.toFixed(2)}`;
+    if (shippingEl) shippingEl.textContent = shipping > 0 ? `$${shipping.toFixed(2)}` : 'Gratis';
+    if (totalEl) totalEl.textContent = `$${total.toFixed(2)}`;
   }
 }
-
-// Funciones globales para el modal
 function closeConfirmationModal() {
   document.getElementById('confirmationModal').style.display = 'none';
-  // Redirigir a la página principal
   window.location.href = 'index.html';
 }
-
-// Inicializar el gestor de carrito seguro
 const cartManager = new SecureCartManager();
-
-// Función global para agregar productos desde otras páginas
-window.addToCart = function(product) {
-  const cartItem = {
-    id: Date.now(),
-    name: product.name,
-    price: parseFloat(product.price.replace(', ', '')),
-    image: product.image,
-    variant: product.variant,
-    quantity: product.quantity
-  };
-
-  // Verificar si el producto ya existe
-  let cart = JSON.parse(localStorage.getItem('erebus_cart') || '[]');
-  const existingItem = cart.find(item => 
-    item.name === cartItem.name && item.variant === cartItem.variant
-  );
-
-  if (existingItem) {
-    existingItem.quantity += cartItem.quantity;
-  } else {
-    cart.push(cartItem);
-  }
-
-  localStorage.setItem('erebus_cart', JSON.stringify(cart));
-  
-  // Mostrar notificación
-  alert(`${cartItem.name} agregado al carrito. Total: ${existingItem ? existingItem.quantity : cartItem.quantity} unidades`);
-  
-  // Actualizar carrito si estamos en la página de carrito
-  if (typeof cartManager !== 'undefined') {
-    cartManager.cart = cart;
-    cartManager.renderCart();
-    cartManager.updateSummary();
-  }
-};
-
-// Header scroll
-const header = document.getElementById('mainHeader');
-let lastY = 0;
-window.addEventListener('scroll', () => {
-  const y = window.pageYOffset || document.documentElement.scrollTop;
-  if (y > lastY && y > 50) {
-    header.classList.add('header-hidden');
-  } else {
-    header.classList.remove('header-hidden');
-  }
-  lastY = y <= 0 ? 0 : y;
-});
-
-// Datos de prueba para testing (eliminar en producción)
-if (localStorage.getItem('erebus_cart') === null) {
-  const testItems = [
-    {
-      id: 1,
-      name: "Playera Oversize Negra 220g",
-      price: 220.00,
-      image: "images/PLAYERANEGRA1.png",
-      variant: "Grande",
-      quantity: 1
-    },
-    {
-      id: 2,
-      name: "Mar Negro",
-      price: 199.00,
-      image: "images/ADGPROFUMO.png",
-      variant: "60ml",
-      quantity: 1
-    }
-  ];
-  localStorage.setItem('erebus_cart', JSON.stringify(testItems));
-  cartManager.cart = testItems;
-  cartManager.renderCart();
-  cartManager.updateSummary();
-}
 </script>
 </body>
 </html>
