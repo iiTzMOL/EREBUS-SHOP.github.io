@@ -6,7 +6,7 @@
 <title>Perfumes - EREBUS</title>
 <link href="https://fonts.googleapis.com/css2?family=Neblina&display=swap" rel="stylesheet">
 <style>
-/* ... (COPIA el mismo bloque de estilos del ejemplo del carrito flotante y del index) ... */
+/* Usa el MISMO bloque de estilos del index.html anterior */
 </style>
 </head>
 <body>
@@ -24,14 +24,12 @@
     </ul>
   </nav>
 </header>
-<!-- Ícono flotante del carrito -->
 <div id="floating-cart">
   <span style="position:relative;">
     🛒
     <span id="cart-count">0</span>
   </span>
 </div>
-<!-- Modal (cajón lateral) del carrito -->
 <aside id="cart-modal">
   <div class="modal-header">
     <h2>Tu Carrito</h2>
@@ -40,12 +38,11 @@
   <div class="modal-content" id="cart-modal-content"></div>
   <div class="modal-footer" id="cart-modal-footer"></div>
 </aside>
-
 <main>
-  <h1>Nuestros Perfumes</h1>
+  <h1 style="font-family:var(--font-title);margin-bottom:40px;margin-top:0;">Nuestros Perfumes</h1>
   <div class="perfumes" id="perfumesContainer"></div>
 </main>
-<!-- MODAL DE PRODUCTO (idéntico al anterior) -->
+<!-- MODAL DE PRODUCTO -->
 <div class="modal" id="productModal">
   <div class="modal-content">
     <span class="close" id="closeModal">&times;</span>
@@ -75,12 +72,78 @@
   <p>© 2024 Tu Tienda Elegante. Todos los derechos reservados.</p>
 </footer>
 <script>
-// ... (MISMO JS DEL CARRITO FLOTANTE badge/modal que en index.html)
+// Usa el MISMO JS de carrito flotante y modal lateral del index.html
+function getCart() {
+  try { return JSON.parse(localStorage.getItem('erebus_cart')||'[]') || []; } catch {return [];}
+}
+function setCart(cart) { localStorage.setItem('erebus_cart', JSON.stringify(cart)); }
+function updateCartCount() {
+  let cart = getCart(), n = cart.reduce((s,it)=>s+parseInt(it.quantity||1),0);
+  document.getElementById('cart-count').textContent = n;
+}
+updateCartCount();
+const cartModal = document.getElementById('cart-modal');
+document.getElementById('floating-cart').onclick = ()=>{cartModal.classList.add('open'); renderCartModal();};
+document.getElementById('close-cart-modal').onclick = ()=>cartModal.classList.remove('open');
+function renderCartModal() {
+  let cart = getCart();
+  const content = document.getElementById('cart-modal-content');
+  const footer = document.getElementById('cart-modal-footer');
+  if(!cart.length){
+    content.innerHTML = `<div style="text-align:center;padding:40px 0;color:#888">Tu carrito está vacío.</div>`;
+    footer.innerHTML = `<button class="btn-primary" onclick="window.location.href='index.html'">Ir a la tienda</button>`;
+    return;
+  }
+  let subtotal = cart.reduce((sum,it)=>sum+(parseFloat(it.price||0)*parseInt(it.quantity||1)),0);
+  let shipping = subtotal>0 ? 99 : 0, iva = subtotal*0.16, total = subtotal+iva+shipping;
+  content.innerHTML = cart.map(item=>`
+    <div class="cart-item">
+      <img src="${item.image}" alt="${item.name}">
+      <div class="cart-item-details">
+        <h3>${item.name}</h3>
+        <span class="variant">${item.variant||''}</span>
+        <span class="price">$${parseFloat(item.price).toFixed(2)}</span>
+        <div class="cart-item-controls">
+          <button class="qty-btn" onclick="updateQty(${item.id},${item.quantity-1})">-</button>
+          <input type="number" class="qty-input" value="${item.quantity}" min="1" onchange="updateQty(${item.id},this.value)">
+          <button class="qty-btn" onclick="updateQty(${item.id},${parseInt(item.quantity)+1})">+</button>
+          <span class="remove-item" onclick="removeFromCart(${item.id})">Eliminar</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  footer.innerHTML = `
+    <div class="resume-row"><span>Subtotal:</span><span>$${subtotal.toFixed(2)}</span></div>
+    <div class="resume-row"><span>Envío:</span><span>$${shipping.toFixed(2)}</span></div>
+    <div class="resume-row"><span>IVA (16%):</span><span>$${iva.toFixed(2)}</span></div>
+    <div class="resume-row total"><span>Total:</span><span>$${total.toFixed(2)}</span></div>
+    <button class="btn-primary" style="margin-top:16px" onclick="alert('Implementar pago aquí')">Proceder al pago</button>
+  `;
+}
+window.updateQty = function(id,qty){
+  let cart = getCart();
+  qty = parseInt(qty)||1;
+  if(qty<=0){ window.removeFromCart(id); return;}
+  let item = cart.find(it=>it.id===id);
+  if(item){item.quantity=qty; setCart(cart);}
+  updateCartCount(); renderCartModal();
+}
+window.removeFromCart = function(id){
+  let cart = getCart().filter(it=>it.id!==id);
+  setCart(cart); updateCartCount(); renderCartModal();
+}
+window.addEventListener('storage',e=>{
+  if(e.key==='erebus_cart'){ updateCartCount(); if(cartModal.classList.contains('open')) renderCartModal(); }
+});
+
 // Productos perfumes
 const perfumes = [
   {name:"Mar Negro",description:"Oscuro, marino, misterioso.",price60:"$199.00",price120:"$299.00",image:"images/ADGPROFUMO.png"},
   {name:"Neblina",description:"Fresco, salado, acuático.",price60:"$199.00",price120:"$299.00",image:"images/INV.png"},
-  // ... (más perfumes)
+  {name:"Neblina Plateada",description:"Fresco, audaz, moderno.",price60:"$199.00",price120:"$299.00",image:"images/INVPLAT.png"},
+  {name:"Edén Tropical",description:"Exótico, tropical, vibrante.",price60:"$199.00",price120:"$299.00",image:"images/JEANGARD.png"},
+  {name:"Fortuna Dorada",description:"Dulce, audaz, opulento.",price60:"$199.00",price120:"$299.00",image:"images/LUCKY.png"}
+  // ... agrega más si quieres
 ];
 const perfumesContainer = document.getElementById("perfumesContainer");
 perfumes.forEach((p)=> {
@@ -149,8 +212,8 @@ window.addToCart = function(product) {
     variant: product.variant,
     quantity: parseInt(product.quantity)
   };
-  let cart = JSON.parse(localStorage.getItem('erebus_cart') || '[]');
-  const existingItem = cart.find(item => 
+  let cart = getCart();
+  const existingItem = cart.find(item =>
     item.name === cartItem.name && item.variant === cartItem.variant
   );
   if (existingItem) {
@@ -158,7 +221,7 @@ window.addToCart = function(product) {
   } else {
     cart.push(cartItem);
   }
-  localStorage.setItem('erebus_cart', JSON.stringify(cart));
+  setCart(cart);
   updateCartCount();
   alert(`${cartItem.name} agregado al carrito. Total: ${existingItem ? existingItem.quantity : cartItem.quantity} unidades`);
 };
