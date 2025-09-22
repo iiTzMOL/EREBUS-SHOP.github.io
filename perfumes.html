@@ -53,13 +53,23 @@ h1{margin-bottom:40px;margin-top:0}
 .modal-right{display:flex;flex-direction:column;justify-content:center;gap:15px;padding:30px;text-align:left}
 .modal-right h2{font-size:1.6rem;color:var(--color-primary);border-bottom:1px solid var(--color-accent);padding-bottom:10px;margin-bottom:10px;}
 .modal-right p{margin-bottom:5px;font-size:1rem;color:#444;}
-.modal-right label{font-weight:600;display:block;margin:10px 0 5px;font-size:0.9rem}
-.modal-right select, .modal-right input{padding:10px;border:1px solid var(--color-accent);border-radius:6px;font-size:0.95rem;outline:none;transition:border .3s}
-.modal-right select:focus, .modal-right input:focus{border:1px solid var(--color-gold)}
+.price{color:var(--color-gold);font-weight:bold;font-size:1.2rem}
 
+/* Pastillas de mililitros */
+.ml-options{display:flex;gap:10px;margin:10px 0;}
+.ml-option{flex:1;text-align:center;padding:10px;border:1px solid var(--color-accent);border-radius:20px;cursor:pointer;transition:all .3s;font-size:0.9rem;background:#f9f9f9;}
+.ml-option:hover{border-color:var(--color-gold);}
+.ml-option.active{background:var(--color-gold);color:#fff;border-color:var(--color-gold);}
+
+/* Cantidad con botones */
+.quantity-control{display:flex;align-items:center;gap:10px;margin:10px 0;}
+.quantity-btn{background:var(--color-primary);color:#fff;border:none;width:35px;height:35px;border-radius:50%;font-size:1.2rem;cursor:pointer;transition:all .3s}
+.quantity-btn:hover{background:#333;}
+#quantity{width:50px;text-align:center;border:1px solid var(--color-accent);border-radius:6px;padding:6px;font-size:1rem}
+
+/* Botón carrito */
 .add-cart{background:linear-gradient(135deg,var(--color-primary),#222);color:#fff;padding:14px;border:none;cursor:pointer;width:100%;border-radius:8px;font-size:1rem;font-weight:600;transition:all .3s}
 .add-cart:hover{background:linear-gradient(135deg,#222,var(--color-primary));transform:translateY(-2px)}
-.price{color:var(--color-gold);font-weight:bold;font-size:1.2rem}
 
 .close{position:absolute;top:10px;right:15px;font-size:32px;font-weight:bold;color:#fff;cursor:pointer;z-index:10;transition:all .3s}
 .close:hover{color:var(--color-gold);}
@@ -105,13 +115,22 @@ footer{text-align:center;padding:20px;font-size:0.9rem;background:#f9f9f9;margin
       <h2 id="modalTitle"></h2>
       <p id="modalDescription"></p>
       <p id="modalPrice" class="price"></p>
-      <label for="ml">Presentación:</label>
-      <select id="ml">
-        <option value="60ml">60 ml</option>
-        <option value="120ml">120 ml</option>
-      </select>
-      <label for="quantity">Cantidad:</label>
-      <input type="number" id="quantity" min="1" value="1">
+
+      <!-- Presentación -->
+      <label>Presentación:</label>
+      <div class="ml-options">
+        <div class="ml-option active" data-ml="60ml">60 ml</div>
+        <div class="ml-option" data-ml="120ml">120 ml</div>
+      </div>
+
+      <!-- Cantidad -->
+      <label>Cantidad:</label>
+      <div class="quantity-control">
+        <button class="quantity-btn" id="decrease">-</button>
+        <input type="text" id="quantity" value="1" readonly>
+        <button class="quantity-btn" id="increase">+</button>
+      </div>
+
       <button class="add-cart">Agregar al carrito 🛒</button>
     </div>
   </div>
@@ -161,11 +180,37 @@ function openModal(product){
   modalTitle.textContent = product.name;
   modalDescription.textContent = product.description;
   modalPrice.textContent = product.price;
+  document.getElementById("quantity").value = 1; // reset cantidad
+  document.querySelectorAll(".ml-option").forEach(opt=>opt.classList.remove("active"));
+  document.querySelector(".ml-option[data-ml='60ml']").classList.add("active"); // default
 }
 
 closeModal.addEventListener("click", ()=>modal.style.display="none");
 window.addEventListener("click", e=>{if(e.target===modal) modal.style.display="none";});
 
+/* Botones de cantidad */
+const decreaseBtn = document.getElementById("decrease");
+const increaseBtn = document.getElementById("increase");
+const quantityInput = document.getElementById("quantity");
+
+decreaseBtn.addEventListener("click", ()=>{
+  let val = parseInt(quantityInput.value);
+  if(val>1) quantityInput.value = val-1;
+});
+increaseBtn.addEventListener("click", ()=>{
+  let val = parseInt(quantityInput.value);
+  quantityInput.value = val+1;
+});
+
+/* Selección de ml */
+document.querySelectorAll(".ml-option").forEach(opt=>{
+  opt.addEventListener("click", ()=>{
+    document.querySelectorAll(".ml-option").forEach(o=>o.classList.remove("active"));
+    opt.classList.add("active");
+  });
+});
+
+/* Header scroll */
 const header = document.getElementById('mainHeader');
 let lastY=0;
 window.addEventListener('scroll', ()=>{
@@ -174,6 +219,7 @@ window.addEventListener('scroll', ()=>{
   lastY = y<=0?0:y;
 });
 
+/* Nav activo */
 const navLinks = document.querySelectorAll('nav a');
 const currentPage = window.location.pathname.split("/").pop();
 navLinks.forEach(link=>{
