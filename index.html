@@ -77,9 +77,9 @@ section h2{margin-bottom:2rem;font-size:2rem;color:var(--color-primary)}
 /* FOOTER */
 footer{background:var(--color-primary);color:var(--color-background);text-align:center;padding:2rem 1rem;margin-top:2rem}
 
-/* MODAL */
+/* MODAL PERFUMES/ROPA */
 .modal{display:none;position:fixed;z-index:2000;left:0;top:0;width:100%;height:100%;overflow:auto;background:rgba(0,0,0,0.7);justify-content:center;align-items:center;padding:20px}
-.modal-content{background:#fff;width:90%;max-width:900px;display:flex;border-radius:12px;overflow:hidden;flex-direction:row;position:relative;box-shadow:0 10px 30px rgba(0,0,0,.3);animation:fadeIn .3s ease;pointer-events:auto; z-index:1;}
+.modal-content{background:#fff;width:90%;max-width:900px;display:flex;border-radius:12px;overflow:hidden;flex-direction:row;position:relative;box-shadow:0 10px 30px rgba(0,0,0,.3);animation:fadeIn .3s ease;}
 @keyframes fadeIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
 .modal-left, .modal-right{flex:1;position:relative}
 .modal-left img{width:100%;height:100%;object-fit:cover;display:block;}
@@ -97,7 +97,7 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
 #quantity{width:50px;text-align:center;border:1px solid var(--color-accent);border-radius:6px;padding:6px;font-size:1rem}
 .add-cart{background:#000;color:#fff;padding:14px;border:none;cursor:pointer;width:100%;border-radius:8px;font-size:1rem;font-weight:600;transition:all .3s}
 .add-cart:hover{background:#333;transform:translateY(-2px)}
-.close{position:absolute;top:10px;right:15px;font-size:28px;font-weight:bold;color:#000;cursor:pointer;transition:all .3s;z-index:2;pointer-events:auto;}
+.close{position:absolute;top:10px;right:15px;font-size:28px;font-weight:bold;color:#000;cursor:pointer;transition:all .3s}
 .close:hover{color:#555;}
 @media(max-width:1024px){
   .modal-content{flex-direction:column;width:95%;}
@@ -185,43 +185,109 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
 </div>
 
 <script>
-// Aquí va tu JavaScript para llenar productos y abrir modal
-const products = [
+// Productos ropa
+const ropaProducts = [
    {id:1,name:"Playera Oversize Negra 220g",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",keywords:"playera negra oversize"},
    {id:2,name:"Playera Oversize Negra 220g",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",keywords:"playera negra oversize"},
    {id:3,name:"Playera Oversize Negra 220g",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",keywords:"playera negra oversize"},
    {id:4,name:"Playera Oversize Negra 220g",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",keywords:"playera negra oversize"},
 ];
 
-
-const ropaContainer = document.getElementById('ropaProducts');
-const modal = document.getElementById('productModal');
-const modalImage = document.getElementById('modalImage');
-const modalTitle = document.getElementById('modalTitle');
-const modalDescription = document.getElementById('modalDescription');
-const modalPrice = document.getElementById('modalPrice');
-const closeModal = document.querySelector('.close');
-const quantityInput = document.getElementById('quantity');
-
-products.forEach(product=>{
-  const div = document.createElement('div');
-  div.classList.add('product');
-  div.innerHTML = `<img src="${product.img}" alt="${product.name}"><h3>${product.name}</h3><p class="price">$${product.price}</p>`;
-  div.addEventListener('click',()=>{
-    modal.style.display='flex';
-    modalImage.src = product.img;
-    modalTitle.textContent = product.name;
-    modalDescription.textContent = product.desc;
-    modalPrice.textContent = '$'+product.price;
-    quantityInput.value=1;
+// Renderizar productos
+const cont = document.getElementById('ropaProducts');
+function renderRopa(list){
+  cont.innerHTML = '';
+  (list||ropaProducts).forEach(p=>{
+    const div = document.createElement('div');
+    div.className = 'product';
+    div.innerHTML = `<img src="${p.image}" alt="${p.name}"><h3>${p.name}</h3><p>${p.description}</p><p class="price">${p.price}</p>`;
+    div.addEventListener('click', ()=>openModal(p));
+    cont.appendChild(div);
   });
-  ropaContainer.appendChild(div);
+}
+renderRopa();
+
+// Buscador
+const searchInput = document.getElementById('searchInput');
+const clearBtn = document.getElementById('clearBtn');
+searchInput.addEventListener('input', ()=>{
+  const q = searchInput.value.trim().toLowerCase();
+  if(q){
+    clearBtn.style.display='inline-block';
+    const filtered = ropaProducts.filter(p => p.name.toLowerCase().includes(q) || (p.keywords && p.keywords.toLowerCase().includes(q)));
+    renderRopa(filtered);
+  }else{ clearBtn.style.display='none'; renderRopa(); }
+});
+clearBtn.addEventListener('click', ()=>{ searchInput.value=''; clearBtn.style.display='none'; renderRopa(); });
+
+// Header scroll
+const header = document.getElementById('mainHeader');
+let lastY=0;
+window.addEventListener('scroll', ()=>{
+  const y = window.pageYOffset || document.documentElement.scrollTop;
+  if(y > lastY && y > 50) header.classList.add('header-hidden'); else header.classList.remove('header-hidden');
+  lastY = y<=0?0:y;
 });
 
-closeModal.addEventListener('click',()=>modal.style.display='none');
-window.addEventListener('click',(e)=>{if(e.target==modal) modal.style.display='none'});
+// Nav active
+const navLinks = document.querySelectorAll('nav a');
+const currentPage = window.location.pathname.split("/").pop();
+navLinks.forEach(link=>{
+  const linkPage = link.getAttribute('href').split("/").pop();
+  if(linkPage===currentPage || (linkPage==="index.html" && currentPage==="")) link.classList.add('active');
+  if(link.id==='perfumesLink') link.classList.add('active'); // Mantener color al ir a perfumes
+});
 
+// Modal
+const modal = document.getElementById("productModal");
+const modalImage = document.getElementById("modalImage");
+const modalTitle = document.getElementById("modalTitle");
+const modalDescription = document.getElementById("modalDescription");
+const modalPrice = document.getElementById("modalPrice");
+const modalClose = document.querySelector(".close");
+const decreaseBtn = document.getElementById("decrease");
+const increaseBtn = document.getElementById("increase");
+const quantityInput = document.getElementById("quantity");
+const addCartBtn = document.querySelector(".add-cart");
+const mlOptions = document.querySelectorAll(".ml-option");
+
+function openModal(product){
+  modal.style.display="flex";
+  modalImage.src = product.image;
+  modalTitle.textContent = product.name;
+  modalDescription.textContent = product.description;
+  modalPrice.textContent = product.price;
+  quantityInput.value = 1;
+  mlOptions.forEach(opt=>opt.classList.remove("active"));
+  mlOptions[0].classList.add("active");
+}
+
+modalClose.addEventListener("click", ()=>modal.style.display="none");
+window.addEventListener("click", e=>{if(e.target==modal) modal.style.display="none";});
+
+decreaseBtn.addEventListener("click", ()=>{
+  let val = parseInt(quantityInput.value);
+  if(val>1) quantityInput.value = val-1;
+});
+increaseBtn.addEventListener("click", ()=>{
+  let val = parseInt(quantityInput.value);
+  quantityInput.value = val+1;
+});
+
+mlOptions.forEach(opt=>{
+  opt.addEventListener("click", ()=>{
+    mlOptions.forEach(o=>o.classList.remove("active"));
+    opt.classList.add("active");
+    modalPrice.textContent = "$220.00"; // Mantener signo pesos
+  });
+});
+
+addCartBtn.addEventListener("click", ()=>{
+  const cantidad = quantityInput.value;
+  const variant = document.querySelector(".ml-option.active").textContent;
+  alert(`Agregado al carrito: ${modalTitle.textContent} - Talla: ${variant} - Cantidad: ${cantidad}`);
+  modal.style.display="none";
+});
 </script>
-
 </body>
 </html>
