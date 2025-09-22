@@ -10,7 +10,6 @@
   --color-background:#fff;
   --color-accent:#e0e0e0;
   --color-text:#333;
-  --color-gold:#c5a46d;
   --font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -26,7 +25,7 @@ header{position:fixed;top:0;left:0;width:100%;background:var(--color-primary);co
 /* NAV */
 nav ul{list-style:none;display:flex;justify-content:center;gap:20px;padding:10px 0;background:var(--color-primary);}
 nav a{color:var(--color-background);text-decoration:none;font-weight:500;font-size:1rem;padding:5px 0;}
-nav a.active{color:var(--color-gold);border-bottom:2px solid var(--color-gold);}
+nav a.active{color:#555;border-bottom:2px solid #555;}
 
 /* MAIN PERFUMES */
 main{padding:40px 20px;max-width:1400px;margin:0 auto;text-align:center}
@@ -53,26 +52,26 @@ h1{margin-bottom:40px;margin-top:0}
 .modal-right{display:flex;flex-direction:column;justify-content:center;gap:15px;padding:30px;text-align:left}
 .modal-right h2{font-size:1.6rem;color:var(--color-primary);border-bottom:1px solid var(--color-accent);padding-bottom:10px;margin-bottom:10px;}
 .modal-right p{margin-bottom:5px;font-size:1rem;color:#444;}
-.price{color:var(--color-gold);font-weight:bold;font-size:1.2rem}
+.price{color:#000;font-weight:bold;font-size:1.2rem}
 
 /* Pastillas de mililitros */
 .ml-options{display:flex;gap:10px;margin:10px 0;}
-.ml-option{flex:1;text-align:center;padding:10px;border:1px solid var(--color-accent);border-radius:20px;cursor:pointer;transition:all .3s;font-size:0.9rem;background:#f9f9f9;}
-.ml-option:hover{border-color:var(--color-gold);}
-.ml-option.active{background:var(--color-gold);color:#fff;border-color:var(--color-gold);}
+.ml-option{flex:1;text-align:center;padding:10px;border:1px solid var(--color-accent);border-radius:20px;cursor:pointer;transition:all .3s;font-size:0.9rem;background:#f9f9f9;color:#333;}
+.ml-option:hover{border-color:#000;}
+.ml-option.active{background:#000;color:#fff;border-color:#000;}
 
 /* Cantidad con botones */
 .quantity-control{display:flex;align-items:center;gap:10px;margin:10px 0;}
-.quantity-btn{background:var(--color-primary);color:#fff;border:none;width:35px;height:35px;border-radius:50%;font-size:1.2rem;cursor:pointer;transition:all .3s}
+.quantity-btn{background:#000;color:#fff;border:none;width:35px;height:35px;border-radius:50%;font-size:1.2rem;cursor:pointer;transition:all .3s}
 .quantity-btn:hover{background:#333;}
 #quantity{width:50px;text-align:center;border:1px solid var(--color-accent);border-radius:6px;padding:6px;font-size:1rem}
 
 /* Botón carrito */
-.add-cart{background:linear-gradient(135deg,var(--color-primary),#222);color:#fff;padding:14px;border:none;cursor:pointer;width:100%;border-radius:8px;font-size:1rem;font-weight:600;transition:all .3s}
-.add-cart:hover{background:linear-gradient(135deg,#222,var(--color-primary));transform:translateY(-2px)}
+.add-cart{background:#000;color:#fff;padding:14px;border:none;cursor:pointer;width:100%;border-radius:8px;font-size:1rem;font-weight:600;transition:all .3s}
+.add-cart:hover{background:#333;transform:translateY(-2px)}
 
-.close{position:absolute;top:10px;right:15px;font-size:32px;font-weight:bold;color:#fff;cursor:pointer;z-index:10;transition:all .3s}
-.close:hover{color:var(--color-gold);}
+.close{position:absolute;top:10px;right:15px;font-size:32px;font-weight:bold;color:#fff;cursor:pointer;transition:all .3s}
+.close:hover{color:#555;}
 
 /* RESPONSIVE MODAL */
 @media(max-width:1024px){
@@ -119,8 +118,8 @@ footer{text-align:center;padding:20px;font-size:0.9rem;background:#f9f9f9;margin
       <!-- Presentación -->
       <label>Presentación:</label>
       <div class="ml-options">
-        <div class="ml-option active" data-ml="60ml">60 ml</div>
-        <div class="ml-option" data-ml="120ml">120 ml</div>
+        <div class="ml-option active" data-ml="60ml" data-price="199">60 ml</div>
+        <div class="ml-option" data-ml="120ml" data-price="299">120 ml</div>
       </div>
 
       <!-- Cantidad -->
@@ -142,16 +141,16 @@ footer{text-align:center;padding:20px;font-size:0.9rem;background:#f9f9f9;margin
 
 <script>
 const perfumes = [
-  {name:"Mar Negro",description:"Oscuro, marino, misterioso.",price:"$299.00",image:"images/ADGPROFUMO.png"},
-  {name:"Neblina",description:"Fresco, salado, acuático.",price:"$299.00",image:"images/INV.png"},
-  {name:"Neblina Plateada",description:"Fresco, audaz, moderno.",price:"$299.00",image:"images/INVPLAT.png"},
-  {name:"Edén Tropical",description:"Exótico, tropical, vibrante.",price:"$299.00",image:"images/JEANGARD.png"},
-  {name:"Fortuna Dorada",description:"Dulce, audaz, opulento.",price:"$299.00",image:"images/LUCKY.png"},
-  {name:"Abismo Azul",description:"Acuático, fresco, profundo.",price:"$299.00",image:"images/PROFONDO.png"},
-  {name:"Sombra de Sándalo",description:"Leñoso, ahumado, robusto.",price:"$299.00",image:"images/SANTAL.png"},
-  {name:"Neblina V Elixir",description:"Intenso, picante, potente.",price:"$299.00",image:"images/VELIXIR.png"},
-  {name:"Océano Ígneo",description:"Elegante, fresco, audaz.",price:"$299.00",image:"images/BLEU.png"},
-  {name:"Legado",description:"Fresco, leñoso, complejo.",price:"$299.00",image:"images/CREED.png"},
+  {name:"Mar Negro",description:"Oscuro, marino, misterioso.",price60:"$199.00",price120:"$299.00",image:"images/ADGPROFUMO.png"},
+  {name:"Neblina",description:"Fresco, salado, acuático.",price60:"$199.00",price120:"$299.00",image:"images/INV.png"},
+  {name:"Neblina Plateada",description:"Fresco, audaz, moderno.",price60:"$199.00",price120:"$299.00",image:"images/INVPLAT.png"},
+  {name:"Edén Tropical",description:"Exótico, tropical, vibrante.",price60:"$199.00",price120:"$299.00",image:"images/JEANGARD.png"},
+  {name:"Fortuna Dorada",description:"Dulce, audaz, opulento.",price60:"$199.00",price120:"$299.00",image:"images/LUCKY.png"},
+  {name:"Abismo Azul",description:"Acuático, fresco, profundo.",price60:"$199.00",price120:"$299.00",image:"images/PROFONDO.png"},
+  {name:"Sombra de Sándalo",description:"Leñoso, ahumado, robusto.",price60:"$199.00",price120:"$299.00",image:"images/SANTAL.png"},
+  {name:"Neblina V Elixir",description:"Intenso, picante, potente.",price60:"$199.00",price120:"$299.00",image:"images/VELIXIR.png"},
+  {name:"Océano Ígneo",description:"Elegante, fresco, audaz.",price60:"$199.00",price120:"$299.00",image:"images/BLEU.png"},
+  {name:"Legado",description:"Fresco, leñoso, complejo.",price60:"$199.00",price120:"$299.00",image:"images/CREED.png"},
 ];
 
 const perfumesContainer = document.getElementById("perfumesContainer");
@@ -162,7 +161,7 @@ perfumes.forEach((p)=> {
     <img src="${p.image}" alt="${p.name}">
     <h3>${p.name}</h3>
     <p>${p.description}</p>
-    <p class="price">${p.price}</p>`;
+    <p class="price">${p.price120}</p>`;
   div.addEventListener("click", ()=>openModal(p));
   perfumesContainer.appendChild(div);
 });
@@ -179,16 +178,18 @@ function openModal(product){
   modalImage.src = product.image;
   modalTitle.textContent = product.name;
   modalDescription.textContent = product.description;
-  modalPrice.textContent = product.price;
-  document.getElementById("quantity").value = 1; // reset cantidad
+  modalPrice.textContent = product.price60;
+  document.getElementById("quantity").value = 1; 
   document.querySelectorAll(".ml-option").forEach(opt=>opt.classList.remove("active"));
-  document.querySelector(".ml-option[data-ml='60ml']").classList.add("active"); // default
+  const firstOption = document.querySelector(".ml-option[data-ml='60ml']");
+  firstOption.classList.add("active");
 }
 
+/* Cerrar modal */
 closeModal.addEventListener("click", ()=>modal.style.display="none");
 window.addEventListener("click", e=>{if(e.target===modal) modal.style.display="none";});
 
-/* Botones de cantidad */
+/* Cantidad */
 const decreaseBtn = document.getElementById("decrease");
 const increaseBtn = document.getElementById("increase");
 const quantityInput = document.getElementById("quantity");
@@ -202,11 +203,13 @@ increaseBtn.addEventListener("click", ()=>{
   quantityInput.value = val+1;
 });
 
-/* Selección de ml */
+/* Selección de ml y actualización precio */
 document.querySelectorAll(".ml-option").forEach(opt=>{
   opt.addEventListener("click", ()=>{
     document.querySelectorAll(".ml-option").forEach(o=>o.classList.remove("active"));
     opt.classList.add("active");
+    const currentProduct = perfumes.find(p=>p.name===modalTitle.textContent);
+    modalPrice.textContent = opt.dataset.ml==="60ml" ? currentProduct.price60 : currentProduct.price120;
   });
 });
 
