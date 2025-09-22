@@ -16,8 +16,6 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font-family);background:var(--color-background);color:var(--color-text);line-height:1.6;padding-top:120px}
-
-/* ===== HEADER COMÚN ===== */
 header{
   position:fixed;top:0;left:0;width:100%;
   background:var(--color-primary);color:var(--color-background);z-index:1000;
@@ -31,12 +29,8 @@ header{
 nav ul{list-style:none;display:flex;justify-content:center;gap:20px;padding:10px 0;background:var(--color-primary);}
 nav a{color:var(--color-background);text-decoration:none;font-weight:500;font-size:1rem;padding:5px 0;}
 nav a.active{color:#e0e0e0;border-bottom:2px solid var(--color-accent);}
-
-/* ===== MAIN PERFUMES ===== */
 main{padding:40px 20px;max-width:1400px;margin:0 auto;text-align:center}
 main h1{margin-bottom:40px;margin-top:0;font-family: var(--font-title);}
-
-/* ===== GRID DE PERFUMES ===== */
 .perfumes{
   display:grid;
   gap:20px;
@@ -64,9 +58,14 @@ main h1{margin-bottom:40px;margin-top:0;font-family: var(--font-title);}
 .perfume p{margin:5px 0;font-size:0.9rem;color:#666}
 .perfume .price{font-weight:bold;margin-top:10px;font-size:1rem;color:#000}
 
-/* ========== MODAL ========== */
-.modal{display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.7);z-index:2000;justify-content:center;align-items:center;overflow:auto;padding:20px}
-.modal-content{background:#fff;width:90%;max-width:900px;display:flex;border-radius:12px;overflow:hidden;flex-direction:row;position:relative;box-shadow:0 10px 30px rgba(0,0,0,.3);animation:fadeIn .3s ease;}
+/* ===== MODAL CORRECTO ===== */
+.modal{
+  display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;
+  background:rgba(0,0,0,0.7);z-index:2000;justify-content:center;align-items:center;overflow:auto;padding:20px;
+}
+.modal-content{
+  background:#fff;width:90%;max-width:900px;display:flex;border-radius:12px;overflow:hidden;flex-direction:row;position:relative;box-shadow:0 10px 30px rgba(0,0,0,.3);animation:fadeIn .3s ease;
+}
 @keyframes fadeIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
 .modal-left, .modal-right{flex:1;position:relative}
 .modal-left img{width:100%;height:100%;object-fit:cover;display:block;border-radius:12px;}
@@ -84,17 +83,45 @@ main h1{margin-bottom:40px;margin-top:0;font-family: var(--font-title);}
 #quantity{width:50px;text-align:center;border:1px solid var(--color-accent);border-radius:6px;padding:6px;font-size:1rem}
 .add-cart{background:#000;color:#fff;padding:14px;border:none;cursor:pointer;width:100%;border-radius:8px;font-size:1rem;font-weight:600;transition:all .3s}
 .add-cart:hover{background:#333;transform:translateY(-2px)}
-.close{
-  position:absolute;top:10px;right:15px;font-size:28px;font-weight:bold;color:#000;cursor:pointer;transition:all .3s;
-  background:rgba(255,255,255,0.9);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:2px solid rgba(0,0,0,0.1);
-}
-.close:hover{color:#555;}
 
-/* RESPONSIVE MODAL */
+.close{
+  position:absolute;
+  top:15px;
+  right:20px;
+  font-size:32px;
+  font-weight:bold;
+  color:#000;
+  cursor:pointer;
+  z-index:10;
+  background:rgba(255,255,255,0.95);
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  line-height:1;
+  user-select:none;
+  border:2px solid rgba(0,0,0,0.1);
+  box-shadow:0 2px 6px rgba(0,0,0,0.05);
+  transition:all .3s;
+}
+.close:hover{
+  color:#fff;
+  background:#000;
+  transform:scale(1.1);
+  border-color:#000;
+}
 @media(max-width:1024px){
   .modal-content{flex-direction:column;width:95%;}
-  .modal-left img{height:280px;object-fit:cover;}
+  .modal-left img{height:240px;object-fit:cover;}
   .modal-right{padding:20px;}
+}
+@media(max-width:600px){
+  .close{top:8px;right:8px;width:36px;height:36px;font-size:28px;}
+  .modal-content{width:99vw;}
+  .modal-left img{height:180px;}
+  .modal-right{padding:12px;}
 }
 footer{text-align:center;padding:20px;font-size:0.9rem;background:#f9f9f9;margin-top:40px;color:#666;}
 </style>
