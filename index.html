@@ -9,13 +9,13 @@
 
 :root{
   --color-primary:#000;
+  --color-secondary:#555;
   --color-background:#fff;
   --color-accent:#e0e0e0;
   --color-text:#333;
   --font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   --font-title:'Neblina', sans-serif;
 }
-
 *{box-sizing:border-box;margin:0;padding:0}
 html, body{width:100%;margin:0;padding:0;overflow-x:hidden;}
 body{
@@ -29,9 +29,7 @@ body{
 /* HEADER */
 header{
   position:fixed;top:0;left:0;width:100%;
-  background:var(--color-primary);
-  color:var(--color-background);
-  z-index:1000;
+  background:var(--color-primary);color:var(--color-background);z-index:1000;
   transition:all .3s ease;
 }
 .logo-container{display:flex;align-items:center;justify-content:center;height:70px;overflow:hidden;transition:all .3s}
@@ -41,15 +39,13 @@ header{
 
 /* NAV */
 nav ul{list-style:none;display:flex;justify-content:center;gap:20px;padding:10px 0;background:var(--color-primary);}
-nav a{color:var(--color-background);text-decoration:none;font-weight:500;font-size:1rem;padding:5px 0;position:relative;}
-nav a.active::after{
-  content:"";position:absolute;bottom:0;left:0;width:100%;height:2px;background:var(--color-accent);
-}
+nav a{color:var(--color-background);text-decoration:none;font-weight:500;font-size:1rem;padding:5px 0;}
+nav a.active{color:#e0e0e0;border-bottom:2px solid var(--color-accent);}
 
 /* HERO - BANNERS */
 .hero-banners{display:flex;width:100vw;margin-top:-60px;overflow-x:hidden;position:relative;}
 .banner{flex:0 0 33.333%;max-height:90vh;overflow:hidden;min-width:0;margin:0;}
-.banner img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;border-radius:8px;}
+.banner img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
 .banner img:hover{ transform:scale(1.05); }
 .scroll-indicator{display:none;position:absolute;right:10px;bottom:10px;font-size:1.2rem;background:rgba(0,0,0,0.5);color:#fff;padding:0.3rem 0.6rem;border-radius:4px;z-index:10;}
 @media(max-width:1024px){
@@ -81,20 +77,22 @@ section h2{margin-bottom:2rem;font-size:2rem;color:var(--color-primary)}
 /* FOOTER */
 footer{background:var(--color-primary);color:var(--color-background);text-align:center;padding:2rem 1rem;margin-top:2rem}
 
-/* MODAL */
+/* MODAL PERFUMES/ROPA */
 .modal{display:none;position:fixed;z-index:2000;left:0;top:0;width:100%;height:100%;overflow:auto;background:rgba(0,0,0,0.7);justify-content:center;align-items:center;padding:20px}
 .modal-content{background:#fff;width:90%;max-width:900px;display:flex;border-radius:12px;overflow:hidden;flex-direction:row;position:relative;box-shadow:0 10px 30px rgba(0,0,0,.3);animation:fadeIn .3s ease;}
 @keyframes fadeIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
 .modal-left, .modal-right{flex:1;position:relative}
-.modal-left img{width:100%;height:100%;object-fit:cover;display:block;border-radius:8px;}
+.modal-left img{width:100%;height:100%;object-fit:cover;display:block;}
 .modal-right{display:flex;flex-direction:column;justify-content:center;gap:15px;padding:30px;text-align:left}
 .modal-right h2{font-size:1.6rem;color:var(--color-primary);border-bottom:1px solid var(--color-accent);padding-bottom:10px;margin-bottom:10px; font-family: var(--font-title);}
 .modal-right p{margin-bottom:5px;font-size:1rem;color:#444;}
 .price{color:#000;font-weight:bold;font-size:1.2rem}
+/* Variantes de talla */
 .ml-options{display:flex;gap:10px;margin:10px 0;}
 .ml-option{flex:1;text-align:center;padding:10px;border:1px solid var(--color-accent);border-radius:20px;cursor:pointer;transition:all .3s;font-size:0.9rem;background:#f9f9f9;color:#333;}
 .ml-option:hover{border-color:#000;}
 .ml-option.active{background:#000;color:#fff;border-color:#000;}
+/* Cantidad con botones */
 .quantity-control{display:flex;align-items:center;gap:10px;margin:10px 0;}
 .quantity-btn{background:#000;color:#fff;border:none;width:35px;height:35px;border-radius:50%;font-size:1.2rem;cursor:pointer;transition:all .3s}
 .quantity-btn:hover{background:#333;}
@@ -173,7 +171,7 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
       <p class="price" id="modalPrice">$220.00</p>
       <label>Talla:</label>
       <div class="ml-options">
-        <div class="ml-option active" data-price="220">Mediana</div>
+        <div class="ml-option active" data-price="220">$220 - Mediana</div>
         <div class="ml-option" data-price="220">Grande</div>
         <div class="ml-option" data-price="220">Extra Grande</div>
       </div>
@@ -191,10 +189,10 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
 <script>
 // Productos ropa
 const ropaProducts = [
-   {id:1,name:"Playera Oversize Negra 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",keywords:"playera negra oversize"},
-   {id:2,name:"PLAYERA OVERSIZE NEGRA 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",keywords:"playera negra oversize"},
-   {id:3,name:"PLAYERA OVERSIZE NEGRA 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",keywords:"playera negra oversize"},
-   {id:4,name:"PLAYERA OVERSIZE NEGRA 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",keywords:"playera negra oversize"},
+   {id:1,name:"PLAYERA OVERSIZE NEGRA 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",keywords:"playera negra oversize"},
+   {id:2,name:"PLAYERA OVERSIZE NEGRA 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA2.png",keywords:"playera negra oversize"},
+   {id:3,name:"PLAYERA OVERSIZE NEGRA 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA3.png",keywords:"playera negra oversize"},
+   {id:4,name:"PLAYERA OVERSIZE NEGRA 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA4.png",keywords:"playera negra oversize"},
 ];
 
 // Renderizar productos
@@ -239,6 +237,7 @@ const currentPage = window.location.pathname.split("/").pop();
 navLinks.forEach(link=>{
   const linkPage = link.getAttribute('href').split("/").pop();
   if(linkPage===currentPage || (linkPage==="index.html" && currentPage==="")) link.classList.add('active');
+  if(link.id==='perfumesLink') link.classList.add('active'); // Mantener color al ir a perfumes
 });
 
 // Modal
@@ -281,7 +280,7 @@ mlOptions.forEach(opt=>{
   opt.addEventListener("click", ()=>{
     mlOptions.forEach(o=>o.classList.remove("active"));
     opt.classList.add("active");
-    modalPrice.textContent = "$220.00";
+    modalPrice.textContent = "$220.00"; // Mantener signo pesos
   });
 });
 
