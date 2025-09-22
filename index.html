@@ -6,6 +6,7 @@
 <title>EREBUS - Inicio</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Neblina&display=swap');
+
 :root{
   --color-primary:#000;
   --color-secondary:#555;
@@ -17,10 +18,20 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html, body{width:100%;margin:0;padding:0;overflow-x:hidden;}
-body{font-family:var(--font-family);background:var(--color-background);color:var(--color-text);line-height:1.6;padding-top:120px;}
+body{
+  font-family:var(--font-family);
+  background:var(--color-background);
+  color:var(--color-text);
+  line-height:1.6;
+  padding-top:120px;
+}
 
 /* HEADER */
-header{position:fixed;top:0;left:0;width:100%;background:var(--color-primary);color:var(--color-background);z-index:1000;transition:all .3s ease;}
+header{
+  position:fixed;top:0;left:0;width:100%;
+  background:var(--color-primary);color:var(--color-background);z-index:1000;
+  transition:all .3s ease;
+}
 .logo-container{display:flex;align-items:center;justify-content:center;height:70px;overflow:hidden;transition:all .3s}
 .logo-container img{height:50px;margin-right:10px}
 .logo-container h1{font-size:1.8rem;color:#fff;margin:0;font-family: var(--font-title);}
@@ -31,13 +42,17 @@ nav ul{list-style:none;display:flex;justify-content:center;gap:20px;padding:10px
 nav a{color:var(--color-background);text-decoration:none;font-weight:500;font-size:1rem;padding:5px 0;}
 nav a.active{color:#e0e0e0;border-bottom:2px solid var(--color-accent);}
 
-/* HERO */
+/* HERO - BANNERS */
 .hero-banners{display:flex;width:100vw;margin-top:-60px;overflow-x:hidden;position:relative;}
 .banner{flex:0 0 33.333%;max-height:90vh;overflow:hidden;min-width:0;margin:0;}
 .banner img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
-.banner img:hover{transform:scale(1.05);}
+.banner img:hover{ transform:scale(1.05); }
 .scroll-indicator{display:none;position:absolute;right:10px;bottom:10px;font-size:1.2rem;background:rgba(0,0,0,0.5);color:#fff;padding:0.3rem 0.6rem;border-radius:4px;z-index:10;}
-@media(max-width:1024px){.hero-banners{flex-wrap: nowrap;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling: touch;}.banner{flex:0 0 100vw;scroll-snap-align:center;}.scroll-indicator{display:block;animation: bounce 1s infinite alternate;}}
+@media(max-width:1024px){
+  .hero-banners{flex-wrap: nowrap;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling: touch;}
+  .banner{flex:0 0 100vw;scroll-snap-align:center;}
+  .scroll-indicator{display:block;animation: bounce 1s infinite alternate;}
+}
 @keyframes bounce{0%{transform: translateX(0);}100%{transform: translateX(5px);}}
 
 /* SEARCH */
@@ -47,7 +62,7 @@ nav a.active{color:#e0e0e0;border-bottom:2px solid var(--color-accent);}
 .search-bar input{flex:1;padding:.75rem;border:0;outline:none;font-size:16px}
 .search-bar svg{width:18px;height:18px;margin:0 10px;flex-shrink:0}
 
-/* ROPA */
+/* ROPA - PRODUCTOS */
 section{padding:4rem 2rem;text-align:center}
 section h2{margin-bottom:2rem;font-size:2rem;color:var(--color-primary)}
 .products{display:grid;gap:20px;grid-template-columns:repeat(4,1fr)}
@@ -62,7 +77,7 @@ section h2{margin-bottom:2rem;font-size:2rem;color:var(--color-primary)}
 /* FOOTER */
 footer{background:var(--color-primary);color:var(--color-background);text-align:center;padding:2rem 1rem;margin-top:2rem}
 
-/* MODAL */
+/* MODAL PERFUMES/ROPA */
 .modal{display:none;position:fixed;z-index:2000;left:0;top:0;width:100%;height:100%;overflow:auto;background:rgba(0,0,0,0.7);justify-content:center;align-items:center;padding:20px}
 .modal-content{background:#fff;width:90%;max-width:900px;display:flex;border-radius:12px;overflow:hidden;flex-direction:row;position:relative;box-shadow:0 10px 30px rgba(0,0,0,.3);animation:fadeIn .3s ease;}
 @keyframes fadeIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
@@ -82,29 +97,8 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
 #quantity{width:50px;text-align:center;border:1px solid var(--color-accent);border-radius:6px;padding:6px;font-size:1rem}
 .add-cart{background:#000;color:#fff;padding:14px;border:none;cursor:pointer;width:100%;border-radius:8px;font-size:1rem;font-weight:600;transition:all .3s}
 .add-cart:hover{background:#333;transform:translateY(-2px)}
-
-/* TACHE arreglado */
-.close{
-  position:absolute;
-  top:10px;
-  right:10px;
-  font-size:32px;
-  font-weight:bold;
-  color:#000;
-  cursor:pointer;
-  z-index:2100;
-  background:#fff;
-  border-radius:50%;
-  width:40px;
-  height:40px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 2px 6px rgba(0,0,0,0.3);
-  transition:all .3s;
-}
+.close{position:absolute;top:10px;right:15px;font-size:28px;font-weight:bold;color:#000;cursor:pointer;transition:all .3s}
 .close:hover{color:#555;}
-
 @media(max-width:1024px){
   .modal-content{flex-direction:column;width:95%;}
   .modal-left img{height:280px;object-fit:cover;}
@@ -113,4 +107,187 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
 </style>
 </head>
 <body>
-<!-- tu HTML original permanece aquí, no se elimina nada -->
+
+<header id="mainHeader">
+  <div class="logo-container">
+    <img src="images/LOGOE.png" alt="Logo EREBUS">
+    <h1>EREBUS</h1>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="index.html" id="homeLink">Inicio</a></li>
+      <li><a href="#ropa">Ropa</a></li>
+      <li><a href="perfumes.html" id="perfumesLink">Perfumes</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero-banners" id="inicio">
+  <div class="banner"><img src="images/MODELO4.png" alt="Modelo 1"></div>
+  <div class="banner"><img src="images/MODELO2.png" alt="Modelo 2"></div>
+  <div class="banner"><img src="images/MODELO5.png" alt="Modelo 3"></div>
+  <span class="scroll-indicator">&#8594; Desliza</span>
+</section>
+
+<div class="search-container">
+  <span id="clearBtn">&times;</span>
+  <div class="search-bar">
+    <svg class="lupa" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="11" cy="11" r="7" stroke="black" stroke-width="2" fill="none"/>
+      <line x1="16" y1="16" x2="22" y2="22" stroke="black" stroke-width="2"/>
+    </svg>
+    <input type="text" id="searchInput" placeholder="Buscar productos (solo ropa en esta página)..." />
+  </div>
+</div>
+
+<section id="ropa">
+  <h2>Nuestra Ropa</h2>
+  <div class="products" id="ropaProducts"></div>
+</section>
+
+<section id="contacto">
+  <h2>Contacto</h2>
+  <p>Email: contacto@tutienda.com</p>
+  <p>Tel: +34 600 123 456</p>
+</section>
+
+<footer>
+  <p>&copy; 2024 Tu Tienda Elegante. Todos los derechos reservados.</p>
+</footer>
+
+<!-- MODAL -->
+<div id="productModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div class="modal-left">
+      <img id="modalImage" src="" alt="Producto">
+    </div>
+    <div class="modal-right">
+      <h2 id="modalTitle"></h2>
+      <p id="modalDescription"></p>
+      <p class="price" id="modalPrice">$220.00</p>
+      <label>Talla:</label>
+      <div class="ml-options">
+        <div class="ml-option active" data-price="220">Mediana</div>
+        <div class="ml-option" data-price="220">Grande</div>
+        <div class="ml-option" data-price="220">Extra Grande</div>
+      </div>
+      <label>Cantidad:</label>
+      <div class="quantity-control">
+        <button class="quantity-btn" id="decrease">-</button>
+        <input type="text" id="quantity" value="1" readonly>
+        <button class="quantity-btn" id="increase">+</button>
+      </div>
+      <button class="add-cart">Agregar al carrito 🛒</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Productos ropa
+const ropaProducts = [
+   {id:1,name:"Playera Oversize Negra 220g",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",keywords:"playera negra oversize"},
+   {id:2,name:"Playera Oversize Negra 220g",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",keywords:"playera negra oversize"},
+   {id:3,name:"Playera Oversize Negra 220g",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",keywords:"playera negra oversize"},
+   {id:4,name:"Playera Oversize Negra 220g",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",keywords:"playera negra oversize"},
+];
+
+// Renderizar productos
+const cont = document.getElementById('ropaProducts');
+function renderRopa(list){
+  cont.innerHTML = '';
+  (list||ropaProducts).forEach(p=>{
+    const div = document.createElement('div');
+    div.className = 'product';
+    div.innerHTML = `<img src="${p.image}" alt="${p.name}"><h3>${p.name}</h3><p>${p.description}</p><p class="price">${p.price}</p>`;
+    div.addEventListener('click', ()=>openModal(p));
+    cont.appendChild(div);
+  });
+}
+renderRopa();
+
+// Buscador
+const searchInput = document.getElementById('searchInput');
+const clearBtn = document.getElementById('clearBtn');
+searchInput.addEventListener('input', ()=>{
+  const q = searchInput.value.trim().toLowerCase();
+  if(q){
+    clearBtn.style.display='inline-block';
+    const filtered = ropaProducts.filter(p => p.name.toLowerCase().includes(q) || (p.keywords && p.keywords.toLowerCase().includes(q)));
+    renderRopa(filtered);
+  }else{ clearBtn.style.display='none'; renderRopa(); }
+});
+clearBtn.addEventListener('click', ()=>{ searchInput.value=''; clearBtn.style.display='none'; renderRopa(); });
+
+// Header scroll
+const header = document.getElementById('mainHeader');
+let lastY=0;
+window.addEventListener('scroll', ()=>{
+  const y = window.pageYOffset || document.documentElement.scrollTop;
+  if(y > lastY && y > 50) header.classList.add('header-hidden'); else header.classList.remove('header-hidden');
+  lastY = y<=0?0:y;
+});
+
+// Nav active
+const navLinks = document.querySelectorAll('nav a');
+const currentPage = window.location.pathname.split("/").pop();
+navLinks.forEach(link=>{
+  const linkPage = link.getAttribute('href').split("/").pop();
+  if(linkPage===currentPage || (linkPage==="index.html" && currentPage==="")) link.classList.add('active');
+  if(link.id==='perfumesLink') link.classList.add('active'); // Mantener color al ir a perfumes
+});
+
+// Modal
+const modal = document.getElementById("productModal");
+const modalImage = document.getElementById("modalImage");
+const modalTitle = document.getElementById("modalTitle");
+const modalDescription = document.getElementById("modalDescription");
+const modalPrice = document.getElementById("modalPrice");
+const modalClose = document.querySelector(".close");
+const decreaseBtn = document.getElementById("decrease");
+const increaseBtn = document.getElementById("increase");
+const quantityInput = document.getElementById("quantity");
+const addCartBtn = document.querySelector(".add-cart");
+const mlOptions = document.querySelectorAll(".ml-option");
+
+function openModal(product){
+  modal.style.display="flex";
+  modalImage.src = product.image;
+  modalTitle.textContent = product.name;
+  modalDescription.textContent = product.description;
+  modalPrice.textContent = product.price;
+  quantityInput.value = 1;
+  mlOptions.forEach(opt=>opt.classList.remove("active"));
+  mlOptions[0].classList.add("active");
+}
+
+modalClose.addEventListener("click", ()=>modal.style.display="none");
+window.addEventListener("click", e=>{if(e.target==modal) modal.style.display="none";});
+
+decreaseBtn.addEventListener("click", ()=>{
+  let val = parseInt(quantityInput.value);
+  if(val>1) quantityInput.value = val-1;
+});
+increaseBtn.addEventListener("click", ()=>{
+  let val = parseInt(quantityInput.value);
+  quantityInput.value = val+1;
+});
+
+mlOptions.forEach(opt=>{
+  opt.addEventListener("click", ()=>{
+    mlOptions.forEach(o=>o.classList.remove("active"));
+    opt.classList.add("active");
+    modalPrice.textContent = "$220.00"; // Mantener signo pesos
+  });
+});
+
+addCartBtn.addEventListener("click", ()=>{
+  const cantidad = quantityInput.value;
+  const variant = document.querySelector(".ml-option.active").textContent;
+  alert(`Agregado al carrito: ${modalTitle.textContent} - Talla: ${variant} - Cantidad: ${cantidad}`);
+  modal.style.display="none";
+});
+</script>
+</body>
+</html>
