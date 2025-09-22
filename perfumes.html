@@ -6,9 +6,178 @@
 <title>Perfumes - EREBUS</title>
 <link href="https://fonts.googleapis.com/css2?family=Neblina&display=swap" rel="stylesheet">
 <style>
-/* ... (todo el CSS del index, más el efecto móvil de la imagen del modal) ... */
+:root{
+  --color-primary:#000;
+  --color-background:#fff;
+  --color-accent:#e0e0e0;
+  --color-text:#333;
+  --font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --font-title:'Neblina', sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-family);background:var(--color-background);color:var(--color-text);line-height:1.6;padding-top:120px}
+/* ===== HEADER COMÚN ===== */
+header{
+  position:fixed;top:0;left:0;width:100%;
+  background:var(--color-primary);color:var(--color-background);z-index:1000;
+  transition:all .3s ease;
+}
+.logo-container{display:flex;align-items:center;justify-content:center;height:70px;overflow:hidden;transition:all .3s}
+.logo-container img{height:50px;margin-right:10px;}
+.logo-container h1{font-family:var(--font-title);font-size:1.8rem;color:#fff;margin:0;}
+nav ul{list-style:none;display:flex;justify-content:center;gap:20px;padding:10px 0;background:var(--color-primary);}
+nav a{color:var(--color-background);text-decoration:none;font-weight:500;font-size:1rem;padding:5px 0;}
+nav a.active{color:#e0e0e0;border-bottom:2px solid var(--color-accent);}
+main{padding:40px 20px;max-width:1400px;margin:0 auto;text-align:center}
+main h1{margin-bottom:40px;margin-top:0;font-family: var(--font-title);}
+.perfumes{
+  display:grid;
+  gap:20px;
+  justify-items:center;
+  grid-template-columns:repeat(2,1fr);
+  margin:0 auto;
+}
+@media(min-width:1025px){.perfumes{grid-template-columns:repeat(5,1fr);}}
+.perfume{
+  background:#fff;
+  border:1px solid var(--color-accent);
+  border-radius:12px;
+  padding:15px;
+  text-align:center;
+  transition:transform .3s,box-shadow .3s;
+  width:100%;
+  max-width:220px;
+  cursor:pointer;
+  box-shadow:0 1px 8px rgba(0,0,0,0.03);
+  display:flex;flex-direction:column;align-items:center;
+}
+.perfume:hover{transform:translateY(-5px);box-shadow:0 4px 20px rgba(0,0,0,.1)}
+.perfume img{width:100%;height:auto;border-radius:12px;}
+.perfume h3{margin:10px 0 5px;font-size:1.1rem;font-family: var(--font-title);}
+.perfume p{margin:5px 0;font-size:0.9rem;color:#666}
+.perfume .price{font-weight:bold;margin-top:10px;font-size:1rem;color:#000}
 
-/* Carrito flotante y modal lateral (idéntico al index.html) */
+/* ========== MODAL ========== */
+.modal{
+  display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;
+  background:rgba(0,0,0,0.7);z-index:2000;justify-content:center;align-items:center;overflow:auto;padding:20px;
+}
+.modal-content{
+  background:#fff;width:90%;max-width:900px;display:flex;border-radius:12px;overflow:hidden;flex-direction:row;position:relative;box-shadow:0 10px 30px rgba(0,0,0,.3);animation:fadeIn .3s ease;
+}
+@keyframes fadeIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+.modal-left, .modal-right{flex:1;position:relative}
+.modal-left{background:transparent;display:flex;align-items:center;justify-content:center;}
+.modal-left img{
+  width:100%;height:100%;object-fit:cover;display:block;border-radius:12px;max-width:340px;max-height:400px;margin:auto;
+  box-shadow:0 2px 24px rgba(0,0,0,0.07);
+}
+.modal-right{
+  display:flex;flex-direction:column;justify-content:center;gap:15px;
+  padding:30px;text-align:left;position:relative;z-index:1;
+  background:rgba(255,255,255,0.94);
+}
+.modal-right h2{font-size:1.6rem;color:var(--color-primary);border-bottom:1px solid var(--color-accent);padding-bottom:10px;margin-bottom:10px;font-family: var(--font-title);}
+.modal-right p{margin-bottom:5px;font-size:1rem;color:#444;}
+.price{color:#000;font-weight:bold;font-size:1.2rem}
+.ml-options{display:flex;gap:10px;margin:10px 0;}
+.ml-option{flex:1;text-align:center;padding:10px;border:1px solid var(--color-accent);border-radius:20px;cursor:pointer;transition:all .3s;font-size:0.9rem;background:#f9f9f9;color:#333;}
+.ml-option:hover{border-color:#000;}
+.ml-option.active{background:#000;color:#fff;border-color:#000;}
+.quantity-control{display:flex;align-items:center;gap:10px;margin:10px 0;}
+.quantity-btn{background:#000;color:#fff;border:none;width:35px;height:35px;border-radius:50%;font-size:1.2rem;cursor:pointer;transition:all .3s}
+.quantity-btn:hover{background:#333;}
+#quantity{width:50px;text-align:center;border:1px solid var(--color-accent);border-radius:6px;padding:6px;font-size:1rem}
+.add-cart{background:#000;color:#fff;padding:14px;border:none;cursor:pointer;width:100%;border-radius:8px;font-size:1rem;font-weight:600;transition:all .3s}
+.add-cart:hover{background:#333;transform:translateY(-2px)}
+.close{
+  position:absolute;
+  top:15px;
+  right:20px;
+  font-size:32px;
+  font-weight:bold;
+  color:#000;
+  cursor:pointer;
+  z-index:10;
+  background:rgba(255,255,255,0.95);
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  line-height:1;
+  user-select:none;
+  border:2px solid rgba(0,0,0,0.1);
+  box-shadow:0 2px 6px rgba(0,0,0,0.05);
+  transition:all .3s;
+}
+.close:hover{
+  color:#fff;
+  background:#000;
+  transform:scale(1.1);
+  border-color:#000;
+}
+
+/* ---- EFECTO EN MÓVIL: imagen invade el texto ---- */
+@media (max-width: 800px) {
+  .modal-content{
+    flex-direction:column;
+    width:97vw;
+    min-width:0;
+    padding:0;
+  }
+  .modal-left{
+    width:100%;
+    min-height:180px;
+    justify-content:center;
+    align-items:flex-end;
+    overflow:visible;
+  }
+  .modal-left img{
+    width:70vw;
+    min-width:190px;
+    max-width:290px;
+    max-height:230px;
+    margin:0 auto;
+    position:absolute;
+    left:50%;
+    top:0;
+    transform:translate(-50%,-20px) scale(1.12);
+    z-index:2;
+    box-shadow:0 8px 32px rgba(0,0,0,0.13);
+    border-radius:22px;
+    background:#fff;
+  }
+  .modal-right{
+    position:relative;
+    z-index:3;
+    margin-top:120px;
+    padding-top:60px;
+    background:rgba(255,255,255,0.98);
+    box-shadow:0 -2px 12px rgba(0,0,0,0.05);
+    border-radius:0 0 16px 16px;
+  }
+  .close{
+    top:10px;right:10px;width:38px;height:38px;font-size:28px;
+    z-index:11;
+  }
+}
+@media (max-width:500px){
+  .modal-left img{
+    width:90vw;
+    min-width:125px;
+    max-width:98vw;
+    max-height:190px;
+    top:0;
+    left:50%;
+    transform:translate(-50%,-20px) scale(1.07);
+  }
+  .modal-right{padding:14px;}
+  .close{top:7px;right:7px;}
+}
+footer{text-align:center;padding:20px;font-size:0.9rem;background:#f9f9f9;margin-top:40px;color:#666;}
+/* -- Carrito flotante y lateral: igual que index.html -- */
 #floating-cart{
   position:fixed;right:30px;bottom:30px;z-index:2001;
   background:var(--color-primary);color:#fff;
@@ -33,7 +202,9 @@
 #cart-modal .modal-header{
   padding:20px 32px;background:var(--color-primary);color:#fff;display:flex;justify-content:space-between;align-items:center;
 }
-#cart-modal .modal-header h2{font-family:var(--font-title);font-size:1.4rem;margin:0;}
+#cart-modal .modal-header h2{
+  font-family:var(--font-title);font-size:1.4rem;margin:0;
+}
 #close-cart-modal{
   background:transparent;border:none;color:#fff;font-size:2rem;cursor:pointer;
 }
@@ -62,7 +233,6 @@
   #floating-cart{right:12px;bottom:16px;width:50px;height:50px;font-size:1.4rem;}
   #cart-count{width:18px;height:18px;font-size:.8rem;}
 }
-/* ... (resto del CSS para perfumes, modal, efecto móvil, etc.) ... */
 </style>
 </head>
 <body>
@@ -210,13 +380,13 @@ window.addToCart = function(product) {
   updateCartCount();
   alert(`${cartItem.name} agregado al carrito. Total: ${existingItem ? existingItem.quantity : cartItem.quantity} unidades`);
 };
-// --- Resto del JS para perfumes y modal ---
+// --- MODAL Y PRODUCTOS ---
 const perfumes = [
   {name:"Mar Negro",description:"Oscuro, marino, misterioso.",price60:"$199.00",price120:"$299.00",image:"images/ADGPROFUMO.png"},
   {name:"Neblina",description:"Fresco, salado, acuático.",price60:"$199.00",price120:"$299.00",image:"images/INV.png"},
   {name:"Neblina Plateada",description:"Fresco, audaz, moderno.",price60:"$199.00",price120:"$299.00",image:"images/INVPLAT.png"},
   {name:"Edén Tropical",description:"Exótico, tropical, vibrante.",price60:"$199.00",price120:"$299.00",image:"images/JEANGARD.png"},
-  {name:"Fortuna Dorada",description:"Dulce, audaz, opulento.",price60:"$199.00",price120:"$299.00",image:"images/LUCKY.png"},
+  {name:"Fortuna Dorada",description:"Dulce, audaz, opulento.",price60:"$199.00",price120:"$299.00",image:"images/LAKCY.png"},
   {name:"Abismo Azul",description:"Acuático, fresco, profundo.",price60:"$199.00",price120:"$299.00",image:"images/PROFONDO.png"},
   {name:"Sombra de Sándalo",description:"Leñoso, ahumado, robusto.",price60:"$199.00",price120:"$299.00",image:"images/SANTAL.png"},
   {name:"Neblina V Elixir",description:"Intenso, picante, potente.",price60:"$199.00",price120:"$299.00",image:"images/VELIXIR.png"},
