@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>EREBUS - Inicio</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Neblina&display=swap');
+
 :root{
   --color-primary:#000;
   --color-secondary:#555;
@@ -12,6 +14,7 @@
   --color-accent:#e0e0e0;
   --color-text:#333;
   --font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --font-title:'Neblina', sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html, body{width:100%;margin:0;padding:0;overflow-x:hidden;}
@@ -22,6 +25,7 @@ body{
   line-height:1.6;
   padding-top:120px;
 }
+
 /* HEADER */
 header{
   position:fixed;top:0;left:0;width:100%;
@@ -32,10 +36,12 @@ header{
 .logo-container img{height:50px;margin-right:10px}
 .logo-container h1{font-size:1.8rem;color:#fff;margin:0;}
 .header-hidden .logo-container{height:0;transform:translateY(-100%)}
+
 /* NAV */
 nav ul{list-style:none;display:flex;justify-content:center;gap:20px;padding:10px 0;background:var(--color-primary);}
 nav a{color:var(--color-background);text-decoration:none;font-weight:500;font-size:1rem;padding:5px 0;}
-nav a.active{color:var(--color-accent);border-bottom:2px solid var(--color-accent);}
+nav a.active{color:#e0e0e0;border-bottom:2px solid var(--color-accent);}
+
 /* HERO - BANNERS */
 .hero-banners{display:flex;width:100vw;margin-top:-60px;overflow-x:hidden;position:relative;}
 .banner{flex:0 0 33.333%;max-height:90vh;overflow:hidden;min-width:0;margin:0;}
@@ -53,7 +59,7 @@ nav a.active{color:var(--color-accent);border-bottom:2px solid var(--color-accen
 .search-container{display:flex;justify-content:center;align-items:center;margin:2rem auto;max-width:650px;padding:0 1rem}
 #clearBtn{font-size:24px;cursor:pointer;margin-right:10px;color:#555;display:none;user-select:none}
 .search-bar{display:flex;flex:1;border:1px solid var(--color-accent);border-radius:4px;overflow:hidden;align-items:center;background:#fff}
-.search-bar input{flex:1;padding:.75rem;border:0;outline:none;font-size:16}
+.search-bar input{flex:1;padding:.75rem;border:0;outline:none;font-size:16px}
 .search-bar svg{width:18px;height:18px;margin:0 10px;flex-shrink:0}
 
 /* ROPA - PRODUCTOS */
@@ -65,7 +71,7 @@ section h2{margin-bottom:2rem;font-size:2rem;color:var(--color-primary)}
 .product{border:1px solid var(--color-accent);border-radius:8px;padding:1rem;transition:transform .3s,box-shadow .3s;cursor:pointer}
 .product:hover{transform:translateY(-5px);box-shadow:0 4px 20px rgba(0,0,0,.1)}
 .product img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px;margin-bottom:1rem}
-.product h3{margin-bottom:.5rem;color:var(--color-secondary)}
+.product h3{margin-bottom:.5rem;color:var(--color-secondary); font-family: var(--font-title);}
 .product .price{font-weight:bold;color:var(--color-primary)}
 
 /* FOOTER */
@@ -78,10 +84,10 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
 .modal-left, .modal-right{flex:1;position:relative}
 .modal-left img{width:100%;height:100%;object-fit:cover;display:block;}
 .modal-right{display:flex;flex-direction:column;justify-content:center;gap:15px;padding:30px;text-align:left}
-.modal-right h2{font-size:1.6rem;color:var(--color-primary);border-bottom:1px solid var(--color-accent);padding-bottom:10px;margin-bottom:10px;}
+.modal-right h2{font-size:1.6rem;color:var(--color-primary);border-bottom:1px solid var(--color-accent);padding-bottom:10px;margin-bottom:10px; font-family: var(--font-title);}
 .modal-right p{margin-bottom:5px;font-size:1rem;color:#444;}
 .price{color:#000;font-weight:bold;font-size:1.2rem}
-/* Pastillas de variantes (ml, talla, etc.) */
+/* Variantes de talla */
 .ml-options{display:flex;gap:10px;margin:10px 0;}
 .ml-option{flex:1;text-align:center;padding:10px;border:1px solid var(--color-accent);border-radius:20px;cursor:pointer;transition:all .3s;font-size:0.9rem;background:#f9f9f9;color:#333;}
 .ml-option:hover{border-color:#000;}
@@ -93,7 +99,7 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
 #quantity{width:50px;text-align:center;border:1px solid var(--color-accent);border-radius:6px;padding:6px;font-size:1rem}
 .add-cart{background:#000;color:#fff;padding:14px;border:none;cursor:pointer;width:100%;border-radius:8px;font-size:1rem;font-weight:600;transition:all .3s}
 .add-cart:hover{background:#333;transform:translateY(-2px)}
-.close{position:absolute;top:10px;right:15px;font-size:32px;font-weight:bold;color:#fff;cursor:pointer;transition:all .3s}
+.close{position:absolute;top:10px;right:15px;font-size:28px;font-weight:bold;color:#000;cursor:pointer;transition:all .3s}
 .close:hover{color:#555;}
 @media(max-width:1024px){
   .modal-content{flex-direction:column;width:95%;}
@@ -113,7 +119,7 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
     <ul>
       <li><a href="index.html" id="homeLink">Inicio</a></li>
       <li><a href="#ropa">Ropa</a></li>
-      <li><a href="perfumes.html">Perfumes</a></li>
+      <li><a href="perfumes.html" id="perfumesLink">Perfumes</a></li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
   </nav>
@@ -152,7 +158,7 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
   <p>&copy; 2024 Tu Tienda Elegante. Todos los derechos reservados.</p>
 </footer>
 
-<!-- MODAL INTEGRADO PERFUMES/ROPA -->
+<!-- MODAL -->
 <div id="productModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
@@ -162,13 +168,12 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
     <div class="modal-right">
       <h2 id="modalTitle"></h2>
       <p id="modalDescription"></p>
-      <p class="price" id="modalPrice"></p>
-      <!-- Variantes (ej: ml para perfumes o talla para ropa) -->
-      <label>Presentación / Talla:</label>
+      <p class="price" id="modalPrice">$220.00</p>
+      <label>Talla:</label>
       <div class="ml-options">
-        <div class="ml-option active" data-variant="M" data-price="220">$220 - Mediana</div>
-        <div class="ml-option" data-variant="G" data-price="220">$220 - Grande</div>
-        <div class="ml-option" data-variant="XG" data-price="220">$220 - Extra Grande</div>
+        <div class="ml-option active" data-price="220">$220 - Mediana</div>
+        <div class="ml-option" data-price="220">Grande</div>
+        <div class="ml-option" data-price="220">Extra Grande</div>
       </div>
       <label>Cantidad:</label>
       <div class="quantity-control">
@@ -182,13 +187,15 @@ footer{background:var(--color-primary);color:var(--color-background);text-align:
 </div>
 
 <script>
+// Productos ropa
 const ropaProducts = [
    {id:1,name:"PLAYERA OVERSIZE NEGRA 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA1.png",keywords:"playera negra oversize"},
-   {id:2,name:"PLAYERA OVERSIZE BLANCA 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERABLANCA1.png",keywords:"playera blanca oversize"},
-   {id:3,name:"PLAYERA OVERSIZE GRIS 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERAGRIS1.png",keywords:"playera gris oversize"},
-   {id:4,name:"PLAYERA OVERSIZE ROJA 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERAROJA1.png",keywords:"playera roja oversize"},
+   {id:2,name:"PLAYERA OVERSIZE NEGRA 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA2.png",keywords:"playera negra oversize"},
+   {id:3,name:"PLAYERA OVERSIZE NEGRA 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA3.png",keywords:"playera negra oversize"},
+   {id:4,name:"PLAYERA OVERSIZE NEGRA 220G",description:"Comodidad superior y sensación de alta calidad.",price:"$220.00",image:"images/PLAYERANEGRA4.png",keywords:"playera negra oversize"},
 ];
 
+// Renderizar productos
 const cont = document.getElementById('ropaProducts');
 function renderRopa(list){
   cont.innerHTML = '';
@@ -200,9 +207,9 @@ function renderRopa(list){
     cont.appendChild(div);
   });
 }
-
 renderRopa();
 
+// Buscador
 const searchInput = document.getElementById('searchInput');
 const clearBtn = document.getElementById('clearBtn');
 searchInput.addEventListener('input', ()=>{
@@ -215,6 +222,7 @@ searchInput.addEventListener('input', ()=>{
 });
 clearBtn.addEventListener('click', ()=>{ searchInput.value=''; clearBtn.style.display='none'; renderRopa(); });
 
+// Header scroll
 const header = document.getElementById('mainHeader');
 let lastY=0;
 window.addEventListener('scroll', ()=>{
@@ -223,11 +231,13 @@ window.addEventListener('scroll', ()=>{
   lastY = y<=0?0:y;
 });
 
+// Nav active
 const navLinks = document.querySelectorAll('nav a');
 const currentPage = window.location.pathname.split("/").pop();
 navLinks.forEach(link=>{
   const linkPage = link.getAttribute('href').split("/").pop();
   if(linkPage===currentPage || (linkPage==="index.html" && currentPage==="")) link.classList.add('active');
+  if(link.id==='perfumesLink') link.classList.add('active'); // Mantener color al ir a perfumes
 });
 
 // Modal
@@ -270,14 +280,14 @@ mlOptions.forEach(opt=>{
   opt.addEventListener("click", ()=>{
     mlOptions.forEach(o=>o.classList.remove("active"));
     opt.classList.add("active");
-    modalPrice.textContent = opt.dataset.price;
+    modalPrice.textContent = "$220.00"; // Mantener signo pesos
   });
 });
 
 addCartBtn.addEventListener("click", ()=>{
   const cantidad = quantityInput.value;
-  const variant = document.querySelector(".ml-option.active").dataset.variant;
-  alert(`Agregado al carrito: ${modalTitle.textContent} - Variante: ${variant} - Cantidad: ${cantidad}`);
+  const variant = document.querySelector(".ml-option.active").textContent;
+  alert(`Agregado al carrito: ${modalTitle.textContent} - Talla: ${variant} - Cantidad: ${cantidad}`);
   modal.style.display="none";
 });
 </script>
