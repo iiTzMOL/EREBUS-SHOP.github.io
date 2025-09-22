@@ -16,8 +16,6 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font-family);background:var(--color-background);color:var(--color-text);line-height:1.6;padding-top:120px}
-
-/* ===== HEADER COMÚN ===== */
 header{
   position:fixed;top:0;left:0;width:100%;
   background:var(--color-primary);color:var(--color-background);z-index:1000;
@@ -32,15 +30,10 @@ header{
 nav ul{list-style:none;display:flex;justify-content:center;gap:20px;padding:10px 0;background:var(--color-primary);}
 nav a{color:var(--color-background);text-decoration:none;font-weight:500;font-size:1rem;padding:5px 0;}
 nav a.active{color:#e0e0e0;border-bottom:2px solid var(--color-accent);}
-
-/* MAIN PERFUMES */
 main{padding:40px 20px;max-width:1400px;margin:0 auto;text-align:center}
 h1{margin-bottom:40px;margin-top:0;font-family: var(--font-title);}
-
-/* Grid responsivo */
 .perfumes{display:grid;gap:20px;justify-items:center;grid-template-columns:repeat(2,1fr);}
 @media(min-width:1025px){.perfumes{grid-template-columns:repeat(5,1fr)}}
-
 .perfume{
   background:#fff;
   border:1px solid var(--color-accent);
@@ -57,8 +50,6 @@ h1{margin-bottom:40px;margin-top:0;font-family: var(--font-title);}
 .perfume h3{margin:10px 0 5px;font-size:1.1rem;font-family: var(--font-title);}
 .perfume p{margin:5px 0;font-size:0.9rem;color:#666}
 .perfume .price{font-weight:bold;margin-top:10px;font-size:1rem;color:#000}
-
-/* MODAL */
 .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:2000;justify-content:center;align-items:center;overflow:auto;padding:20px}
 .modal-content{background:#fff;width:90%;max-width:900px;display:flex;border-radius:12px;overflow:hidden;flex-direction:row;position:relative;box-shadow:0 10px 30px rgba(0,0,0,.3);animation:fadeIn .3s ease;}
 @keyframes fadeIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
@@ -68,24 +59,16 @@ h1{margin-bottom:40px;margin-top:0;font-family: var(--font-title);}
 .modal-right h2{font-size:1.6rem;color:var(--color-primary);border-bottom:1px solid var(--color-accent);padding-bottom:10px;margin-bottom:10px;font-family: var(--font-title);}
 .modal-right p{margin-bottom:5px;font-size:1rem;color:#444;}
 .price{color:#000;font-weight:bold;font-size:1.2rem}
-
-/* Presentaciones ml */
 .ml-options{display:flex;gap:10px;margin:10px 0;}
 .ml-option{flex:1;text-align:center;padding:10px;border:1px solid var(--color-accent);border-radius:20px;cursor:pointer;transition:all .3s;font-size:0.9rem;background:#f9f9f9;color:#333;}
 .ml-option:hover{border-color:#000;}
 .ml-option.active{background:#000;color:#fff;border-color:#000;}
-
-/* Cantidad con botones */
 .quantity-control{display:flex;align-items:center;gap:10px;margin:10px 0;}
 .quantity-btn{background:#000;color:#fff;border:none;width:35px;height:35px;border-radius:50%;font-size:1.2rem;cursor:pointer;transition:all .3s}
 .quantity-btn:hover{background:#333;}
 #quantity{width:50px;text-align:center;border:1px solid var(--color-accent);border-radius:6px;padding:6px;font-size:1rem}
-
-/* Botón carrito */
 .add-cart{background:#000;color:#fff;padding:14px;border:none;cursor:pointer;width:100%;border-radius:8px;font-size:1rem;font-weight:600;transition:all .3s}
 .add-cart:hover{background:#333;transform:translateY(-2px)}
-
-/* BOTÓN CERRAR ARREGLADO */
 .close{
   position:absolute;
   top:15px;
@@ -113,19 +96,15 @@ h1{margin-bottom:40px;margin-top:0;font-family: var(--font-title);}
   transform:scale(1.1);
   border-color:#000;
 }
-
-/* RESPONSIVE MODAL */
 @media(max-width:1024px){
   .modal-content{flex-direction:column;width:95%;}
   .modal-left img{height:280px;object-fit:cover;}
   .modal-right{padding:20px;}
 }
-
 footer{text-align:center;padding:20px;font-size:0.9rem;background:#f9f9f9;margin-top:40px;color:#666;}
 </style>
 </head>
 <body>
-
 <header id="mainHeader">
   <div class="logo-container">
     <img src="images/LOGOE.png" alt="Logo EREBUS">
@@ -136,16 +115,15 @@ footer{text-align:center;padding:20px;font-size:0.9rem;background:#f9f9f9;margin
       <li><a href="index.html">Inicio</a></li>
       <li><a href="index.html#ropa">Ropa</a></li>
       <li><a href="perfumes.html" class="active">Perfumes</a></li>
+      <li><a href="carrito.html">Carrito</a></li>
       <li><a href="index.html#contacto">Contacto</a></li>
     </ul>
   </nav>
 </header>
-
 <main>
   <h1>Nuestros Perfumes</h1>
   <div class="perfumes" id="perfumesContainer"></div>
 </main>
-
 <!-- MODAL -->
 <div class="modal" id="productModal">
   <div class="modal-content">
@@ -157,29 +135,24 @@ footer{text-align:center;padding:20px;font-size:0.9rem;background:#f9f9f9;margin
       <h2 id="modalTitle"></h2>
       <p id="modalDescription"></p>
       <p id="modalPrice" class="price"></p>
-
       <label>Presentación:</label>
       <div class="ml-options">
         <div class="ml-option active" data-ml="60ml" data-price="199">60 ml</div>
         <div class="ml-option" data-ml="120ml" data-price="299">120 ml</div>
       </div>
-
       <label>Cantidad:</label>
       <div class="quantity-control">
         <button class="quantity-btn" id="decrease">-</button>
         <input type="text" id="quantity" value="1" readonly>
         <button class="quantity-btn" id="increase">+</button>
       </div>
-
       <button class="add-cart">Agregar al carrito 🛒</button>
     </div>
   </div>
 </div>
-
 <footer>
   <p>© 2024 Tu Tienda Elegante. Todos los derechos reservados.</p>
 </footer>
-
 <script>
 // Lista de perfumes
 const perfumes = [
@@ -194,7 +167,6 @@ const perfumes = [
   {name:"Océano Ígneo",description:"Elegante, fresco, audaz.",price60:"$199.00",price120:"$299.00",image:"images/BLEU.png"},
   {name:"Legado",description:"Fresco, leñoso, complejo.",price60:"$199.00",price120:"$299.00",image:"images/CREED.png"},
 ];
-
 // Renderizar perfumes
 const perfumesContainer = document.getElementById("perfumesContainer");
 perfumes.forEach((p)=> {
@@ -208,7 +180,6 @@ perfumes.forEach((p)=> {
   div.addEventListener("click", ()=>openModal(p));
   perfumesContainer.appendChild(div);
 });
-
 // Modal
 const modal = document.getElementById("productModal");
 const closeModal = document.getElementById("closeModal");
@@ -216,7 +187,7 @@ const modalImage = document.getElementById("modalImage");
 const modalTitle = document.getElementById("modalTitle");
 const modalDescription = document.getElementById("modalDescription");
 const modalPrice = document.getElementById("modalPrice");
-
+const mlOptions = document.querySelectorAll(".ml-option");
 function openModal(product){
   modal.style.display="flex";
   modalImage.src = product.image;
@@ -224,12 +195,11 @@ function openModal(product){
   modalDescription.textContent = product.description;
   modalPrice.textContent = product.price60;
   document.getElementById("quantity").value = 1; 
-  document.querySelectorAll(".ml-option").forEach(el=>el.classList.remove("active"));
-  document.querySelector(".ml-option").classList.add("active");
+  mlOptions.forEach(el=>el.classList.remove("active"));
+  mlOptions[0].classList.add("active");
 }
 closeModal.onclick = ()=> modal.style.display="none";
 window.onclick = (e)=>{if(e.target==modal) modal.style.display="none"}
-
 // Opciones y cantidad
 document.querySelectorAll(".ml-option").forEach(el=>{
   el.addEventListener("click",()=>{
@@ -244,8 +214,43 @@ document.getElementById("increase").onclick = ()=> document.getElementById("quan
 document.getElementById("decrease").onclick = ()=> {
   let val = parseInt(document.getElementById("quantity").value);
   if(val>1) document.getElementById("quantity").value=val-1;
-}
+};
+// --- AGREGAR AL CARRITO UNIVERSAL ---
+document.querySelector(".add-cart").addEventListener("click", ()=>{
+  const cantidad = parseInt(document.getElementById("quantity").value);
+  const variant = document.querySelector(".ml-option.active").dataset.ml;
+  const price = modalPrice.textContent;
+  window.addToCart({
+    name: modalTitle.textContent,
+    price: price,
+    image: modalImage.src,
+    variant: variant,
+    quantity: cantidad
+  });
+  modal.style.display="none";
+});
+// UNIVERSAL: agregar al carrito compatible con todas las páginas
+window.addToCart = function(product) {
+  const cartItem = {
+    id: Date.now(),
+    name: product.name,
+    price: parseFloat(String(product.price).replace(/[^0-9.]/g,'')),
+    image: product.image,
+    variant: product.variant,
+    quantity: parseInt(product.quantity)
+  };
+  let cart = JSON.parse(localStorage.getItem('erebus_cart') || '[]');
+  const existingItem = cart.find(item => 
+    item.name === cartItem.name && item.variant === cartItem.variant
+  );
+  if (existingItem) {
+    existingItem.quantity += cartItem.quantity;
+  } else {
+    cart.push(cartItem);
+  }
+  localStorage.setItem('erebus_cart', JSON.stringify(cart));
+  alert(`${cartItem.name} agregado al carrito. Total: ${existingItem ? existingItem.quantity : cartItem.quantity} unidades`);
+};
 </script>
-
 </body>
 </html>
