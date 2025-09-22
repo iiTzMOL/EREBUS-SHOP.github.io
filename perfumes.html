@@ -1,110 +1,105 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perfumes - EREBUS</title>
-  <link href="https://fonts.googleapis.com/css2?family=Neblina&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --color-primary: #000;
-      --color-background: #fff;
-      --color-accent: #e0e0e0;
-      --color-text: #333;
-      --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      --font-title: 'Neblina', sans-serif;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: var(--font-family);
-      background: var(--color-background);
-      color: var(--color-text);
-      line-height: 1.6;
-      padding-top: 120px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfumes - EREBUS</title>
+<link href="https://fonts.googleapis.com/css2?family=Neblina&display=swap" rel="stylesheet">
+<style>
+:root{
+  --color-primary:#000;
+  --color-background:#fff;
+  --color-accent:#e0e0e0;
+  --color-text:#333;
+  --font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --font-title:'Neblina', sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-family);background:var(--color-background);color:var(--color-text);line-height:1.6;padding-top:120px}
 
-    /* ===== HEADER COMÚN ===== */
-    header {
-      position: fixed; top: 0; left: 0; width: 100%;
-      background: var(--color-primary); color: var(--color-background); z-index: 1000;
-      transition: all .3s ease;
-    }
-    .logo-container {
-      display: flex; align-items: center; justify-content: center; height: 70px; overflow: hidden; transition: all .3s;
-    }
-    .logo-container img { height: 50px; margin-right: 10px; }
-    .logo-container h1 { font-family: var(--font-title); font-size: 1.8rem; color: #fff; margin: 0; }
-    nav ul { list-style: none; display: flex; justify-content: center; gap: 20px; padding: 10px 0; background: var(--color-primary); }
-    nav a { color: var(--color-background); text-decoration: none; font-weight: 500; font-size: 1rem; padding: 5px 0; }
-    nav a.active { color: #e0e0e0; border-bottom: 2px solid var(--color-accent); }
+/* ===== HEADER COMÚN ===== */
+header{
+  position:fixed;top:0;left:0;width:100%;
+  background:var(--color-primary);color:var(--color-background);z-index:1000;
+  transition:all .3s ease;
+}
+.logo-container{
+  display:flex;align-items:center;justify-content:center;height:70px;overflow:hidden;transition:all .3s;
+}
+.logo-container img{height:50px;margin-right:10px;}
+.logo-container h1{font-family:var(--font-title);font-size:1.8rem;color:#fff;margin:0;}
+nav ul{list-style:none;display:flex;justify-content:center;gap:20px;padding:10px 0;background:var(--color-primary);}
+nav a{color:var(--color-background);text-decoration:none;font-weight:500;font-size:1rem;padding:5px 0;}
+nav a.active{color:#e0e0e0;border-bottom:2px solid var(--color-accent);}
 
-    /* ===== MAIN PERFUMES ===== */
-    main {
-      padding: 40px 20px;
-      max-width: 1400px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    main h1 {
-      margin-bottom: 40px;
-      margin-top: 0;
-      font-family: var(--font-title);
-    }
+/* ===== MAIN PERFUMES ===== */
+main{padding:40px 20px;max-width:1400px;margin:0 auto;text-align:center}
+main h1{margin-bottom:40px;margin-top:0;font-family: var(--font-title);}
 
-    /* ===== GRID DE PERFUMES ===== */
-    .perfumes {
-      display: grid;
-      gap: 20px;
-      justify-items: center;
-      grid-template-columns: repeat(2, 1fr);
-    }
-    @media(min-width:1025px) {
-      .perfumes { grid-template-columns: repeat(5, 1fr); }
-    }
-    .perfume {
-      background: #fff;
-      border: 1px solid var(--color-accent);
-      border-radius: 12px;
-      padding: 15px;
-      text-align: center;
-      transition: transform .3s, box-shadow .3s;
-      width: 100%;
-      max-width: 220px;
-      cursor: pointer;
-    }
-    .perfume:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 20px rgba(0,0,0,.1);
-    }
-    .perfume img {
-      width: 100%;
-      height: auto;
-      border-radius: 12px;
-    }
-    .perfume h3 {
-      margin: 10px 0 5px;
-      font-size: 1.1rem;
-      font-family: var(--font-title);
-    }
-    .perfume p {
-      margin: 5px 0;
-      font-size: 0.9rem;
-      color: #666;
-    }
-    .perfume .price {
-      font-weight: bold;
-      margin-top: 10px;
-      font-size: 1rem;
-      color: #000;
-    }
+/* ===== GRID DE PERFUMES ===== */
+.perfumes{
+  display:grid;
+  gap:20px;
+  justify-items:center;
+  grid-template-columns:repeat(2,1fr);
+  margin:0 auto;
+}
+@media(min-width:1025px){.perfumes{grid-template-columns:repeat(5,1fr);}}
+.perfume{
+  background:#fff;
+  border:1px solid var(--color-accent);
+  border-radius:12px;
+  padding:15px;
+  text-align:center;
+  transition:transform .3s,box-shadow .3s;
+  width:100%;
+  max-width:220px;
+  cursor:pointer;
+  box-shadow:0 1px 8px rgba(0,0,0,0.03);
+  display:flex;flex-direction:column;align-items:center;
+}
+.perfume:hover{transform:translateY(-5px);box-shadow:0 4px 20px rgba(0,0,0,.1)}
+.perfume img{width:100%;height:auto;border-radius:12px;}
+.perfume h3{margin:10px 0 5px;font-size:1.1rem;font-family: var(--font-title);}
+.perfume p{margin:5px 0;font-size:0.9rem;color:#666}
+.perfume .price{font-weight:bold;margin-top:10px;font-size:1rem;color:#000}
 
-    footer {
-      text-align: center; padding: 20px; font-size: 0.9rem; background: #f9f9f9; margin-top: 40px; color: #666;
-    }
-  </style>
+/* ========== MODAL ========== */
+.modal{display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.7);z-index:2000;justify-content:center;align-items:center;overflow:auto;padding:20px}
+.modal-content{background:#fff;width:90%;max-width:900px;display:flex;border-radius:12px;overflow:hidden;flex-direction:row;position:relative;box-shadow:0 10px 30px rgba(0,0,0,.3);animation:fadeIn .3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+.modal-left, .modal-right{flex:1;position:relative}
+.modal-left img{width:100%;height:100%;object-fit:cover;display:block;border-radius:12px;}
+.modal-right{display:flex;flex-direction:column;justify-content:center;gap:15px;padding:30px;text-align:left}
+.modal-right h2{font-size:1.6rem;color:var(--color-primary);border-bottom:1px solid var(--color-accent);padding-bottom:10px;margin-bottom:10px;font-family: var(--font-title);}
+.modal-right p{margin-bottom:5px;font-size:1rem;color:#444;}
+.price{color:#000;font-weight:bold;font-size:1.2rem}
+.ml-options{display:flex;gap:10px;margin:10px 0;}
+.ml-option{flex:1;text-align:center;padding:10px;border:1px solid var(--color-accent);border-radius:20px;cursor:pointer;transition:all .3s;font-size:0.9rem;background:#f9f9f9;color:#333;}
+.ml-option:hover{border-color:#000;}
+.ml-option.active{background:#000;color:#fff;border-color:#000;}
+.quantity-control{display:flex;align-items:center;gap:10px;margin:10px 0;}
+.quantity-btn{background:#000;color:#fff;border:none;width:35px;height:35px;border-radius:50%;font-size:1.2rem;cursor:pointer;transition:all .3s}
+.quantity-btn:hover{background:#333;}
+#quantity{width:50px;text-align:center;border:1px solid var(--color-accent);border-radius:6px;padding:6px;font-size:1rem}
+.add-cart{background:#000;color:#fff;padding:14px;border:none;cursor:pointer;width:100%;border-radius:8px;font-size:1rem;font-weight:600;transition:all .3s}
+.add-cart:hover{background:#333;transform:translateY(-2px)}
+.close{
+  position:absolute;top:10px;right:15px;font-size:28px;font-weight:bold;color:#000;cursor:pointer;transition:all .3s;
+  background:rgba(255,255,255,0.9);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:2px solid rgba(0,0,0,0.1);
+}
+.close:hover{color:#555;}
+
+/* RESPONSIVE MODAL */
+@media(max-width:1024px){
+  .modal-content{flex-direction:column;width:95%;}
+  .modal-left img{height:280px;object-fit:cover;}
+  .modal-right{padding:20px;}
+}
+footer{text-align:center;padding:20px;font-size:0.9rem;background:#f9f9f9;margin-top:40px;color:#666;}
+</style>
 </head>
 <body>
-
 <header id="mainHeader">
   <div class="logo-container">
     <img src="images/LOGOE.png" alt="Logo EREBUS">
@@ -119,18 +114,41 @@
     </ul>
   </nav>
 </header>
-
 <main>
   <h1>Nuestros Perfumes</h1>
   <div class="perfumes" id="perfumesContainer"></div>
 </main>
-
+<!-- MODAL -->
+<div class="modal" id="productModal">
+  <div class="modal-content">
+    <span class="close" id="closeModal">&times;</span>
+    <div class="modal-left">
+      <img id="modalImage" src="" alt="Producto">
+    </div>
+    <div class="modal-right">
+      <h2 id="modalTitle"></h2>
+      <p id="modalDescription"></p>
+      <p id="modalPrice" class="price"></p>
+      <label>Presentación:</label>
+      <div class="ml-options">
+        <div class="ml-option active" data-ml="60ml" data-price="199">60 ml</div>
+        <div class="ml-option" data-ml="120ml" data-price="299">120 ml</div>
+      </div>
+      <label>Cantidad:</label>
+      <div class="quantity-control">
+        <button class="quantity-btn" id="decrease">-</button>
+        <input type="text" id="quantity" value="1" readonly>
+        <button class="quantity-btn" id="increase">+</button>
+      </div>
+      <button class="add-cart">Agregar al carrito 🛒</button>
+    </div>
+  </div>
+</div>
 <footer>
   <p>© 2024 Tu Tienda Elegante. Todos los derechos reservados.</p>
 </footer>
-
 <script>
-// Lista de perfumes para mostrar en la cuadrícula
+// Lista de perfumes
 const perfumes = [
   {name:"Mar Negro",description:"Oscuro, marino, misterioso.",price60:"$199.00",price120:"$299.00",image:"images/ADGPROFUMO.png"},
   {name:"Neblina",description:"Fresco, salado, acuático.",price60:"$199.00",price120:"$299.00",image:"images/INV.png"},
@@ -144,7 +162,7 @@ const perfumes = [
   {name:"Legado",description:"Fresco, leñoso, complejo.",price60:"$199.00",price120:"$299.00",image:"images/CREED.png"},
 ];
 
-// Renderiza la cuadrícula de perfumes (¡puedes añadir tu modal aquí si lo deseas!)
+// Renderizar perfumes con funcionalidad de modal
 const perfumesContainer = document.getElementById("perfumesContainer");
 perfumes.forEach((p)=> {
   const div = document.createElement("div");
@@ -154,8 +172,46 @@ perfumes.forEach((p)=> {
     <h3>${p.name}</h3>
     <p>${p.description}</p>
     <p class="price">${p.price120}</p>`;
+  div.addEventListener("click", ()=>openModal(p));
   perfumesContainer.appendChild(div);
 });
+
+// Modal funcionalidad
+const modal = document.getElementById("productModal");
+const closeModal = document.getElementById("closeModal");
+const modalImage = document.getElementById("modalImage");
+const modalTitle = document.getElementById("modalTitle");
+const modalDescription = document.getElementById("modalDescription");
+const modalPrice = document.getElementById("modalPrice");
+
+function openModal(product){
+  modal.style.display="flex";
+  modalImage.src = product.image;
+  modalTitle.textContent = product.name;
+  modalDescription.textContent = product.description;
+  modalPrice.textContent = product.price60;
+  document.getElementById("quantity").value = 1; 
+  document.querySelectorAll(".ml-option").forEach(el=>el.classList.remove("active"));
+  document.querySelector(".ml-option").classList.add("active");
+}
+closeModal.onclick = ()=> modal.style.display="none";
+window.onclick = (e)=>{if(e.target==modal) modal.style.display="none"}
+
+// Opciones y cantidad
+document.querySelectorAll(".ml-option").forEach(el=>{
+  el.addEventListener("click",()=>{
+    document.querySelectorAll(".ml-option").forEach(el2=>el2.classList.remove("active"));
+    el.classList.add("active");
+    const productName = modalTitle.textContent;
+    const product = perfumes.find(p=>p.name===productName);
+    modalPrice.textContent = el.dataset.ml==="60ml"?product.price60:product.price120;
+  });
+});
+document.getElementById("increase").onclick = ()=> document.getElementById("quantity").value = parseInt(document.getElementById("quantity").value)+1;
+document.getElementById("decrease").onclick = ()=> {
+  let val = parseInt(document.getElementById("quantity").value);
+  if(val>1) document.getElementById("quantity").value=val-1;
+};
 </script>
 </body>
 </html>
