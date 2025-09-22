@@ -1,1 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carrito - EREBUS</title>
+<!-- Stripe.js -->
+<script src="https://js.stripe.com/v3/"></script>
+<!-- PayPal SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id=demo_paypal_client_id&currency=MXN"></script>
+<!-- MercadoPago SDK -->
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+<style>
+/* --------- ESTILOS BÁSICOS --------- */
+:root{
+  --color-primary:#000;
+  --color-accent:#e0e0e0;
+  --color-danger:#dc3545;
+  --color-success:#28a745;
+  --font-title:'Segoe UI', sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial, sans-serif;background:#fff;color:#333;padding-top:100px}
+header{position:fixed;top:0;left:0;width:100%;background:#000;color:#fff;padding:15px;z-index:1000;text-align:center}
+header h1{margin:0;font-size:1.5rem}
+.container{max-width:1100px;margin:auto;padding:20px}
+.page-title{text-align:center;font-size:2rem;margin-bottom:20px}
+.cart-layout{display:grid;grid-template-columns:2fr 1fr;gap:20px}
+@media(max-width:768px){.cart-layout{grid-template-columns:1fr}}
+.cart-section{border:1px solid var(--color-accent);border-radius:10px;padding:20px;background:#fff}
+.section-title{margin-bottom:15px;font-size:1.2rem;border-bottom:1px solid var(--color-accent);padding-bottom:5px}
+.cart-item{display:flex;gap:15px;border-bottom:1px solid #ddd;padding:15px 0}
+.cart-item img{width:80px;height:80px;object-fit:cover;border-radius:6px}
+.item-details{flex:1}
+.item-name{font-weight:bold}
+.item-controls{margin-top:8px;display:flex;gap:10px;align-items:center}
+.qty-btn{width:28px;height:28px;border:none;border-radius:50%;background:#000;color:#fff;cursor:pointer}
+.qty-input{width:40px;text-align:center}
+.remove-item{color:var(--color-danger);cursor:pointer;font-size:0.9rem}
+.summary-row{display:flex;justify-content:space-between;margin-bottom:10px}
+.summary-row.total{font-weight:bold;border-top:1px solid var(--color-accent);padding-top:10px}
+.payment-option{border:2px solid var(--color-accent);border-radius:8px;padding:10px;margin-bottom:10px;cursor:pointer}
+.payment-option.active{border-color:#000;background:#f9f9f9}
+#stripe-card-element{margin:10px 0;padding:10px;border:1px solid #ccc;border-radius:6px}
+#paypal-button-container, #mercadopago-button{margin-top:10px}
+.btn{display:block;width:100%;padding:12px;border:none;border-radius:6px;font-size:1rem;cursor:pointer}
+.btn-primary{background:#000;color:#fff}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);justify-content:center;align-items:center}
+.modal-content{background:#fff;padding:30px;border-radius:10px;text-align:center}
+</style>
+</head>
+<body>
 
+<header>
+  <h1>EREBUS - Carrito</h1>
+</header>
+
+<div class="container">
+  <h2 class="page-title">Carrito de Compras</h2>
+  <div class="cart-layout">
+    <!-- Productos -->
+    <div class="cart-section">
+      <h3 class="section-title">Tus Productos</h3>
+      <div id="cartItems"></div>
+      <div id="cartEmpty" style="display:none;text-align:center;padding:20px;">
+        <p>Tu carrito está vacío.</p>
+        <a href="index.html" class="btn btn-primary">Volver a la tienda</a>
+      </div>
+    </div>
+    <!-- Resumen -->
+    <div class="cart-section">
+      <h3 class="section-title">Resumen</h3>
+      <div class="summary-row"><span>Subtotal:</span><span id="subtotal">$0.00</span></div>
+      <div class="summary-row"><span>Envío:</span><span id="shipping">$99.00</span></div>
+      <div class="summary-row"><span>IVA (16%):</span><span id="tax">$0.00</span></div>
+      <div class="summary-row total"><span>Total:</span><span id="total">$0.00</span></div>
+
+      <h3 class="section-title">Pago</h3>
+      <div class="payment-option" id="stripeOption">💳 Tarjeta (Stripe)</div>
+      <div id="stripe-card-element" style="display:none"></div>
+      <button id="stripe-submit" class="btn btn-primary" style="display:none">Pagar con Tarjeta</button>
+
+      <div class="payment-option" id="paypalOption">🅿️ PayPal</div>
+      <div id="paypal-button-container" style="display:none"></div>
+
+      <div class="payment-option" id="mercadopagoOption">💰 MercadoPago</div>
+      <button id="mercadopago-button" class="btn btn-primary" style="display:none">Pagar con MercadoPago</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal confirmación -->
+<div id="confirmationModal" class="modal">
+  <div class="modal-content">
+    <h2>¡Pago exitoso!</h2>
+    <p>Número de orden: <span id="orderNumber"></span></p>
+    <button class="btn btn-primary" onclick="closeConfirmationModal()">Cerrar</button>
+  </div>
+</div>
+
+<script>
+// Demo: carrito inicial en localStorage si está vacío
+if (!localStorage.getItem('erebus_cart')) {
+  localStorage.setItem('erebus_cart', JSON.stringify([
+    {id:1,name:'Camiseta Negra',price:299,quantity:1,image:'https://via.placeholder.com/80'}
+  ]));
+}
+
+class CartManager {
+  constructor(){this.cart=this.load();this.shipping=99;this.tax=0.16;this.render();}
+  load(){return JSON.parse(localStorage.getItem('erebus_cart')||'[]')}
+  save(){localStorage.setItem('erebus_cart',JSON.stringify(this.cart))}
+  subtotal(){return this.cart.reduce((s,i)=>s+i.price*i.quantity,0)}
+  total(){return this.subtotal()*(1+this.tax)+(this.cart.length?this.shipping:0)}
+  render(){
+    const itemsEl=document.getElementById('cartItems');
+    const emptyEl=document.getElementById('cartEmpty');
+    if(this.cart.length===0){itemsEl.innerHTML='';emptyEl.style.display='block';}
+    else{
+      emptyEl.style.display='none';
+      itemsEl.innerHTML=this.cart.map(i=>`
+        <div class="cart-item">
+          <img src="${i.image}">
+          <div class="item-details">
+            <p class="item-name">${i.name}</p>
+            <p>$${i.price.toFixed(2)}</p>
+            <div class="item-controls">
+              <button class="qty-btn" onclick="cart.update(${i.id},${i.quantity-1})">-</button>
+              <input type="number" class="qty-input" value="${i.quantity}" onchange="cart.update(${i.id},this.value)">
+              <button class="qty-btn" onclick="cart.update(${i.id},${i.quantity+1})">+</button>
+              <span class="remove-item" onclick="cart.remove(${i.id})">Eliminar</span>
+            </div>
+          </div>
+        </div>`).join('');
+    }
+    document.getElementById('subtotal').innerText='$'+this.subtotal().toFixed(2);
+    document.getElementById('tax').innerText='$'+(this.subtotal()*this.tax).toFixed(2);
+    document.getElementById('shipping').innerText=this.cart.length?'$'+this.shipping.toFixed(2):'Gratis';
+    document.getElementById('total').innerText='$'+this.total().toFixed(2);
+  }
+  update(id,qty){if(qty<=0)this.remove(id);else{this.cart=this.cart.map(i=>i.id===id?{...i,quantity:+qty}:i);this.save();this.render()}}
+  remove(id){this.cart=this.cart.filter(i=>i.id!==id);this.save();this.render()}
+  success(method){this.cart=[];this.save();this.render();document.getElementById('orderNumber').innerText=method+'_'+Date.now();document.getElementById('confirmationModal').style.display='flex'}
+}
+const cart=new CartManager();
+
+// Métodos de pago demo
+document.getElementById('stripeOption').onclick=()=>{toggle('stripe')};
+document.getElementById('paypalOption').onclick=()=>{toggle('paypal')};
+document.getElementById('mercadopagoOption').onclick=()=>{toggle('mercadopago')};
+
+function toggle(m){
+  document.querySelectorAll('.payment-option').forEach(o=>o.classList.remove('active'));
+  if(m==='stripe'){document.getElementById('stripeOption').classList.add('active');document.getElementById('stripe-card-element').style.display='block';document.getElementById('stripe-submit').style.display='block'}
+  if(m==='paypal'){document.getElementById('paypalOption').classList.add('active');document.getElementById('paypal-button-container').style.display='block';document.getElementById('paypal-button-container').innerHTML=`<button class="btn btn-primary" onclick="cart.success('PAYPAL')">Pagar con PayPal (demo)</button>`}
+  if(m==='mercadopago'){document.getElementById('mercadopagoOption').classList.add('active');document.getElementById('mercadopago-button').style.display='block'}
+}
+document.getElementById('stripe-submit').onclick=()=>cart.success('STRIPE');
+document.getElementById('mercadopago-button').onclick=()=>cart.success('MP');
+
+function closeConfirmationModal(){document.getElementById('confirmationModal').style.display='none'}
+</script>
+</body>
+</html>
