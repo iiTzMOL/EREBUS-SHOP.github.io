@@ -6,178 +6,60 @@
 <title>Perfumes - EREBUS</title>
 <link href="https://fonts.googleapis.com/css2?family=Neblina&display=swap" rel="stylesheet">
 <style>
-:root{
-  --color-primary:#000;
-  --color-background:#fff;
-  --color-accent:#e0e0e0;
-  --color-text:#333;
-  --font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  --font-title:'Neblina', sans-serif;
+/* ... (todo tu CSS para perfumes, igual que la última versión, y pega el bloque del carrito flotante y modal igual que en index.html) ... */
+#floating-cart{
+  position:fixed;right:30px;bottom:30px;z-index:2001;
+  background:var(--color-primary);color:#fff;
+  border-radius:50%;width:64px;height:64px;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 24px rgba(0,0,0,.18);cursor:pointer;transition:box-shadow .2s;
+  font-size:2.2rem;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font-family);background:var(--color-background);color:var(--color-text);line-height:1.6;padding-top:120px}
-/* ===== HEADER COMÚN ===== */
-header{
-  position:fixed;top:0;left:0;width:100%;
-  background:var(--color-primary);color:var(--color-background);z-index:1000;
-  transition:all .3s ease;
+#floating-cart:hover{box-shadow:0 4px 32px rgba(0,0,0,.24);}
+#cart-count{
+  position:absolute;top:7px;right:7px;
+  background:#dc3545;color:#fff;border-radius:50%;font-size:.9rem;
+  width:22px;height:22px;display:flex;align-items:center;justify-content:center;
+  font-weight:700;box-shadow:0 2px 6px rgba(0,0,0,.14);
 }
-.logo-container{display:flex;align-items:center;justify-content:center;height:70px;overflow:hidden;transition:all .3s}
-.logo-container img{height:50px;margin-right:10px;}
-.logo-container h1{font-family:var(--font-title);font-size:1.8rem;color:#fff;margin:0;}
-nav ul{list-style:none;display:flex;justify-content:center;gap:20px;padding:10px 0;background:var(--color-primary);}
-nav a{color:var(--color-background);text-decoration:none;font-weight:500;font-size:1rem;padding:5px 0;}
-nav a.active{color:#e0e0e0;border-bottom:2px solid var(--color-accent);}
-main{padding:40px 20px;max-width:1400px;margin:0 auto;text-align:center}
-main h1{margin-bottom:40px;margin-top:0;font-family: var(--font-title);}
-.perfumes{
-  display:grid;
-  gap:20px;
-  justify-items:center;
-  grid-template-columns:repeat(2,1fr);
-  margin:0 auto;
+#cart-modal{
+  position:fixed;top:0;right:-400px;width:400px;max-width:100vw;height:100vh;
+  background:#fff;box-shadow:-6px 0 32px rgba(0,0,0,.18);
+  z-index:3002;transition:right .35s cubic-bezier(.4,.1,.22,1);
+  display:flex;flex-direction:column;
 }
-@media(min-width:1025px){.perfumes{grid-template-columns:repeat(5,1fr);}}
-.perfume{
-  background:#fff;
-  border:1px solid var(--color-accent);
-  border-radius:12px;
-  padding:15px;
-  text-align:center;
-  transition:transform .3s,box-shadow .3s;
-  width:100%;
-  max-width:220px;
-  cursor:pointer;
-  box-shadow:0 1px 8px rgba(0,0,0,0.03);
-  display:flex;flex-direction:column;align-items:center;
+#cart-modal.open{right:0;}
+#cart-modal .modal-header{
+  padding:20px 32px;background:var(--color-primary);color:#fff;display:flex;justify-content:space-between;align-items:center;
 }
-.perfume:hover{transform:translateY(-5px);box-shadow:0 4px 20px rgba(0,0,0,.1)}
-.perfume img{width:100%;height:auto;border-radius:12px;}
-.perfume h3{margin:10px 0 5px;font-size:1.1rem;font-family: var(--font-title);}
-.perfume p{margin:5px 0;font-size:0.9rem;color:#666}
-.perfume .price{font-weight:bold;margin-top:10px;font-size:1rem;color:#000}
-
-/* ========== MODAL ========== */
-.modal{
-  display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;
-  background:rgba(0,0,0,0.7);z-index:2000;justify-content:center;align-items:center;overflow:auto;padding:20px;
+#cart-modal .modal-header h2{font-family:var(--font-title);font-size:1.4rem;margin:0;}
+#close-cart-modal{
+  background:transparent;border:none;color:#fff;font-size:2rem;cursor:pointer;
 }
-.modal-content{
-  background:#fff;width:90%;max-width:900px;display:flex;border-radius:12px;overflow:hidden;flex-direction:row;position:relative;box-shadow:0 10px 30px rgba(0,0,0,.3);animation:fadeIn .3s ease;
+#cart-modal .modal-content{
+  padding:24px 32px;overflow-y:auto;flex:1;
+  display:flex;flex-direction:column;gap:18px;
 }
-@keyframes fadeIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
-.modal-left, .modal-right{flex:1;position:relative}
-.modal-left{background:transparent;display:flex;align-items:center;justify-content:center;}
-.modal-left img{
-  width:100%;height:100%;object-fit:cover;display:block;border-radius:12px;max-width:340px;max-height:400px;margin:auto;
-  box-shadow:0 2px 24px rgba(0,0,0,0.07);
+.cart-item{display:flex;gap:15px;padding:12px 0;border-bottom:1px solid var(--color-accent);}
+.cart-item img{width:58px;height:58px;object-fit:cover;border-radius:8px;}
+.cart-item-details{flex:1;display:flex;flex-direction:column;}
+.cart-item-details h3{font-size:1rem;color:var(--color-primary);margin:0 0 2px 0;font-family:var(--font-title);}
+.cart-item-details .variant{font-size:.95rem;color:#666;}
+.cart-item-details .price{color:var(--color-primary);font-weight:600;}
+.cart-item-controls{display:flex;align-items:center;gap:10px;margin-top:7px;}
+.qty-btn{background:var(--color-primary);color:#fff;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;}
+.qty-input{width:34px;text-align:center;border:1px solid var(--color-accent);border-radius:4px;padding:4px 0;}
+.remove-item{color:#dc3545;cursor:pointer;font-size:.9rem;text-decoration:underline;}
+.modal-footer{padding:18px 32px;border-top:1px solid var(--color-accent);}
+.resume-row{display:flex;justify-content:space-between;padding:3px 0;}
+.resume-row.total{font-weight:700;font-size:1.1rem;}
+.btn-primary{background:var(--color-primary);color:#fff;padding:14px;border:none;border-radius:8px;font-size:1rem;font-weight:600;transition:all .3s;cursor:pointer;width:100%;}
+.btn-primary:disabled{background:#ccc;cursor:not-allowed;}
+@media(max-width:500px){
+  #cart-modal{width:100vw;}
+  #cart-modal .modal-header,#cart-modal .modal-content,#cart-modal .modal-footer{padding-left:10px;padding-right:10px;}
+  #floating-cart{right:12px;bottom:16px;width:50px;height:50px;font-size:1.4rem;}
+  #cart-count{width:18px;height:18px;font-size:.8rem;}
 }
-.modal-right{
-  display:flex;flex-direction:column;justify-content:center;gap:15px;
-  padding:30px;text-align:left;position:relative;z-index:1;
-  background:rgba(255,255,255,0.94);
-  /* Fondo blanco para garantizar legibilidad si la imagen invade */
-}
-.modal-right h2{font-size:1.6rem;color:var(--color-primary);border-bottom:1px solid var(--color-accent);padding-bottom:10px;margin-bottom:10px;font-family: var(--font-title);}
-.modal-right p{margin-bottom:5px;font-size:1rem;color:#444;}
-.price{color:#000;font-weight:bold;font-size:1.2rem}
-.ml-options{display:flex;gap:10px;margin:10px 0;}
-.ml-option{flex:1;text-align:center;padding:10px;border:1px solid var(--color-accent);border-radius:20px;cursor:pointer;transition:all .3s;font-size:0.9rem;background:#f9f9f9;color:#333;}
-.ml-option:hover{border-color:#000;}
-.ml-option.active{background:#000;color:#fff;border-color:#000;}
-.quantity-control{display:flex;align-items:center;gap:10px;margin:10px 0;}
-.quantity-btn{background:#000;color:#fff;border:none;width:35px;height:35px;border-radius:50%;font-size:1.2rem;cursor:pointer;transition:all .3s}
-.quantity-btn:hover{background:#333;}
-#quantity{width:50px;text-align:center;border:1px solid var(--color-accent);border-radius:6px;padding:6px;font-size:1rem}
-.add-cart{background:#000;color:#fff;padding:14px;border:none;cursor:pointer;width:100%;border-radius:8px;font-size:1rem;font-weight:600;transition:all .3s}
-.add-cart:hover{background:#333;transform:translateY(-2px)}
-.close{
-  position:absolute;
-  top:15px;
-  right:20px;
-  font-size:32px;
-  font-weight:bold;
-  color:#000;
-  cursor:pointer;
-  z-index:10;
-  background:rgba(255,255,255,0.95);
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  line-height:1;
-  user-select:none;
-  border:2px solid rgba(0,0,0,0.1);
-  box-shadow:0 2px 6px rgba(0,0,0,0.05);
-  transition:all .3s;
-}
-.close:hover{
-  color:#fff;
-  background:#000;
-  transform:scale(1.1);
-  border-color:#000;
-}
-
-/* ---- EFECTO EN MÓVIL: imagen invade el texto ---- */
-@media (max-width: 800px) {
-  .modal-content{
-    flex-direction:column;
-    width:97vw;
-    min-width:0;
-    padding:0;
-  }
-  .modal-left{
-    width:100%;
-    min-height:180px;
-    justify-content:center;
-    align-items:flex-end;
-    overflow:visible;
-  }
-  .modal-left img{
-    width:70vw;
-    min-width:190px;
-    max-width:290px;
-    max-height:230px;
-    margin:0 auto;
-    position:absolute;
-    left:50%;
-    top:0;
-    transform:translate(-50%,-20px) scale(1.12);
-    z-index:2;
-    box-shadow:0 8px 32px rgba(0,0,0,0.13);
-    border-radius:22px;
-    background:#fff;
-  }
-  .modal-right{
-    position:relative;
-    z-index:3;
-    margin-top:120px;
-    padding-top:60px;
-    background:rgba(255,255,255,0.98);
-    box-shadow:0 -2px 12px rgba(0,0,0,0.05);
-    border-radius:0 0 16px 16px;
-  }
-  .close{
-    top:10px;right:10px;width:38px;height:38px;font-size:28px;
-    z-index:11;
-  }
-}
-@media (max-width:500px){
-  .modal-left img{
-    width:90vw;
-    min-width:125px;
-    max-width:98vw;
-    max-height:190px;
-    top:0;
-    left:50%;
-    transform:translate(-50%,-20px) scale(1.07);
-  }
-  .modal-right{padding:14px;}
-  .close{top:7px;right:7px;}
-}
-footer{text-align:center;padding:20px;font-size:0.9rem;background:#f9f9f9;margin-top:40px;color:#666;}
 </style>
 </head>
 <body>
@@ -195,6 +77,22 @@ footer{text-align:center;padding:20px;font-size:0.9rem;background:#f9f9f9;margin
     </ul>
   </nav>
 </header>
+<!-- Ícono flotante del carrito -->
+<div id="floating-cart">
+  <span style="position:relative;">
+    🛒
+    <span id="cart-count">0</span>
+  </span>
+</div>
+<!-- Modal (cajón lateral) del carrito -->
+<aside id="cart-modal">
+  <div class="modal-header">
+    <h2>Tu Carrito</h2>
+    <button id="close-cart-modal" aria-label="Cerrar carrito">&times;</button>
+  </div>
+  <div class="modal-content" id="cart-modal-content"></div>
+  <div class="modal-footer" id="cart-modal-footer"></div>
+</aside>
 <main>
   <h1>Nuestros Perfumes</h1>
   <div class="perfumes" id="perfumesContainer"></div>
@@ -229,7 +127,87 @@ footer{text-align:center;padding:20px;font-size:0.9rem;background:#f9f9f9;margin
   <p>© 2024 Tu Tienda Elegante. Todos los derechos reservados.</p>
 </footer>
 <script>
-// Lista de perfumes
+// --- Carrito flotante ---
+function getCart() {
+  try { return JSON.parse(localStorage.getItem('erebus_cart')||'[]') || []; } catch {return [];}
+}
+function setCart(cart) { localStorage.setItem('erebus_cart', JSON.stringify(cart)); }
+function updateCartCount() {
+  let cart = getCart(), n = cart.reduce((s,it)=>s+parseInt(it.quantity||1),0);
+  document.getElementById('cart-count').textContent = n;
+}
+updateCartCount();
+const cartModal = document.getElementById('cart-modal');
+document.getElementById('floating-cart').onclick = ()=>{cartModal.classList.add('open'); renderCartModal();};
+document.getElementById('close-cart-modal').onclick = ()=>cartModal.classList.remove('open');
+function renderCartModal() {
+  let cart = getCart();
+  const content = document.getElementById('cart-modal-content');
+  const footer = document.getElementById('cart-modal-footer');
+  if(!cart.length){
+    content.innerHTML = `<div style="text-align:center;padding:40px 0;color:#888">Tu carrito está vacío.</div>`;
+    footer.innerHTML = `<button class="btn-primary" onclick="window.location.href='index.html'">Ir a la tienda</button>`;
+    return;
+  }
+  let subtotal = cart.reduce((sum,it)=>sum+(parseFloat(it.price||0)*parseInt(it.quantity||1)),0);
+  let shipping = subtotal>0 ? 99 : 0, iva = subtotal*0.16, total = subtotal+iva+shipping;
+  content.innerHTML = cart.map(item=>`
+    <div class="cart-item">
+      <img src="${item.image}" alt="${item.name}">
+      <div class="cart-item-details">
+        <h3>${item.name}</h3>
+        <span class="variant">${item.variant||''}</span>
+        <span class="price">$${parseFloat(item.price).toFixed(2)}</span>
+        <div class="cart-item-controls">
+          <button class="qty-btn" onclick="updateQty(${item.id},${item.quantity-1})">-</button>
+          <input type="number" class="qty-input" value="${item.quantity}" min="1" onchange="updateQty(${item.id},this.value)">
+          <button class="qty-btn" onclick="updateQty(${item.id},${parseInt(item.quantity)+1})">+</button>
+          <span class="remove-item" onclick="removeFromCart(${item.id})">Eliminar</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  footer.innerHTML = `
+    <div class="resume-row"><span>Subtotal:</span><span>$${subtotal.toFixed(2)}</span></div>
+    <div class="resume-row"><span>Envío:</span><span>$${shipping.toFixed(2)}</span></div>
+    <div class="resume-row"><span>IVA (16%):</span><span>$${iva.toFixed(2)}</span></div>
+    <div class="resume-row total"><span>Total:</span><span>$${total.toFixed(2)}</span></div>
+    <button class="btn-primary" style="margin-top:16px" onclick="alert('Implementar pago aquí')">Proceder al pago</button>
+  `;
+}
+window.updateQty = function(id,qty){
+  let cart = getCart();
+  qty = parseInt(qty)||1;
+  if(qty<=0){ window.removeFromCart(id); return;}
+  let item = cart.find(it=>it.id===id);
+  if(item){item.quantity=qty; setCart(cart);}
+  updateCartCount(); renderCartModal();
+}
+window.removeFromCart = function(id){
+  let cart = getCart().filter(it=>it.id!==id);
+  setCart(cart); updateCartCount(); renderCartModal();
+}
+window.addEventListener('storage',e=>{
+  if(e.key==='erebus_cart'){ updateCartCount(); if(cartModal.classList.contains('open')) renderCartModal(); }
+});
+window.addToCart = function(product) {
+  const cartItem = {
+    id: Date.now(),
+    name: product.name,
+    price: parseFloat(String(product.price).replace(/[^0-9.]/g,'')),
+    image: product.image,
+    variant: product.variant,
+    quantity: parseInt(product.quantity)
+  };
+  let cart = getCart();
+  const existingItem = cart.find(item => item.name === cartItem.name && item.variant === cartItem.variant);
+  if (existingItem) { existingItem.quantity += cartItem.quantity; }
+  else { cart.push(cartItem); }
+  setCart(cart);
+  updateCartCount();
+  alert(`${cartItem.name} agregado al carrito. Total: ${existingItem ? existingItem.quantity : cartItem.quantity} unidades`);
+};
+// --- Resto del JS para perfumes y modal ---
 const perfumes = [
   {name:"Mar Negro",description:"Oscuro, marino, misterioso.",price60:"$199.00",price120:"$299.00",image:"images/ADGPROFUMO.png"},
   {name:"Neblina",description:"Fresco, salado, acuático.",price60:"$199.00",price120:"$299.00",image:"images/INV.png"},
@@ -242,7 +220,6 @@ const perfumes = [
   {name:"Océano Ígneo",description:"Elegante, fresco, audaz.",price60:"$199.00",price120:"$299.00",image:"images/BLEU.png"},
   {name:"Legado",description:"Fresco, leñoso, complejo.",price60:"$199.00",price120:"$299.00",image:"images/CREED.png"},
 ];
-// Renderizar perfumes con funcionalidad de modal
 const perfumesContainer = document.getElementById("perfumesContainer");
 perfumes.forEach((p)=> {
   const div = document.createElement("div");
@@ -255,7 +232,6 @@ perfumes.forEach((p)=> {
   div.addEventListener("click", ()=>openModal(p));
   perfumesContainer.appendChild(div);
 });
-// Modal funcionalidad
 const modal = document.getElementById("productModal");
 const closeModal = document.getElementById("closeModal");
 const modalImage = document.getElementById("modalImage");
@@ -275,7 +251,6 @@ function openModal(product){
 }
 closeModal.onclick = ()=> modal.style.display="none";
 window.onclick = (e)=>{if(e.target==modal) modal.style.display="none"}
-// Opciones y cantidad
 document.querySelectorAll(".ml-option").forEach(el=>{
   el.addEventListener("click",()=>{
     document.querySelectorAll(".ml-option").forEach(el2=>el2.classList.remove("active"));
@@ -290,6 +265,19 @@ document.getElementById("decrease").onclick = ()=> {
   let val = parseInt(document.getElementById("quantity").value);
   if(val>1) document.getElementById("quantity").value=val-1;
 };
+document.querySelector(".add-cart").addEventListener("click", ()=>{
+  const cantidad = parseInt(document.getElementById("quantity").value);
+  const variant = document.querySelector(".ml-option.active").dataset.ml;
+  const price = modalPrice.textContent;
+  window.addToCart({
+    name: modalTitle.textContent,
+    price: price,
+    image: modalImage.src,
+    variant: variant,
+    quantity: cantidad
+  });
+  modal.style.display="none";
+});
 </script>
 </body>
 </html>
